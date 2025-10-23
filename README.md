@@ -227,9 +227,9 @@ docker compose down
 
 ## 🧑‍💻 Créditos
 
-**Autor:** Julian David Gonzalez 
-**Autor:** Karen Plazas Ramirez
+**Autor:** Julian David Gonzalez - Karen Plazas Ramirez
 **Proyecto:** PACHO-Asistente  
+**Organización:** Universidad de Cundinamarca
 **Correo:** [pachoasistente@gmail.com](mailto:pachoasistente@gmail.com)  
 **Propósito:** Plataforma integral de diagnóstico y recomendación fitosanitaria en lechuga crespa.
 
