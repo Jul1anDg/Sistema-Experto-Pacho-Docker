@@ -1,0 +1,241 @@
+﻿.stats-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+}
+
+    .stats-row .stat-card {
+        min-width: 285px;
+    }
+
+    .stats-row::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .stats-row::-webkit-scrollbar-thumb {
+        background: #dfe8df;
+        border-radius: 999px;
+    }
+
+.pacho-table-wrap {
+    overflow-x: auto;
+}
+
+table.pacho-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.pacho-table thead th {
+    background: #2f5d46;
+    color: #fff;
+    font-weight: 800;
+    padding: .65rem .8rem;
+    border: 0;
+}
+
+.pacho-table tbody tr {
+    background: #fff;
+    transition: background .12s ease;
+}
+
+    .pacho-table tbody tr:hover {
+        background: #f8fbf8;
+    }
+
+.pacho-table td {
+    padding: .6rem .8rem;
+    vertical-align: middle;
+    border-top: 1px solid #e7eee8;
+    font-size: .93rem;
+}
+
+.pacho-table tbody tr .marker {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #6fb346;
+    display: inline-block;
+    margin-right: .55rem;
+    box-shadow: 0 0 0 2px #e8f2ea inset;
+}
+.pacho-table td.actions-cell {
+    display: flex !important; /* fuerza alineación horizontal */
+    align-items: center !important; /* centra verticalmente */
+    justify-content: flex-end !important; /* alinea a la derecha */
+    gap: 0.6rem !important; /* espacio uniforme */
+    white-space: nowrap !important; /* evita saltos */
+    vertical-align: middle !important;
+    flex-wrap: nowrap !important;
+}
+    /* Formularios y enlaces dentro del contenedor */
+    .pacho-table td.actions-cell form,
+    .pacho-table td.actions-cell a {
+        display: inline-flex !important;
+        align-items: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .pacho-table td.actions-cell .btn-compact {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.4rem !important;
+        padding: 0.45rem 0.9rem !important;
+        border-radius: 6px !important;
+        font-size: 0.85rem !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+        min-height: 36px !important; /* asegura misma altura */
+        border: none;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        /* Iconos centrados */
+        .pacho-table td.actions-cell .btn-compact i {
+            line-height: 1 !important;
+            vertical-align: middle !important;
+        }
+.pacho-table tbody tr:nth-child(even) .marker {
+    background: #4a7c59;
+}
+
+.pacho-name {
+    font-weight: 700;
+    color: #243a2b;
+}
+
+.text-muted-slim {
+    color: #5d6a60;
+    font-size: .88rem;
+}
+
+/* Badges y pills */
+.badge-status {
+    padding: .22rem .55rem;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 800;
+}
+
+.badge-on {
+    background: #e6f7ec;
+    color: #2e7d32;
+}
+
+.badge-off {
+    background: #eef1f4;
+    color: #5e6a75;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .22rem .5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: .82rem;
+    border: 1px solid #e3ebe4;
+    background: #f9fbf9;
+    color: #2f6f45;
+}
+
+    .pill.aprob {
+        background: #eaf6ff;
+        color: #135f8a;
+        border-color: #d7eaf8;
+    }
+
+    .pill.reprob {
+        background: #fdecec;
+        color: #a32626;
+        border-color: #f6d3d3;
+    }
+
+    .pill.pend {
+        background: #fff6e5;
+        color: #8a5a00;
+        border-color: #ffe6bd;
+    }
+
+
+/* Contenedor principal en una sola línea */
+.actions-cell {
+    display: inline-flex !important; /* Forzamos inline para que no rompa el flujo de la tabla */
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    width: 100%;
+    vertical-align: middle;
+}
+
+    /* Cada botón o form */
+    .actions-cell .action-item {
+        display: inline-flex;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        text-decoration:none!important;
+    }
+
+/* Botón base */
+.btn-compact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none !important;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* Colores coherentes con el tema PACHO */
+.btn-prim {
+    background-color: #2d5a27;
+    color: #fff;
+}
+
+    .btn-prim:hover {
+        background-color: #3e7b38;
+    }
+
+.btn-infoP {
+    background-color: #1976d2;
+    color: #fff;
+}
+
+    .btn-infoP:hover {
+        background-color: #1565c0;
+    }
+
+.btn-dangerP {
+    background-color: #c0392b;
+    color: #fff;
+}
+
+    .btn-dangerP:hover {
+        background-color: #e74c3c;
+    }
+
+.btn-accent {
+    background-color: #6fb346;
+    color: #fff;
+}
+
+    .btn-accent:hover {
+        background-color: #5aa33b;
+    }

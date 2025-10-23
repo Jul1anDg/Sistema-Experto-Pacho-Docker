@@ -1,0 +1,144 @@
+﻿@{
+    ViewData["Title"] = "Incia Sesión";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PACHO | Inicio de Sesión</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/Account/Login.css" asp-append-version="true" />
+
+</head>
+<body>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    
+    <div class="login-wrapper">
+        <div class="brand-panel">
+            <div class="brand-content">
+                <div class="brand-logo">
+                    <img src="https://res.cloudinary.com/dhe88z7gf/image/upload/v1756690174/LogoPaxho_qgrhvg.png " alt="Logo de Pacho" style="height: 80px; margin-right: 5px;">
+                    <h1>PACHO</h1>
+                </div>
+
+                
+                <h2 class="login-title">Bienvenido de vuelta</h2>
+                <p class="login-subtitle">Inicia sesión para acceder a todas las herramientas de tú asistente Pacho</p>
+                
+                <ul class="features-list">
+                    <li>
+                        <i class="fas fa-brain"></i>
+                        <div class="feature-text">
+                            <h4>Detección con IA</h4>
+                            <p>Identifica enfermedades en cultivos con precisión</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-chart-line"></i>
+                        <div class="feature-text">
+                            <h4>Optimización de Recursos</h4>
+                            <p>Maximiza tus recursos con análisis y diagnosticos gratuitos</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-user-md"></i>
+                        <div class="feature-text">
+                            <h4>Asesoría Experta</h4>
+                            <p>Red de expertos confiable a tu disposición</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+  
+        <div class="login-panel">
+            <div class="login-form-container">
+                <h2 class="form-title">Iniciar Sesión</h2>
+                <p class="form-subtitle">Ingresa tus credenciales para acceder a tu cuenta</p>
+                
+           
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="validation-summary" style="color:white;">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </div>
+                }
+                
+              
+                <form method="post" asp-controller="Account" asp-action="Login">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label class="form-label">Correo Electrónico</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" name="email" class="form-input" placeholder="tucorreo@ejemplo.com" required />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Contraseña</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" name="password" id="password" class="form-input" placeholder="••••••••" required />
+                            <button type="button" class="password-toggle" id="togglePassword"> </button>
+                           
+                        </div>
+                        <a asp-controller="Account" asp-action="ForgotPassword" class="forgot-password">¿Olvidaste tu contraseña?</a>
+
+                    </div>
+                    
+                    <button type="submit" class="login-button">
+                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                    </button>
+                </form>
+                
+                <div class="divider">
+                    <span class="divider-text">¿Quieres contribuir a nuestra red de expertos?</span>
+                </div>
+                
+                <p class="register-link">
+                    ¿No tienes una cuenta? <a asp-controller="Experts" asp-action="RegisterExpert" >Regístrate ahora</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        (function killBrandPanel() {
+            function nuke() {
+                if (window.innerWidth <= 768) {
+                    var bp = document.querySelector('.brand-panel');
+                    if (bp) bp.remove();
+                }
+            }
+            document.addEventListener('DOMContentLoaded', nuke);
+            window.addEventListener('resize', nuke);
+        })();
+        // Solo funcionalidad de mostrar/ocultar contraseña
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Cambiar icono
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+        
+        // Animación de partículas (solo decorativa, no afecta funcionalidad)
+        document.querySelectorAll('.particle').forEach(particle => {
+            const randomTop = Math.random() * 100;
+            const randomLeft = Math.random() * 100;
+            const randomDuration = 15 + Math.random() * 15;
+            
+            particle.style.top = `${randomTop}%`;
+            particle.style.left = `${randomLeft}%`;
+            particle.style.animationDuration = `${randomDuration}s`;
+        });
+    </script>
+</body>
+</html>

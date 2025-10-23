@@ -1,0 +1,133 @@
+﻿
+:root {
+    --pacho-primary: #2d5a27;
+    --pacho-secondary: #4a7c59;
+    --pacho-light: #a8d8a8;
+    --pacho-dark: #1a3a1a;
+    --pacho-bg: #f8fdf6;
+    --accent-green: #6fb346;
+    --gradient-primary: linear-gradient(135deg, var( --pacho-primary) 0%, var(--accent-green) 100%);
+}
+
+.pacho-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.pacho-card-header {
+    background: var(--gradient-primary) !important;
+    border: none;
+    padding: 25px;
+}
+
+.btn-pacho {
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+    .btn-pacho:hover:not(:disabled) {
+        background: var(--accent-green);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+
+    .btn-pacho:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+.btn-pacho-light {
+    background: var(--gradient-primary);
+    color: white;
+    border: var(--accent-green);
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+    .btn-pacho-light:hover {
+        background: white;
+        color: var(--pacho-primary);
+        border-color: white;
+    }
+
+.bg-pacho {
+    background: linear-gradient(135deg, var(--pacho-primary), var(--pacho-secondary)) !important;
+}
+
+.border-pacho {
+    border-color: var(--pacho-light) !important;
+}
+
+.card {
+    border-radius: 15px;
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.form-control:focus {
+    border-color: var(--pacho-light);
+    box-shadow: 0 0 0 0.2rem rgba(139, 188, 94, 0.25);
+}
+
+.answer-row {
+    transition: all 0.3s ease;
+}
+
+    .answer-row:hover {
+        transform: translateY(-2px);
+    }
+
+.answer-filled {
+    border-color: var(--pacho-light) !important;
+    background: rgba(139, 188, 94, 0.05);
+}
+
+.answer-empty {
+    border-color: #dee2e6 !important;
+    background: #f8f9fa;
+}
+
+.correct-checkbox:checked {
+    background-color: var(--pacho-primary);
+    border-color: var(--pacho-primary);
+}
+
+.btn-lg {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+}
+
+.validation-panel {
+    border-radius: 10px;
+}
+
+.remove-answer:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.answer-row.minimum-reached .remove-answer {
+    display: none;
+}
+
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.is-valid {
+    border-color: #28a745;
+}
+
+.alert {
+    border-radius: 10px;
+}

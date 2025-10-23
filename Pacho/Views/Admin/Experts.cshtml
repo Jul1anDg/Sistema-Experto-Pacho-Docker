@@ -1,0 +1,236 @@
+﻿@model IEnumerable<Pacho.Models.Expert>
+@{
+    ViewData["Title"] = "Gestión de Expertos - PACHO Asistente";
+    var total = Model.Count();
+    var activos = Model.Count(e => (e.User.Status ?? 0) == 1);
+    var inactivos = total - activos;
+    var aprobados = Model.Count(e => (e.TestState ?? "").ToLower().Contains("aprob"));
+    var reprobados = Model.Count(e => (e.TestState ?? "").ToLower().Contains("reprob"));
+}
+<link rel="stylesheet" href="~/css/Questions/Index.css">
+<link rel="stylesheet" href="~/css/Admin/IndexExperts.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="pacho-header">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="pacho-logo me-3"><i class="fas fa-users"></i></div>
+                    <div>
+                        <h2 class="pacho-title mb-0">PACHO-Asistente</h2>
+                        <p class="pacho-subtitle mb-0">Gestión de Expertos del Sistema</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </style>
+    <div class="mb-4">
+        <div class="stats-row">
+            <div data-aos="fade-up">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-database"></i></div>
+                    <div class="stat-content"><h3>@total</h3><p>Total</p></div>
+                </div>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="80">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-user-check"></i></div>
+                    <div class="stat-content"><h3>@activos</h3><p>Activos</p></div>
+                </div>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="160">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-user-slash"></i></div>
+                    <div class="stat-content"><h3>@inactivos</h3><p>Inactivos</p></div>
+                </div>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="240">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-content"><h3>@aprobados</h3><p>Aprobados</p></div>
+                </div>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="320">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+                    <div class="stat-content"><h3>@reprobados</h3><p>Reprobados</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjeta principal -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card pacho-card shadow-lg">
+                <div class="card-header pacho-card-header">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div>
+                            <h4 class="mb-0 text-white">Expertos del Sistema</h4>
+                            <small class="text-white-50">Total: @total</small>
+                        </div>
+                        <!-- Buscador + Filtro -->
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent text-white border-0">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input id="buscar-expert" type="search" class="form-control" placeholder="Buscar por nombre o email…">
+                            </div>
+                            <select id="filtro-estado" class="form-select">
+                                <option value="">Todos</option>
+                                <option value="activo">Activos</option>
+                                <option value="inactivo">Inactivos</option>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="aprobado">Aprobado</option>
+                                <option value="reprobado">Reprobado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-0 pacho-table-wrap">
+                    @if (TempData["Mensaje"] != null)
+                    {
+                        <div class="alert alert-success border-0 m-3" role="alert">
+                            <i class="fas fa-check-circle me-2"></i> @TempData["Mensaje"]
+                        </div>
+                    }
+
+                    @if (Model.Any())
+                    {
+                        <table class="pacho-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:40px;"></th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Estado</th>
+                                    <th>Test</th>
+                                    <th style="width:320px;" class="text-end">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="experts-body">
+                                @foreach (var e in Model)
+                                {
+                                    var activo = (e.User.Status ?? 0) == 1;
+                                    var estadoLogico = activo ? "activo" : "inactivo";
+                                    var test = (e.TestState ?? "").Trim().ToLower();
+
+                                    <tr data-search="@($"{e.User.Name} {e.User.LastName} {e.User.Email} {test} {estadoLogico}")"
+                                        data-estado="@estadoLogico" data-test="@test">
+                                        <td><span class="marker" aria-hidden="true"></span></td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <strong class="pacho-name">@e.User.Name @e.User.LastName</strong>
+                                                <span class="text-muted-slim">#@e.IdExpert</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="truncate">@e.User.Email</span></td>
+                                        <td>
+                                            <span class="badge-status @(activo ? "badge-on" : "badge-off")">
+                                                @(activo ? "Activo" : "Inactivo")
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @{
+                                                var pillClass = test.Contains("aprob") ? "aprob"
+                                                : test.Contains("reprob") ? "reprob"
+                                                : test.Contains("pend") ? "pend" : "";
+                                            }
+                                            <span class="pill @pillClass">
+                                                <i class="fas fa-tag"></i> @e.TestState
+                                            </span>
+                                        </td>
+                                        <td class="text-end">
+                                            <div class="actions-cell">
+                                                <form asp-action="ToggleStatus" asp-route-id="@e.IdExpert" method="post" class="action-item">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit"
+                                                            class="btn-compact @(activo ? "btn-dangerP" : "btn-prim")"
+                                                            title="@(activo ? "Desactivar" : "Activar")">
+                                                        <i class="fas @(activo ? "fa-user-slash" : "fa-user-check")"></i>
+                                                        <span>@(activo ? "Desactivar" : "Activar")</span>
+                                                    </button>
+                                                </form>
+
+                                                <a asp-action="Details"
+                                                   asp-controller="Admin"
+                                                   asp-route-id="@e.IdExpert"
+                                                   class="btn-compact btn-infoP action-item"
+                                                   title="Ver información">
+                                                    <i class="fas fa-circle-info"></i>
+                                                    <span>Info</span>
+                                                </a>
+
+                                                <a asp-action="ViewAnswers"
+                                                   asp-controller="Admin"
+                                                   asp-route-id="@e.IdExpert"
+                                                   class="btn-compact btn-accent action-item"
+                                                   title="Ver respuestas del test">
+                                                    <i class="fas fa-list-check"></i>
+                                                    <span>Respuestas</span>
+                                                </a>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <div class="empty-icon"><i class="fas fa-users"></i></div>
+                            <h4>Sin expertos por ahora</h4>
+                            <p class="text-muted mb-4">Cuando se registren, los verás aquí.</p>
+                        </div>
+                    }
+                </div>
+
+                @if (Model.Any())
+                {
+                    <div class="card-footer pacho-card-footer">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <small class="text-muted"><i class="fas fa-info-circle me-1"></i> Administra a tus expertos y su estado de evaluación</small>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <small class="text-muted"><i class="fas fa-seedling me-1"></i> PACHO-Asistente • Agricultura Inteligente</small>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init({ once: true, duration: 600, easing: "ease-out-cubic" });</script>
+<script>
+    // Búsqueda por nombre/email y filtro por estado (activo/inactivo y test)
+    const $buscar = document.getElementById('buscar-expert');
+    const $filtro = document.getElementById('filtro-estado');
+
+    function aplicaFiltros() {
+        const q = ($buscar.value || '').toLowerCase().trim();
+        const estado = ($filtro.value || '').toLowerCase();
+
+        document.querySelectorAll('#experts-body tr').forEach(tr => {
+            const txt = (tr.dataset.search || '').toLowerCase();
+            const est = (tr.dataset.estado || '').toLowerCase();
+            const test = (tr.dataset.test || '').toLowerCase();
+
+            const matchTexto = q === '' || txt.includes(q);
+            const matchEstado = estado === '' || est === estado || test.includes(estado);
+            tr.style.display = (matchTexto && matchEstado) ? '' : 'none';
+        });
+    }
+    $buscar.addEventListener('input', aplicaFiltros);
+    $filtro.addEventListener('change', aplicaFiltros);
+</script>

@@ -1,0 +1,183 @@
+﻿:root {
+    --pacho-primary: #2d5a27;
+    --pacho-secondary: #4a7c59;
+    --pacho-light: #a8d8a8;
+    --pacho-dark: #1a3a1a;
+    --pacho-bg: #f8fdf6;
+    --pacho-accent: #6fb346;
+    --pacho-text: #2d3a2d;
+    --pacho-light-bg: #e8f5e9;
+    --pacho-card-bg: #ffffff;
+    --gradient-primary: linear-gradient(135deg, var(--pacho-primary) 0%, var(--pacho-accent) 100%);
+}
+
+.create-treatment-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.create-header {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+    .create-header h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+    }
+
+.form-body {
+    padding: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--pacho-dark);
+    font-size: 0.95rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background-color: var(--pacho-bg);
+}
+
+    .form-control:focus {
+        border-color: var(--pacho-primary);
+        box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.15);
+        outline: none;
+    }
+
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a7c59' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+    padding-left: 1rem;
+}
+
+.btn-submit {
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(45, 90, 39, 0.25);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+}
+
+    /* ✅ capa luminosa que pasa sobre el botón */
+    .btn-submit::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient( 90deg, transparent, rgba(255, 255, 255, 0.25), transparent );
+        transition: left 0.6s ease;
+    }
+
+    /* al pasar el cursor, la luz se desplaza */
+    .btn-submit:hover::before {
+        left: 100%;
+    }
+
+    /* efecto de zoom sutil */
+    .btn-submit:hover {
+        transform: scale(1.03);
+        box-shadow: 0 6px 20px rgba(45, 90, 39, 0.35);
+    }
+
+
+.text-danger {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: block;
+    padding-left: 1.8rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 2.5rem;
+    color: var(--pacho-primary);
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .create-treatment-container {
+        margin: 1rem;
+        border-radius: 8px;
+    }
+
+    .form-body {
+        padding: 1.5rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .create-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .form-control {
+        padding-left: 2.2rem;
+    }
+
+    .input-icon {
+        left: 0.8rem;
+        top: 2.3rem;
+    }
+}

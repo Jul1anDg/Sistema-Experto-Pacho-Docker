@@ -1,0 +1,419 @@
+﻿@{
+    ViewData["Title"] = "PACHO | Asistente Inteligente Agrícola";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p6Sj3j1a6bX1sL9iI3ygcO4sMZL+gG9WdUE8hDXeO0k2+h5Y5u1YhT9CiNFYt+DzFEq6nTgYmA6fX9tz+XmcXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="~/css/Home/Index.css">
+
+
+<div id="inicio" class="hero-wrapper">
+    <div id="autoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+        <div class="carousel-inner">
+            
+            <div class="carousel-item active">
+                <img src="https://res.cloudinary.com/dse9ar0r1/image/upload/v1745448339/banner2_kfs3br.jpg"
+                     class="d-block w-100"
+                     alt="Agricultura inteligente con tecnología avanzada">
+            </div>
+           
+            <div class="carousel-item">
+                <img src="https://res.cloudinary.com/dse9ar0r1/image/upload/v1745448784/fresh-green-leaves-grow-vegetable-garden-generated-by-ai_dm1xny.jpg"
+                     class="d-block w-100"
+                     alt="Cultivos frescos y sostenibles">
+            </div>
+            
+            <div class="carousel-item">
+                <img src="https://res.cloudinary.com/dse9ar0r1/image/upload/v1747933119/plantas-que-se-plantan-en-invernadero_1_1_1_qsxzgd.jpg"
+                     class="d-block w-100"
+                     alt="Tecnología de invernaderos modernos">
+            </div>
+        </div>
+
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Transforma tu agricultura con <span class="brand">PACHO</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Inteligencia artificial y diagnostico de enfermedades para potenciar tu producción agrícola
+                    ¿Que esperas para consultarle a Pacho?
+                </p>
+            </div>
+        </div>
+
+   
+        <button class="carousel-control-prev" type="button" data-bs-target="#autoCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#autoCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+    </div>
+</div>
+
+
+<section id="servicios" class="services-section">
+
+    <div class="services-container">
+        <div class="services-title" data-aos="fade-up">
+            <h2>Servicios Especializados</h2>
+            <p>Tecnología avanzada para optimizar tu producción agrícola</p>
+        </div>
+
+        <div class="services-grid">
+          
+            <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="service-title-text">Detección con IA</h3>
+                <p class="service-description">
+                    Identifica enfermedades en cultivos de lechuga mediante análisis de imágenes con inteligencia artificial avanzada.
+                </p>
+            </div>
+
+           
+            <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-icon">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h3 class="service-title-text">Asesoría Experta</h3>
+                <p class="service-description">
+                   Red de expertos confiables y profesionales en el aréa , diversidad de tratamientos para tus cultivos.
+                </p>
+            </div>
+
+         
+            <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="service-title-text">Accesibilidad vs Costos </h3>
+                <p class="service-description">
+                    Recurre a un diagnostico confiable al alcance de tu mano , totalmente gratuito.
+                </p>
+            </div>
+
+        
+            <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-icon">
+                    <i class="fas fa-prescription-bottle-alt"></i>
+                </div>
+                <h3 class="service-title-text">Tratamientos Diversos</h3>
+                <p class="service-description">
+                    Recibe planes de tratamiento de diversa indole para controlar enfermedades en tus cultivos.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="cta-container">
+    <div class="cta-content" data-aos="zoom-in" data-aos-duration="1200">
+        <div class="particles-container">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+
+        <h2 class="cta-title">
+            <span class="neon-text">¡Transforma tu agricultura</span><br>
+            <span class="animated-gradient">con PACHO-Asistente!</span>
+        </h2>
+
+        <p class="cta-text">
+            Tecnología de punta y detección acertada en tiempo real para maximizar tu producción y optimizar tus recursos agrícolas
+        </p>
+
+        <div class="cta-buttons">
+            <a href="/Account/Login" class="btn cta-btn register-btn" data-aos="fade-right" data-aos-delay="200">
+                <i class="fas fa-seedling"></i>
+                <span class="btn-text">Iniciar Sesión</span>
+            </a>
+
+
+            <a href="/Experts/RegisterExpert" class="btn cta-btn login-btn" data-aos="fade-left" data-aos-delay="400">
+                <i class="fas fa-brain"></i>
+                <span class="btn-text">¿Eres experto? Regístrate</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const carousel = new bootstrap.Carousel('#autoCarousel', {
+            interval: 7000,
+            wrap: true,
+            touch: true,
+            pause: 'hover'
+        });
+
+        // Inicializar animaciones AOS
+        AOS.init({
+            duration: 1200,
+            once: true,
+            offset: 100,
+            easing: 'ease-out-cubic',
+            delay: 100
+        });
+
+        
+        const carouselElement = document.getElementById('autoCarousel');
+
+        carouselElement.addEventListener('mouseenter', function () {
+            carousel.pause();
+            this.style.transform = 'scale(1.02)';
+        });
+
+        carouselElement.addEventListener('mouseleave', function () {
+            carousel.cycle();
+            this.style.transform = 'scale(1)';
+        });
+
+       
+        document.querySelectorAll('.cta-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-4px) scale(1.05)';
+            });
+
+            btn.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+
+            btn.addEventListener('click', function (e) {
+                if (this.href && this.href !== '#') {
+                    this.classList.add('loading-state');
+
+                  
+                    const ripple = document.createElement('div');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(255,255,255,0.6)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.left = '50%';
+                    ripple.style.top = '50%';
+                    ripple.style.width = ripple.style.height = '20px';
+                    ripple.style.marginLeft = ripple.style.marginTop = '-10px';
+
+                    this.appendChild(ripple);
+
+                    setTimeout(() => {
+                        if (ripple.parentNode) {
+                            ripple.parentNode.removeChild(ripple);
+                        }
+                    }, 600);
+
+                    setTimeout(() => {
+                        this.classList.remove('loading-state');
+                    }, 2000);
+                }
+            });
+        });
+
+       
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+
+                    if (entry.target.classList.contains('service-card')) {
+                        const icon = entry.target.querySelector('.service-icon i');
+                        if (icon) {
+                            setTimeout(() => {
+                                icon.style.animation = 'icon-bounce 0.6s ease, icon-float 2s ease-in-out infinite alternate';
+                            }, 300);
+                        }
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe service cards in the new section
+        document.querySelectorAll('.service-card').forEach((card, index) => {
+            observer.observe(card);
+
+            // Add dynamic hover effects
+            card.addEventListener('mouseenter', function () {
+                const glow = this.querySelector('.card-glow');
+                if (glow) {
+                    glow.style.opacity = '0.4';
+                }
+
+                // Add ripple effect on hover
+                const ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 0;
+                    height: 0;
+                    background: radial-gradient(circle, rgba(111, 179, 70, 0.1) 0%, transparent 70%);
+                    border-radius: 50%;
+                    transform: translate(-50%, -50%);
+                    animation: ripple-expand 0.8s ease-out;
+                    pointer-events: none;
+                    z-index: 1;
+                `;
+
+                this.appendChild(ripple);
+
+                setTimeout(() => {
+                    if (ripple.parentNode) {
+                        ripple.parentNode.removeChild(ripple);
+                    }
+                }, 800);
+            });
+
+            card.addEventListener('mouseleave', function () {
+                const glow = this.querySelector('.card-glow');
+                if (glow) {
+                    glow.style.opacity = '0';
+                }
+            });
+        });
+
+        // Dynamic particle animation initialization
+        setTimeout(() => {
+            document.querySelectorAll('.service-particle').forEach((particle, index) => {
+                // Add random movement variation for more natural effect
+                const randomDelay = Math.random() * 5;
+                const randomDuration = 16 + Math.random() * 10;
+                const randomOpacity = 0.4 + Math.random() * 0.4;
+
+                particle.style.animationDelay = `${randomDelay}s`;
+                particle.style.animationDuration = `${randomDuration}s`;
+                particle.style.opacity = randomOpacity;
+
+                // Add slight horizontal drift
+                const randomDrift = -10 + Math.random() * 20;
+                particle.style.setProperty('--drift', `${randomDrift}px`);
+            });
+        }, 1000);
+
+        // Enhanced particle system for services section
+        function createAdditionalParticles() {
+            const servicesSection = document.querySelector('.services-particles');
+            if (servicesSection && window.innerWidth > 768) {
+                // Create additional micro-particles
+                for (let i = 0; i < 5; i++) {
+                    const microParticle = document.createElement('div');
+                    microParticle.className = 'service-particle micro-particle';
+                    microParticle.style.cssText = `
+                        width: 2px;
+                        height: 2px;
+                        background: var(--light-green);
+                        left: ${Math.random() * 100}%;
+                        animation-delay: ${Math.random() * 10}s;
+                        animation-duration: ${15 + Math.random() * 8}s;
+                        opacity: ${0.3 + Math.random() * 0.3};
+                    `;
+                    servicesSection.appendChild(microParticle);
+                }
+            }
+        }
+
+        // Initialize additional particles after a delay
+        setTimeout(createAdditionalParticles, 2000);
+
+        // Interactive title effect
+        const servicesTitle = document.querySelector('.services-title h2');
+        if (servicesTitle) {
+            servicesTitle.addEventListener('mouseenter', function () {
+                this.style.animation = 'text-glow 0.5s ease-in-out, underline-expand 0.5s ease-in-out';
+            });
+
+            servicesTitle.addEventListener('mouseleave', function () {
+                this.style.animation = 'text-glow 4s ease-in-out infinite alternate';
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Performance optimization for particles
+        setTimeout(() => {
+            document.querySelectorAll('.particle').forEach((particle, index) => {
+                particle.style.left = `${10 + (index * 35)}%`;
+                particle.style.animationDelay = `${index * 7}s`;
+            });
+        }, 1000);
+
+        // Keyboard navigation support
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowLeft') {
+                carousel.prev();
+            } else if (e.key === 'ArrowRight') {
+                carousel.next();
+            }
+        });
+
+        // Enhanced responsive behavior
+        function handleResize() {
+            const width = window.innerWidth;
+
+            if (width <= 768) {
+                // Mobile optimizations
+                document.querySelectorAll('.service-card').forEach(card => {
+                    card.style.marginBottom = '1.5rem';
+                });
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Initial call
+
+        console.log('🌱 PACHO-Asistente loaded successfully!');
+
+        // Verificar partículas inmediatamente
+        const particleCheck = document.querySelectorAll('.service-particle');
+        console.log('Partículas detectadas al cargar:', particleCheck.length);
+
+        if (particleCheck.length > 0) {
+            console.log('✅ Partículas encontradas en el DOM');
+            particleCheck.forEach((p, i) => {
+                console.log(`Partícula ${i + 1}:`, p.style.cssText);
+            });
+        } else {
+            console.log('❌ No se encontraron partículas');
+        }
+    });
+
+    // Add ripple animation keyframes
+    const style = document.createElement('style');
+    style.textContent = `
+        @@keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+</script>

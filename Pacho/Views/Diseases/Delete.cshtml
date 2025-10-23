@@ -1,0 +1,111 @@
+@model Pacho.Models.Disease
+
+@{
+    ViewData["Title"] = "Eliminar Enfermedad";
+}
+<link rel="stylesheet" href="~/css/Diseases/Delete.css">
+<div class="delete-container">
+    <div class="delete-header">
+        <h1>
+            <i class="fas fa-trash-alt"></i>
+            @ViewData["Title"]
+        </h1>
+        <p>Confirmación de eliminación permanente</p>
+    </div>
+
+    <div class="delete-confirm">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>¿Está seguro que desea eliminar permanentemente este registro? Esta acción no se puede deshacer.</span>
+    </div>
+
+    <div class="delete-content">
+        <!-- Sección 1 -->
+        <div class="detail-section">
+            <div class="detail-grid">
+                <div class="detail-label">
+                    <i class="fas fa-dna"></i>
+                    <span>Nombre científico</span>
+                </div>
+                <div class="detail-value">@Model.ScientificName</div>
+
+                <div class="detail-label">
+                    <i class="fas fa-tag"></i>
+                    <span>Nombre común</span>
+                </div>
+                <div class="detail-value">@Model.CommonName</div>
+
+                <div class="detail-label">
+                    <i class="fas fa-align-left"></i>
+                    <span>Descripción</span>
+                </div>
+                <div class="detail-value">@Model.Description</div>
+
+                <div class="detail-label">
+                    <i class="fas fa-diagnoses"></i>
+                    <span>Síntomas</span>
+                </div>
+                <div class="detail-value">@Model.Symptoms</div>
+            </div>
+        </div>
+
+        <!-- Sección 2 -->
+        <div class="detail-section">
+            <div class="detail-grid">
+                <div class="detail-label">
+                    <i class="fas fa-cloud-sun"></i>
+                    <span>Condiciones</span>
+                </div>
+                <div class="detail-value">@Model.Conditions</div>
+
+                <div class="detail-label">
+                    <i class="fas fa-toggle-on"></i>
+                    <span>Estado</span>
+                </div>
+                <div class="detail-value">
+                    @if (Model.Asset)
+                    {
+                        <span class="status-badge status-active">
+                            <i class="fas fa-check-circle btn-icon"></i> Activo
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="status-badge status-inactive">
+                            <i class="fas fa-times-circle btn-icon"></i> Inactivo
+                        </span>
+                    }
+                </div>
+
+                <div class="detail-label">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Fecha de creación</span>
+                </div>
+                <div class="detail-value">@Model.CreationDate.ToString("dd/MM/yyyy")</div>
+
+                <div class="detail-label">
+                    <i class="fas fa-prescription-bottle-alt"></i>
+                    <span>Tratamientos</span>
+                </div>
+                <div class="detail-value">@Model.TreatmentsTotal</div>
+            </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="form-actions">
+            <a asp-action="Index" class="btn-cancel">
+                <i class="fas fa-arrow-left btn-icon"></i>Cancelar
+            </a>
+            <button type="submit" form="deleteForm" class="btn-delete">
+                <i class="fas fa-trash-alt btn-icon"></i>Eliminar Definitivamente
+            </button>
+        </div>
+    </div>
+</div>
+
+<form asp-action="Delete" id="deleteForm">
+    <input type="hidden" asp-for="IdDisease" />
+</form>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+}

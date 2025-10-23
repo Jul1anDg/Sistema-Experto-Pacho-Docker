@@ -1,0 +1,163 @@
+﻿@model Pacho.Models.Treatment
+@{
+    ViewData["Title"] = "Editar Tratamiento Agrícola";
+    var diseases = ViewBag.Diseases as List<Pacho.Models.Disease>;
+}
+<link rel="stylesheet" href="~/css/Treatment/Edit.css">
+<div class="edit-treatment-container">
+    <div class="edit-header">
+        <div class="header-icon">
+            <i class="fas fa-edit"></i>
+        </div>
+        <div class="header-titles">
+            <h1>@ViewData["Title"]</h1>
+            <p>Actualice los detalles del tratamiento agrícola</p>
+        </div>
+    </div>
+
+    <div class="edit-card">
+        <div class="edit-body">
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="IdTreatment" />
+                
+                <div class="edit-form">
+                    <!-- Sección de Información Básica -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-info-circle"></i> Información Básica</h3>
+                        
+                        <div class="form-group">
+                            <label asp-for="DiseaseId" class="form-label">
+                                <i class="fas fa-disease"></i> Enfermedad/Plaga
+                            </label>
+                            <div class="input-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <select asp-for="DiseaseId" class="form-control"
+                                    asp-items="@(new SelectList(diseases, "IdDisease", "CommonName"))">
+                                <option value="">-- Seleccione una enfermedad --</option>
+                            </select>
+                            <span asp-validation-for="DiseaseId" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label asp-for="TreatmentType" class="form-label">
+                                <i class="fas fa-tag"></i> Tipo de Tratamiento
+                            </label>
+                            <div class="input-icon">
+                                <i class="fas fa-syringe"></i>
+                            </div>
+                            <input asp-for="TreatmentType" class="form-control" />
+                            <span asp-validation-for="TreatmentType" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label asp-for="DiasMejoriaVisual" class="form-label">
+                                <i class="fas fa-clock"></i> Días para Mejoría
+                            </label>
+                            <div class="input-icon">
+                                <i class="fas fa-hourglass-half"></i>
+                            </div>
+                            <input asp-for="DiasMejoriaVisual" type="number" class="form-control" />
+                            <span asp-validation-for="DiasMejoriaVisual" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Sección de Detalles de Aplicación -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-flask"></i> Detalles de Aplicación</h3>
+                        
+                        <div class="form-group">
+                            <label asp-for="RecommendedProducts" class="form-label">
+                                <i class="fas fa-prescription-bottle-alt"></i> Productos Recomendados
+                            </label>
+                            <div class="input-icon">
+                                <i class="fas fa-pills"></i>
+                            </div>
+                            <input asp-for="RecommendedProducts" class="form-control" />
+                            <span asp-validation-for="RecommendedProducts" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label asp-for="Frequency" class="form-label">
+                                <i class="fas fa-redo"></i> Frecuencia
+                            </label>
+                            <div class="input-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <input asp-for="Frequency" class="form-control" />
+                            <span asp-validation-for="Frequency" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label asp-for="Precautions" class="form-label">
+                                <i class="fas fa-exclamation-triangle"></i> Precauciones
+                            </label>
+                            <div class="input-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <input asp-for="Precautions" class="form-control" />
+                            <span asp-validation-for="Precautions" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección de Descripción y Condiciones -->
+                <div class="edit-form">
+                    <div class="form-section">
+                        <h3><i class="fas fa-file-alt"></i> Descripción</h3>
+                        <div class="form-group">
+                            <label asp-for="Description" class="form-label">
+                                <i class="fas fa-align-left"></i> Detalles del tratamiento
+                            </label>
+                            <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3><i class="fas fa-cloud-sun"></i> Condiciones Climáticas</h3>
+                        <div class="form-group">
+                            <label asp-for="WeatherConditions" class="form-label">
+                                <i class="fas fa-temperature-low"></i> Condiciones ideales
+                            </label>
+                            <div class="input-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <input asp-for="WeatherConditions" class="form-control" />
+                            <span asp-validation-for="WeatherConditions" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Environment" class="form-label d-flex align-items-center gap-2">
+                            <i id="envIcon" class="fas fa-cloud-sun"></i>
+                            <span>Entorno</span>
+                        </label>
+
+                        <select asp-for="Environment" class="form-select" id="Environment">
+                            <option value="">-- Seleccione --</option>
+                            <option value="1">Hidroponía</option>
+                            <option value="2">Sustrato</option>
+                        </select>
+
+                        <span asp-validation-for="Environment" class="text-danger"></span>
+                    </div>
+                </div>
+                
+                <!-- Botones de Acción -->
+                <div class="action-buttons">
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                    <a asp-action="Index" class="btn-cancel">
+                        <i class="fas fa-arrow-left"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

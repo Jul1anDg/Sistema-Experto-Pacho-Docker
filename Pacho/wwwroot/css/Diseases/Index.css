@@ -1,0 +1,364 @@
+﻿* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --primary-green: #2d5a27;
+    --secondary-green: #4a7c59;
+    --accent-green: #6fb346;
+    --light-green: #a8d8a8;
+    --very-light-green: #f0f8f0;
+    --dark-green: #1a3a1a;
+    --container-border: 2px solid var(--accent-green);
+    --gradient-primary: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+}
+
+.main-container {
+    border-radius: 8px;
+    padding: 1.5rem;
+    background-color: white;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-header {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.2rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--accent-green);
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.stat-icon {
+    font-size: 1.8rem;
+    color: var(--accent-green);
+    margin-right: 1rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    line-height: 1;
+}
+
+.stat-label {
+    color: var(--secondary-green);
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+.search-container {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.search-input {
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    padding-left: 2.5rem;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-green);
+}
+
+.table-container {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.table thead {
+    background-color: var(--primary-green);
+    color: white;
+}
+
+.table th {
+    font-weight: 500;
+    padding: 1rem;
+}
+
+.table td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-top: 1px solid #f0f0f0;
+}
+
+.btn-success {
+    background: var(--accent-green);
+    border-color: white;
+    border-radius: 6px;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.2s ease;
+}
+
+    .btn-success:hover {
+        background-color: var(--secondary-green);
+        transform: translateY(-2px);
+    }
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    margin: 0 2px;
+    transition: all 0.2s ease;
+}
+
+.btn-edit {
+    background-color: rgba(41, 128, 185, 0.1);
+    color: #2980b9;
+}
+
+.btn-view {
+    background-color: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+}
+
+.btn-delete {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+}
+
+.badge-status {
+    padding: 0.35rem 0.7rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.badge-active {
+    background-color: var(--very-light-green);
+    color: var(--dark-green);
+}
+
+.badge-inactive {
+    background-color: #f0f0f0;
+    color: #666;
+}
+
+.empty-state {
+    padding: 3rem;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 3.5rem;
+    color: var(--light-green);
+    margin-bottom: 1rem;
+}
+
+.empty-text {
+    color: var(--secondary-green);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+[data-aos] {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+[data-aos="fade-up"] {
+    transform: translateY(20px);
+    opacity: 0;
+}
+
+[data-aos="fade-down"] {
+    transform: translateY(-20px);
+    opacity: 0;
+}
+
+[data-aos].aos-animate {
+    transform: translateY(0);
+    opacity: 1;
+}
+@media (max-width: 768px) {
+    .table-container table thead {
+        display: none;
+    }
+
+    .table-container table tbody tr {
+        display: block;
+        margin-bottom: .75rem;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: .5rem .75rem;
+    }
+
+    .table-container table tbody td {
+        display: flex;
+        justify-content: space-between;
+        border: none !important;
+        padding: .35rem 0;
+    }
+
+        .table-container table tbody td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            color: var(--secondary-green);
+            margin-right: 1rem;
+        }
+}
+/* ===============================
+   🌿 Mejora visual móvil (Index Disease)
+   =============================== */
+@media (max-width: 768px) {
+    /* Encabezado */
+    .dashboard-header {
+        text-align: center;
+        padding: 1rem;
+        border-radius: 0;
+        margin: 0 -1rem 1rem -1rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+        .dashboard-header h1 {
+            font-size: 1.3rem;
+            margin-bottom: .3rem;
+        }
+
+    /* Contenedor principal */
+    .main-container {
+        padding: 0.8rem;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    /* Input de búsqueda */
+    .search-container {
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .search-input {
+        font-size: .9rem;
+        padding-left: 2.2rem;
+    }
+
+    /* ===== Tabla ===== */
+    .table-container {
+        box-shadow: none;
+        margin-top: .5rem;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        /* Ocultamos encabezado */
+        .table thead {
+            display: none;
+        }
+
+        /* Cada fila como tarjeta */
+        .table tbody tr {
+            display: block;
+            background: #fff;
+            border: 1px solid #e7e7e7;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            padding: .8rem .9rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        /* Cada celda ocupa toda la línea */
+        .table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: .4rem 0;
+            border: none;
+            font-size: .9rem;
+        }
+
+            /* Etiquetas tipo "Nombre:", "Estado:" */
+            .table tbody td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: var(--secondary-green);
+                flex-basis: 45%;
+                text-align: left;
+            }
+
+            /* Ajuste para textos largos */
+            .table tbody td span,
+            .table tbody td div {
+                flex: 1;
+                text-align: center;
+            }
+
+    /* Estado */
+    .badge-status {
+        font-size: .75rem;
+        padding: .3rem .6rem;
+        border-radius: 6px;
+        text-align: center;
+    }
+
+    /* Botones de acción */
+    .action-btn {
+        width: 36px;
+        height: 36px;
+        margin: 3px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+    }
+
+    /* Agrupación más ordenada de botones */
+    td:last-child {
+        justify-content: center;
+    }
+
+    /* Ajuste general de tipografía */
+    .table td, .table th {
+        font-size: .9rem;
+    }
+}
+
+/* ===== Pantallas muy pequeñas ===== */
+@media (max-width: 480px) {
+    .dashboard-header h1 {
+        font-size: 1.1rem;
+    }
+
+    .table tbody tr {
+        padding: .7rem;
+    }
+
+    .action-btn {
+        width: 32px;
+        height: 32px;
+    }
+}

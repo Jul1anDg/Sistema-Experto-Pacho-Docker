@@ -1,0 +1,138 @@
+﻿@{
+    ViewData["Title"] = "Acceso Restringido - PACHO Asistente";
+    ViewBag.HideFooter = true;
+}
+<link rel="stylesheet" href="~/css/ExpertTest/AccessDenied.css">
+<div class="access-denied-wrapper">
+
+    <div class="grid-background"></div>
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="access-denied-container" data-aos="fade-up">
+        <div class="content-wrapper">
+        <div class="denied-card">
+            <div class="denied-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            
+            <h1 class="denied-title">Acceso Restringido</h1>
+            <p class="denied-subtitle">
+                No pudimos procesar tu solicitud de acceso. Revisa las posibles causas a continuación.
+            </p>
+
+            <div class="causes-section">
+                <h3 class="causes-title">
+                    <i class="fas fa-info-circle"></i>
+                    Posibles causas
+                </h3>
+                <div class="cause-item">
+                    <i class="fas fa-user-check cause-icon"></i>
+                    <div class="cause-content">
+                        <h4>Cuenta pendiente de verificación</h4>
+                        <p>Es posible que necesites verificar tu correo electrónico antes de poder acceder.</p>
+                    </div>
+                </div>
+
+                <div class="cause-item">
+                    <i class="fas fa-user-times cause-icon"></i>
+                    <div class="cause-content">
+                        <h4>Cuenta suspendida o inactiva</h4>
+                        <p>Tu cuenta podría estar suspendida por inactividad o por violar nuestros términos de servicio.</p>
+                    </div>
+                </div>
+            </div>
+
+            <a href="/" class="action-button">
+                <i class="fas fa-home"></i> Volver al Inicio
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Botón flotante de ayuda -->
+<button class="help-float-button" onclick="toggleHelpPanel()">
+    <i class="fas fa-question"></i>
+</button>
+
+<!-- Panel de ayuda -->
+<div class="help-panel" id="helpPanel">
+    <div class="help-panel-header">
+        <h3 class="help-panel-title">
+            <i class="fas fa-headset"></i>
+            ¿Necesitas ayuda?
+        </h3>
+        <button class="help-close" onclick="toggleHelpPanel()">&times;</button>
+    </div>
+    
+    <div class="help-options">
+        <a href="/Account/ForgotPassword" class="help-option">
+            <i class="fas fa-key"></i>
+            <div class="help-option-text">
+                <h4>Recuperar contraseña</h4>
+                <p>Restablece tu contraseña</p>
+            </div>
+        </a>
+        
+        <a href="mailto:soporte@pacho.com" class="help-option">
+            <i class="fas fa-envelope"></i>
+            <div class="help-option-text">
+                <h4>Contactar soporte</h4>
+                <p>soporte@pacho.com</p>
+            </div>
+        </a>
+        
+        <a href="tel:+573043441049" class="help-option">
+            <i class="fas fa-phone"></i>
+            <div class="help-option-text">
+                <h4>Llamar</h4>
+                <p>+57 304 344 1049</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleHelpPanel() {
+            const panel = document.getElementById('helpPanel');
+            panel.classList.toggle('active');
+        }
+
+        // Cerrar panel al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            const panel = document.getElementById('helpPanel');
+            const button = document.querySelector('.help-float-button');
+            
+            if (!panel.contains(e.target) && !button.contains(e.target)) {
+                panel.classList.remove('active');
+            }
+        });
+
+        // Animación de entrada para las causas
+        document.addEventListener('DOMContentLoaded', function() {
+            const causes = document.querySelectorAll('.cause-item');
+            causes.forEach((cause, index) => {
+                cause.style.opacity = '0';
+                cause.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    cause.style.transition = 'all 0.5s ease';
+                    cause.style.opacity = '1';
+                    cause.style.transform = 'translateX(0)';
+                }, 200 + (index * 100));
+            });
+        });
+    </script>
+}

@@ -1,0 +1,285 @@
+﻿@Html.AntiForgeryToken()
+@using System.Security.Claims
+@{
+    Context.Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0";
+    Context.Response.Headers["Pragma"] = "no-cache";
+    Context.Response.Headers["Expires"] = "-1";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <title>@ViewData["Title"] - Pacho | Asistente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <link rel="stylesheet" href="~/css/Layout.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dhe88z7gf/image/upload/v1756690174/LogoPaxho_qgrhvg.png">
+    <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/lib/jquery-ui/dist/themes/base/jquery-ui.min.css" />
+    <link rel="stylesheet" href="~/css/Home/Layout.css">
+    <link rel="stylesheet" href="~/css/Layout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Home/Layout.Responsive.css">
+
+</head>
+<body>
+<header class="professional-header">
+    <div class="header-container">
+            <!-- Logo Section -->
+            <a asp-controller="Home" asp-action="Index" asp-route-logout="true" class="logo-section">
+                <div class="logo-icon">
+                    <img src="https://res.cloudinary.com/dhe88z7gf/image/upload/v1756690174/LogoPaxho_qgrhvg.png" alt="Lechuga" width="45" height="45">
+                </div>
+                <div class="logo-text">
+                    <div class="brand-name">PACHO - Asistente</div>
+                    <div class="brand-tagline">Agricultura Inteligente</div>
+                </div>
+            </a>
+
+        <!-- Main Navigation -->
+        <ul class="nav-menu d-flex align-items-center">
+            @* SuperAdmin *@
+            @if (User.IsInRole("SuperAdmin"))
+            {
+                <li class="nav-item">
+                    <a asp-controller="Questions" asp-action="Index" class="nav-link">
+                        Cuestionario de Aptitud
+                    </a>
+                </li>
+                <li class="nav-item">
+          
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       href="#"
+                       id="gestionExpertosDropdown"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Gestión de expertos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="gestionExpertosDropdown">
+                        <li>
+                            <a asp-controller="Admin"
+                               asp-action="Experts"
+                               class="dropdown-item">
+                                Expertos Registrados
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin"
+                               asp-action="PendingExperts"
+                               class="dropdown-item">
+                                Solicitudes Expertos
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="gestionExpertosDropdown"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Gestión del Conocimiento
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="gestionExpertosDropdown">
+                            <li>
+                                <a asp-controller="Diseases"
+                                   asp-action="Index"
+                                   class="dropdown-item">
+                                    Enfermedades
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-controller="Diagnostics"
+                                   asp-action="Index"
+                                   class="dropdown-item">
+                                    Diagnostico Sin Imagen
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+            }
+                else if (User.IsInRole("Experto"))
+                {
+                    var status = User.FindFirst("Status")?.Value;
+                    var testState = User.FindFirst("TestState")?.Value?.ToLowerInvariant();
+
+                    // Sólo si ha aprobado el test…
+                    if (status == "1" && testState == "aprobado")
+                    {
+                        <li class="nav-item">
+                            <a asp-controller="Treatment"
+                               asp-action="Index"
+                               class="nav-link">
+                                Registrar Tratamiento
+                            </a>
+                        </li>
+                    }
+                }
+            @* Usuarios anónimos u otros *@
+            else
+            {
+                <li class="nav-item">
+                    <a href="@Url.Content("~/#inicio")" class="nav-link active">Inicio</a>
+                </li>
+                    <li class="nav-item">
+                        <a href="@Url.Content("~/#servicios")" class="nav-link">Servicios</a>
+                    </li>
+                <li class="nav-item">
+                        <a href="@Url.Action("BotPresentation","Home")" class="nav-link">Conoce a Pacho</a>
+                </li>
+                <li class="nav-item">
+                        <a href="@Url.Action("OurTeam","Home")" class="nav-link">Nuestro Equipo</a>
+                </li>
+            }
+
+            @if (User?.Identity?.IsAuthenticated == true)
+            {
+                var fullName = User.FindFirst("FullName")?.Value ?? "Usuario";
+                var roleName = User.FindFirst(ClaimTypes.Role)?.Value ?? "Invitado";
+
+                <li class="nav-item dropdown ms-auto">
+                    <a class="nav-link dropdown-toggle"
+                       href="#"
+                       id="navbarUserDropdown"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Bienvenido, @fullName
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserDropdown">
+                        <li class="dropdown-item text-muted">Rol: @roleName</li>
+                        <li>
+                            <form asp-controller="Account"
+                                  asp-action="Logout"
+                                  method="post"
+                                  class="dropdown-item p-0">
+                                @Html.AntiForgeryToken()
+                                <button type="submit"
+                                        class="logout-btn w-100 text-start">
+                                    👋 Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            }
+        </ul>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</header>
+
+    <main role="main" class="pb-3 w-100" data-aos="fade-up">
+        @RenderBody()
+    </main>
+
+    @if (ViewBag.HideFooter == null || ViewBag.HideFooter == false)
+    {
+        <footer class="custom-footer mt-auto">
+            <div class="container">
+                <div class="row text-start">
+                    <div class="col-md-3">
+                        <div class="footer-logo">PACHO-<span style="color:#a1f49b">Asistente</span><span>.</span></div>
+                        <p>Reinventamos el campo colombiano con el  diagnostico de enfermedades en cultivos empleando técnicas de inteligencia artificial y nuestra red de expertos asociados.</p>
+                    </div>
+                    <div class="col-md-2">
+                        <h5>Servicios</h5>
+                        <p><a asp-controller="Home" asp-action="BotPresentation">Preguntale a Pacho</a></p>
+                    </div>
+                    <div class="col-md-2">
+                        <h5>Nuestro Equipo</h5>
+                        <p><a asp-controller="Home" asp-action="OurTeam">Quiénes Somos</a></p>
+                    </div>
+                    <div class="col-md-2">
+                        <h5>Legal</h5>
+                        <p><a href="#">Términos de Servicio</a></p>
+                        <p><a href="#">Política de Privacidad</a></p>
+                    </div>
+                    <div class="col-md-3">
+                        <h5>Contáctanos</h5>
+                        <p><i class="fas fa-envelope"></i> pachoasistente@gmail.com</p>
+                        <p><i class="fas fa-phone"></i> +57 3136632135</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Carrera 2 Sur #1A-09, Facatativá</p>
+                        <p class="mt-3">
+                            <a href="#" class="me-3"><i class="fab fa-linkedin fa-lg"></i></a>
+                            <a href="#" class="me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                            <a href="#" class="me-3"><i class="fab fa-github fa-lg"></i></a>
+                            <a href="#"><i class="fab fa-facebook fa-lg"></i></a>
+                        </p>
+                    </div>
+                </div>
+                <div class="footer-bottom mt-4">
+                    <div>&copy; 2025 Pacho | Asistente . Todos los derechos reservados.</div>
+                    <div>
+                        <a href="#" class="me-3">Mapa del sitio</a>
+                        <a href="#" class="me-3">Cookies</a>
+                        <a href="#">Accesibilidad</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    }
+
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/jquery-ui/dist/jquery-ui.min.js"></script>
+    <script src="/lib/jquery-validation/jquery.validate.min.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const header = document.querySelector('.professional-header');
+            window.addEventListener('scroll', () => {
+                header.style.background = window.scrollY > 50
+                    ? 'rgba(255,255,255,0.95)'
+                    : 'rgba(255,255,255,0.98)';
+                header.style.boxShadow = window.scrollY > 50
+                    ? '0 4px 25px rgba(0,0,0,0.15)'
+                    : '0 2px 20px rgba(0,0,0,0.1)';
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor =>
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const offset = header.offsetHeight + 20;
+                        window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+                        const menu = document.getElementById('mobileMenu');
+                        if (menu.classList.contains('active')) toggleMobileMenu();
+                    }
+                })
+            );
+
+            AOS.init();
+        });
+
+        function toggleMobileMenu() {
+            const menu = document.querySelector('.nav-menu');
+            const icon = document.querySelector('.mobile-menu-toggle i');
+
+            menu.classList.toggle('active');
+            icon.className = menu.classList.contains('active')
+                ? 'fas fa-times' // cambia a “X” cuando se abre
+                : 'fas fa-bars'; // vuelve al ícono de menú
+        }
+    </script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

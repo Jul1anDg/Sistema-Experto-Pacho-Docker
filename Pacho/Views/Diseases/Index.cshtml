@@ -1,0 +1,163 @@
+
+@model IEnumerable<Pacho.Models.Disease>
+
+@{
+    ViewData["Title"] = "Gestión de Enfermedades Agrícolas";
+    var totalEnfermedades = Model.Count();
+    var enfermedadesActivas = Model.Count(d => d.Asset);
+    var tratamientoTotal = Model.Sum(d => d.TreatmentsTotal);
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="~/css/Diseases/Index.css">
+
+<div class="main-container" data-aos="fade-down">
+    <div class="dashboard-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="mb-1">Gestión de Enfermedades Agrícolas</h2>
+                <p class="mb-0">Monitoreo y control de patologías en cultivos</p>
+            </div>
+            <a asp-action="Create" class="btn btn-success">
+                <i class="fas fa-plus me-2"></i>Nuevo Registro
+            </a>
+        </div>
+    </div>
+
+    <div class="row" data-aos="fade-up">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-content">
+                    <i class="fas fa-bug stat-icon"></i>
+                    <div class="stat-value">@totalEnfermedades</div>
+                </div>
+                <div class="stat-label">Total Enfermedades</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-content">
+                    <i class="fas fa-check-circle stat-icon"></i>
+                    <div class="stat-value">@enfermedadesActivas</div>
+                </div>
+                <div class="stat-label">Enfermedades Activas</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-content">
+                    <i class="fas fa-prescription-bottle-alt stat-icon"></i>
+                    <div class="stat-value">@tratamientoTotal</div>
+                </div>
+                <div class="stat-label">Total Tratamientos</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-container" data-aos="fade-up">
+        <div class="position-relative">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="form-control search-input" placeholder="Buscar por síntoma..." id="symptomSearch">
+        </div>
+    </div>
+
+    <div class="table-container" data-aos="fade-up">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nombre Científico</th>
+                        <th>Nombre Común</th>
+                        <th>Estado</th>
+                        <th>Tratamientos</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr data-aos="fade-right" class="disease-row" data-symptoms="@item.Symptoms.ToLower()">
+                                <td>@item.ScientificName</td>
+                                <td>@item.CommonName</td>
+                                <td>
+                                    @if (item.Asset)
+                                    {
+                                        <span class="badge-status badge-active">
+                                            <i class="fas fa-circle me-1" style="font-size: 0.5rem;"></i> Activo
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-status badge-inactive">
+                                            <i class="fas fa-circle me-1" style="font-size: 0.5rem;"></i> Inactivo
+                                        </span>
+                                    }
+                                </td>
+                                <td>
+                                    <i class="fas fa-prescription-bottle-alt me-1" style="color: var(--accent-green);"></i>
+                                    @item.TreatmentsTotal
+                                </td>
+                                <td>
+                                    <div class="d-flex">
+                                        <a asp-action="Edit" asp-route-id="@item.IdDisease" class="btn btn-sm btn-edit action-btn" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.IdDisease" class="btn btn-sm btn-view action-btn" title="Detalles">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.IdDisease" class="btn btn-sm btn-delete action-btn" title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="empty-state">
+                                <i class="fas fa-seedling empty-icon"></i>
+                                <h4 class="empty-text">No se encontraron enfermedades registradas</h4>
+                                <a asp-action="Create" class="btn btn-success">
+                                    <i class="fas fa-plus-circle me-2"></i>Agregar primera enfermedad
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 600,
+            easing: 'ease-out-quad',
+            once: true
+        });
+
+        // Función de búsqueda por síntoma
+        document.getElementById('symptomSearch').addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('.disease-row');
+
+            rows.forEach(row => {
+                const symptoms = row.getAttribute('data-symptoms');
+                if (symptoms.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+}

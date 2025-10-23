@@ -1,0 +1,161 @@
+﻿@{
+    ViewData["Title"] = "Resultado de Evaluación"; 
+}
+<link rel="stylesheet" href="~/css/ExpertTest/Result.css">
+<div class="test-result-container">
+    <div class="result-header">
+        <h1 class="result-title">Resultado de tu Evaluación</h1>
+        <p class="result-subtitle">Prueba de Conocimientos Agrícolas</p>
+    </div>
+    
+    <!-- Resultado Principal -->
+    <div class="main-result-grid">
+        <!-- Primera Columna: Estado de Evaluación -->
+        <div class="status-section">
+            <div class="result-status @(Model.TestGrade >= 60 ? "status-pass" : "status-fail")">
+                @if (Model.TestGrade >= 60)
+                {
+                    <div class="status-icon icon-pass">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2 class="status-title">¡Evaluación Aprobada!</h2>
+                    <p class="status-description">
+                        Has demostrado tus conocimientos satisfactoriamente. 
+                        Ahora tienes acceso completo a todas las funcionalidades 
+                        avanzadas de la plataforma como experto verificado.
+                    </p>
+                }
+                else
+                {
+                    <div class="status-icon icon-fail">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <h2 class="status-title">Evaluación No Aprobada</h2>
+                    <p class="status-description">
+                        No se alcanzó el puntaje mínimo requerido. 
+                        Puedes volver a intentarlo cuando desees para mejorar tu calificación.
+                    </p>
+                }
+            </div>
+        </div>
+        
+        <!-- Segunda Columna: Gráfico de Calificación -->
+        <div class="score-section">
+            <div class="score-circle">
+                <div class="score-ring" style="--percentage: @Model.TestGrade;">
+                    <div class="score-number">
+                        @Model.TestGrade<span class="score-symbol">%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="score-label">Calificación Final</div>
+        </div>
+        
+        <!-- Tercera Columna: Resumen de Evaluación -->
+        <div class="summary-section">
+            <h3 class="summary-title">Resumen de Evaluación</h3>
+            <div class="summary-stats">
+                <div class="summary-item">
+                    <div class="summary-icon">
+                        <i class="fas fa-target"></i>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-value">60%</div>
+                        <div class="summary-label">Puntaje mínimo</div>
+                    </div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="summary-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-value">@DateTime.Now.ToString("dd/MM")</div>
+                        <div class="summary-label">Fecha completada</div>
+                    </div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="summary-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-value">@(Model.TestGrade >= 60 ? "ACTIVO" : "RESTRINGIDO")</div>
+                        <div class="summary-label">Estado de acceso</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Botón de Acción -->
+    <div class="action-buttons">
+        <a href="@Url.Action("Index", "Home")" class="btn-primary-custom">
+            <i class="fas fa-home"></i>
+            Volver al Inicio
+        </a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Obtener datos del modelo
+        const testGrade = @Model.TestGrade;
+        
+        const scoreRing = document.querySelector('.score-ring');
+        const scoreNumber = document.querySelector('.score-number');
+        
+        // Animación del círculo de progreso
+        scoreRing.style.setProperty('--percentage', '0');
+        
+        setTimeout(() => {
+            scoreRing.style.transition = 'background 2s ease-out';
+            scoreRing.style.setProperty('--percentage', testGrade.toString());
+            
+            // Animación del número
+            animateNumber(scoreNumber, 0, testGrade, 2000);
+        }, 500);
+        
+        // Función para animar números
+        function animateNumber(element, start, end, duration) {
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.innerHTML = Math.floor(current) + '<span class="score-symbol">%</span>';
+            }, 16);
+        }
+        
+        // Animación de aparición para las estadísticas del resumen
+        const summaryItems = document.querySelectorAll('.summary-item');
+        summaryItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-20px)';
+            
+            setTimeout(() => {
+                item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                item.style.opacity = '1';
+                item.style.transform = 'translateX(0)';
+            }, 1000 + (index * 150));
+        });
+        
+        // Animación para la tarjeta de estadística detallada
+        const statCard = document.querySelector('.stat-card');
+        if (statCard) {
+            statCard.style.opacity = '0';
+            statCard.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                statCard.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                statCard.style.opacity = '1';
+                statCard.style.transform = 'translateY(0)';
+            }, 1500);
+        }
+    });
+</script>

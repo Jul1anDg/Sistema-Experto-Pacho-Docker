@@ -1,0 +1,28 @@
+# Archivos sensibles
+.env
+*.env
+.env.*
+!*.env.example
+
+# Visual Studio / .NET
+bin/
+obj/
+.vscode/
+.idea/
+
+# Python (bot)
+__pycache__/
+*.py[cod]
+venv/
+.env/
+.venv/
+
+# Docker
+docker-data/
+mssql-data/
+volumes/
+
+# Otros
+*.log
+*.tmp
+*.bak

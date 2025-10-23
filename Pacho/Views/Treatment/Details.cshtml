@@ -1,0 +1,177 @@
+﻿@model Pacho.Models.Treatment
+@{
+    ViewData["Title"] = "Detalles del Tratamiento Agrícola";
+}
+<link rel="stylesheet" href="~/css/Treatment/Details.css">
+<div class="treatment-detail-container">
+    <div class="detail-header">
+        <div class="header-icon">
+            <i class="fas fa-file-medical"></i>
+        </div>
+        <div class="header-titles">
+            <h1>@ViewData["Title"]</h1>
+            <p>Información detallada sobre el tratamiento agrícola</p>
+        </div>
+    </div>
+
+    <div class="detail-card">
+        <div class="detail-body">
+            <div class="detail-grid">
+                <!-- Información Básica -->
+                <div class="detail-section">
+                    <h3><i class="fas fa-info-circle"></i> Información Básica</h3>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">
+                            <i class="fas fa-disease"></i> Enfermedad/Plaga
+                        </div>
+                        <div class="detail-value">
+                            @if (!string.IsNullOrEmpty(Model.Disease?.CommonName))
+                            {
+                                @Model.Disease.CommonName
+                            }
+                            else
+                            {
+                                <span class="empty">No especificado</span>
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">
+                            <i class="fas fa-tag"></i> Tipo de Tratamiento
+                        </div>
+                        <div class="detail-value">@Model.TreatmentType</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">
+                            <i class="far fa-calendar-alt"></i> Fecha de Creación
+                        </div>
+                        <div class="detail-value">@Model.CreationDate.ToString("g")</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">
+                            <i class="fas fa-clock"></i> Días para Mejoría
+                        </div>
+                        <div class="detail-value">
+                            @if (Model.DiasMejoriaVisual > 0)
+                            {
+                                @Model.DiasMejoriaVisual
+                            }
+                            else
+                            {
+                                <span class="empty">No especificado</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Detalles de Aplicación -->
+                <div class="detail-section">
+                    <h3><i class="fas fa-flask"></i> Detalles de Aplicación</h3>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">
+                            <i class="fas fa-prescription-bottle-alt"></i> Productos Recomendados
+                        </div>
+                        <div class="detail-value">
+                            @if (!string.IsNullOrEmpty(Model.RecommendedProducts))
+                            {
+                                @Model.RecommendedProducts
+                            }
+                            else
+                            {
+                                <span class="empty">No especificados</span>
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">
+                            <i class="fas fa-redo"></i> Frecuencia
+                        </div>
+                        <div class="detail-value">
+                            @if (!string.IsNullOrEmpty(Model.Frequency))
+                            {
+                                @Model.Frequency
+                            }
+                            else
+                            {
+                                <span class="empty">No especificada</span>
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">
+                            <i class="fas fa-exclamation-triangle"></i> Precauciones
+                        </div>
+                        <div class="detail-value">
+                            @if (!string.IsNullOrEmpty(Model.Precautions))
+                            {
+                                @Model.Precautions
+                            }
+                            else
+                            {
+                                <span class="empty">No especificadas</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Descripción y Condiciones -->
+            <div class="detail-grid">
+                <div class="detail-section">
+                    <h3><i class="fas fa-file-alt"></i> Descripción</h3>
+                    <div class="detail-value">
+                        @if (!string.IsNullOrEmpty(Model.Description))
+                        {
+                            @Model.Description
+                        }
+                        else
+                        {
+                            <span class="empty">No hay descripción disponible</span>
+                        }
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3><i class="fas fa-cloud-sun"></i> Condiciones Climáticas</h3>
+                    <div class="detail-value">
+                        @if (!string.IsNullOrEmpty(Model.WeatherConditions))
+                        {
+                            @Model.WeatherConditions
+                        }
+                        else
+                        {
+                            <span class="empty">No especificadas</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3><i class="fas fa-cloud-sun"></i> Entorno </h3>
+                    <div class="detail-value">
+                        <dd>
+                            @(Model.Environment == 1 ? "Hidroponía" :
+                                Model.Environment == 2 ? "Sustrato" : "-")
+                        </dd>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Botones de Acción con el nuevo estilo -->
+            <div class="action-buttons">
+                <a asp-action="Edit" asp-route-id="@Model.IdTreatment" class="btn-primary">
+                    <i class="fas fa-edit"></i> Editar Tratamiento
+                </a>
+                <a asp-action="Index" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver al Listado
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

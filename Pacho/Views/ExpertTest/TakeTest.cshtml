@@ -1,0 +1,158 @@
+﻿@model List<Pacho.Models.Question>
+@{
+    ViewData["Title"] = "Prueba de Aptitud para Expertos";
+}
+<link rel="stylesheet" href="~/css/ExpertTest/TakeTest.css">
+<div class="test-wrapper">
+    <div class="grid-background"></div>
+
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-header">
+            <h1>Prueba de Aptitud para <span>Expertos Agrícolas</span></h1>
+            <p>Demuestra tus conocimientos y únete a nuestra red de especialistas</p>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class="progress-container">
+            <div class="progress-bar-custom" id="progressBar" style="width: 0%">
+                 0 de @Model.Count preguntas
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <form asp-action="SubmitTest" method="post" id="testForm">
+            @Html.AntiForgeryToken()
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var question = Model[i];
+                <div class="question-card" id="question_@question.Id">
+                    <div class="question-text">
+                        <span class="question-number">@(i + 1)</span>
+                        @question.QuestionText
+                    </div>
+                    <div class="answers-container">
+                        @foreach (var answer in question.Answers)
+                        {
+                            <div class="answer-option" onclick="selectAnswer(this, '@question.Id', '@answer.Id')">
+                                <div class="form-check">
+                                    <input type="radio"
+                                           name="respuestas[@question.Id]"
+                                           value="@answer.Id"
+                                           class="form-check-input"
+                                           id="respuesta_@answer.Id" />
+                                    <label class="form-check-label" for="respuesta_@answer.Id">
+                                        @answer.AnswerText
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="submit-container">
+                <button type="button" class="btn-submit-test" onclick="showConfirmModal()">
+                    <i class="fas fa-paper-plane"></i>
+                    Enviar Prueba
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de confirmación -->
+<div class="modal-backdrop-custom" id="confirmModal">
+    <div class="modal-content-custom">
+        <h3 style="color: var(--pacho-dark); margin-bottom: 1rem;">¿Estás seguro?</h3>
+        <p style="color: #666; margin-bottom: 2rem;">
+            Una vez enviada la prueba no podrás cambiar tus respuestas.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <button type="button" class="btn-submit-test" style="background: #6c757d;" onclick="hideConfirmModal()">
+                Revisar respuestas
+            </button>
+            <button type="button" class="btn-submit-test" onclick="submitTest()">
+                Confirmar envío
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let answeredQuestions = new Set();
+        const totalQuestions = @Model.Count;
+
+        // Selección de respuestas
+        function selectAnswer(element, questionId, answerId) {
+            // Remover selección previa
+            const questionCard = document.getElementById(`question_${questionId}`);
+            questionCard.querySelectorAll('.answer-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+
+            // Marcar nueva selección
+            element.classList.add('selected');
+            document.getElementById(`respuesta_${answerId}`).checked = true;
+
+            // Marcar pregunta como respondida
+            questionCard.classList.add('answered');
+            answeredQuestions.add(questionId);
+
+            // Actualizar progreso
+            updateProgress();
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const percentage = (answeredQuestions.size / totalQuestions) * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = `${answeredQuestions.size} de ${totalQuestions} preguntas`;
+        }
+
+        // Mostrar modal de confirmación
+        function showConfirmModal() {
+            if (answeredQuestions.size < totalQuestions) {
+                alert(`Debes responder todas las preguntas. Te faltan ${totalQuestions - answeredQuestions.size} preguntas.`);
+                return;
+            }
+            document.getElementById('confirmModal').classList.add('show');
+        }
+
+        // Ocultar modal
+        function hideConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('show');
+        }
+
+        // Enviar test
+        function submitTest() {
+            document.getElementById('testForm').submit();
+        }
+
+        // Prevenir envío accidental del formulario
+        document.getElementById('testForm').addEventListener('submit', function (e) {
+            if (!confirm('¿Estás seguro de enviar la prueba?')) {
+                e.preventDefault();
+            }
+        });
+
+        // Animación al hacer scroll
+        window.addEventListener('scroll', function () {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.grid-background');
+            parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+    </script>
+}

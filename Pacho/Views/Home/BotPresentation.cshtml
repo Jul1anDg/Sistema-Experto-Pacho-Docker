@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PACHO-Asistente | Transforma tu agricultura</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/Home/Bot.css">
+</head>
+<body>
+    <div class="pacho-view-container">
+        <div class="grid-background" aria-hidden="true"></div>
+        <div id="particles-js" aria-hidden="true"></div>
+
+        <!-- Personaje Pacho -->
+        <div class="pacho-character">
+            <img src="https://res.cloudinary.com/dhe88z7gf/image/upload/v1755830111/Pacho.png" alt="Pacho">
+        </div>
+
+
+        <div class="pacho-content">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>¡Transforma tu agricultura con PACHO-Asistente!</h1>
+                    <p>Tecnología de punta y detección acertada en tiempo real para maximizar tu producción y optimizar tus recursos agrícolas</p>
+
+                    <a href="https://t.me/PachoAsistenteBot" class="telegram-link" target="_blank" rel="noopener">
+                        <i class="fab fa-telegram-plane"></i>
+                        Comenzar en Telegram
+                    </a>
+
+                    <div class="quick-questions" style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;">
+                        <button class="question-btn" data-question="¿Cómo detectar plagas?" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:#fff;padding:.45rem .85rem;border-radius:16px;font-size:.85rem;cursor:pointer;transition:all .2s ease;">¿Cómo detectar plagas?</button>
+                        <button class="question-btn" data-question="¿Cuándo debo regar?" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:#fff;padding:.45rem .85rem;border-radius:16px;font-size:.85rem;cursor:pointer;transition:all .2s ease;">¿Cuándo debo regar?</button>
+                        <button class="question-btn" data-question="Recomendaciones de fertilizantes" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:#fff;padding:.45rem .85rem;border-radius:16px;font-size:.85rem;cursor:pointer;transition:all .2s ease;">Recomendaciones de fertilizantes</button>
+                    </div>
+                </div>
+
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-avatar">
+                            <img src="https://res.cloudinary.com/dhe88z7gf/image/upload/v1755830111/Pacho.png" alt="PACHO" id="bot-avatar" />
+                        </div>
+                        <div class="chat-header-info">
+                            <h3>PACHO-Asistente</h3>
+                            <p>En línea</p>
+                        </div>
+                    </div>
+
+                    <div class="chat-messages" id="chat-messages" aria-live="polite"></div>
+
+                    <div class="chat-input">
+                        <input type="text" placeholder="Escribe un mensaje..." id="user-input" aria-label="Mensaje para PACHO-Asistente" />
+                        <button id="send-btn" aria-label="Enviar mensaje">
+                            <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Partículas -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+    
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 40, density: { enable: true, value_area: 800 } },
+                color: { value: "#a8d8a8" },
+                shape: { type: "circle" },
+                opacity: { value: .6, random: true },
+                size: { value: 4, random: true },
+                line_linked: { enable: false },
+                move: { enable: true, speed: 1.4, random: true, out_mode: "out", bounce: false }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: { onhover: { enable: true, mode: "bubble" }, onclick: { enable: true, mode: "push" } },
+                modes: { bubble: { distance: 110, size: 6, duration: 2, opacity: .85, speed: 3 }, push: { particles_nb: 4 } }
+            }
+        });
+
+        // --- Chat simulado  ---
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const questionBtns = document.querySelectorAll('.question-btn');
+        const pachoCharacter = document.getElementById('pacho-character');
+
+        const botResponses = [
+            "Hola! Soy PACHO-Asistente, ¿en qué puedo ayudarte hoy con tu agricultura?",
+            "Puedo ayudarte a identificar plagas en tus cultivos mediante imágenes que me envíes.",
+            "Para optimizar el riego, revisa los niveles de humedad del suelo regularmente.",
+            "He analizado tu imagen y parece ser el hongo X. Te recomiendo aplicar Y tratamiento.",
+            "¿Te envío más información sobre prevención de plagas?",
+            "Recuerda que el mejor momento para fertilizar suele ser con buena humedad en el sustrato.",
+            "Tus plantas podrían requerir más nitrógeno. Evalúa un fertilizante NPK balanceado.",
+            "La rotación de cultivos favorece el control de patógenos y mejora el suelo.",
+            "Una temperatura ideal para tus cultivos está entre 20°C y 25°C durante el día.",
+            "Riega temprano en la mañana o al atardecer para reducir evaporación."
+        ];
+
+        function addMessage(text, isUser = false) {
+            const node = document.createElement('div');
+            node.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            node.textContent = text;
+            // micro-delay para activar animación de entrada
+            node.style.willChange = 'transform, opacity, filter';
+            chatMessages.appendChild(node);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            if (!isUser) {
+                // micro reacción del personaje
+                pachoCharacter.style.transform = 'translateY(-4px) scale(1.02)';
+                setTimeout(() => { pachoCharacter.style.transform = ''; }, 220);
+            }
+        }
+
+        function showTyping() {
+            const typing = document.createElement('div');
+            typing.className = 'typing-indicator';
+            typing.id = 'typing-indicator';
+            typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+            chatMessages.appendChild(typing);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        function hideTyping() {
+            const t = document.getElementById('typing-indicator');
+            if (t) t.remove();
+        }
+
+        function handleSend() {
+            const msg = userInput.value.trim();
+            if (!msg) return;
+            addMessage(msg, true);
+            userInput.value = '';
+            showTyping();
+            setTimeout(() => {
+                hideTyping();
+                const reply = botResponses[Math.floor(Math.random() * botResponses.length)];
+                addMessage(reply);
+            }, 1200 + Math.random() * 800);
+        }
+
+        sendBtn.addEventListener('click', handleSend);
+        userInput.addEventListener('keypress', e => { if (e.key === 'Enter') handleSend(); });
+        questionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const q = btn.getAttribute('data-question');
+                addMessage(q, true);
+                showTyping();
+                setTimeout(() => {
+                    hideTyping();
+                    let resp = "";
+                    if (q.includes("plagas")) {
+                        resp = "Envíame una foto clara de las hojas afectadas (anverso y reverso). Puedo detectar áfidos, hongos comunes y daños típicos.";
+                    } else if (q.includes("regar")) {
+                        resp = "Depende del sustrato y clima. Como guía, riegos moderados 2-3 veces/semana evitando encharcar; usa la humedad del sustrato como referencia.";
+                    } else if (q.includes("fertilizantes")) {
+                        resp = "Comienza con materia orgánica estabilizada. Para precisión, dime el cultivo y etapa fenológica y te doy una pauta NPK.";
+                    } else {
+                        resp = botResponses[Math.floor(Math.random() * botResponses.length)];
+                    }
+                    addMessage(resp);
+                }, 1100);
+            });
+        });
+
+        // Mensajes de bienvenida
+        setTimeout(() => addMessage("¡Hola! Soy PACHO-Asistente, tu compañero en agricultura inteligente 🌱"), 600);
+        setTimeout(() => addMessage("Te ayudo a identificar plagas, optimizar riego y mejorar tus cultivos. ¿En qué te apoyo?"), 2000);
+    </script>
+</body>
+</html>

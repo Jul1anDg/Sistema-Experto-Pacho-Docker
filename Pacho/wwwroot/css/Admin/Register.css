@@ -1,0 +1,628 @@
+﻿
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #2d5a27 0%, #1a3317 100%);
+}
+    body.no-footer footer {
+        display: none !important;
+    }
+:root {
+    --pacho-primary: #4a7c59;
+    --pacho-secondary: #6b8e5a;
+    --pacho-light: #8fbc5e;
+    --pacho-dark: #2d5a27;
+    --pacho-bg: #f8fdf6;
+    --pacho-accent: #a8d8a8;
+    --gradient-primary: linear-gradient(135deg, var(--accent-green) 0%, var(--secondary-green) 100%);
+    --shadow-light: 0 4px 16px rgba(45, 90, 39, 0.08);
+    --shadow-medium: 0 8px 24px rgba(45, 90, 39, 0.12);
+    --shadow-strong: 0 12px 32px rgba(45, 90, 39, 0.15);
+}
+
+
+.expert-registration-page {
+    background: linear-gradient(135deg, #2d5a27 0%, #1a3317 100%);
+    min-height: calc(100vh - 120px);
+    position: relative;
+    overflow: hidden;
+    padding: 2rem 0;
+}
+
+
+.grid-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: moveGrid 20s linear infinite;
+    z-index: 1;
+}
+
+@keyframes moveGrid {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(50px, 50px);
+    }
+}
+
+/* Contenedor de partículas */
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 2;
+}
+
+
+.particle {
+    position: absolute;
+    background: #6fb346;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: floatParticle 15s infinite ease-in-out;
+}
+
+    .particle:nth-child(1) {
+        width: 8px;
+        height: 8px;
+        left: 10%;
+        top: 20%;
+        animation-delay: 0s;
+        animation-duration: 20s;
+    }
+
+    .particle:nth-child(2) {
+        width: 6px;
+        height: 6px;
+        left: 20%;
+        top: 80%;
+        animation-delay: 2s;
+        animation-duration: 25s;
+    }
+
+    .particle:nth-child(3) {
+        width: 10px;
+        height: 10px;
+        left: 30%;
+        top: 50%;
+        animation-delay: 4s;
+        animation-duration: 18s;
+    }
+
+    .particle:nth-child(4) {
+        width: 5px;
+        height: 5px;
+        left: 40%;
+        top: 30%;
+        animation-delay: 1s;
+        animation-duration: 22s;
+    }
+
+    .particle:nth-child(5) {
+        width: 12px;
+        height: 12px;
+        left: 50%;
+        top: 70%;
+        animation-delay: 3s;
+        animation-duration: 19s;
+    }
+
+    .particle:nth-child(6) {
+        width: 7px;
+        height: 7px;
+        left: 60%;
+        top: 10%;
+        animation-delay: 5s;
+        animation-duration: 24s;
+    }
+
+    .particle:nth-child(7) {
+        width: 9px;
+        height: 9px;
+        left: 70%;
+        top: 40%;
+        animation-delay: 2.5s;
+        animation-duration: 21s;
+    }
+
+    .particle:nth-child(8) {
+        width: 4px;
+        height: 4px;
+        left: 80%;
+        top: 60%;
+        animation-delay: 4.5s;
+        animation-duration: 23s;
+    }
+
+    .particle:nth-child(9) {
+        width: 11px;
+        height: 11px;
+        left: 90%;
+        top: 25%;
+        animation-delay: 1.5s;
+        animation-duration: 20s;
+    }
+
+    .particle:nth-child(10) {
+        width: 6px;
+        height: 6px;
+        left: 85%;
+        top: 85%;
+        animation-delay: 3.5s;
+        animation-duration: 26s;
+    }
+
+@keyframes floatParticle {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.3;
+    }
+
+    25% {
+        transform: translate(30px, -30px) scale(1.1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translate(-20px, 20px) scale(0.9);
+        opacity: 0.4;
+    }
+
+    75% {
+        transform: translate(40px, 10px) scale(1.05);
+        opacity: 0.6;
+    }
+}
+
+.registration-content {
+    position: relative;
+    z-index: 10;
+    width: 100vw; 
+    margin: 0; 
+    padding: 0 4rem; 
+    box-sizing: border-box; 
+}
+
+.hero-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: white;
+}
+
+    .hero-header h2 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 1.0rem;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana,  sans-serif;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        line-height: 0.8;
+    }
+
+        .hero-header h2 span {
+            color: var(--pacho-light);
+        }
+
+    .hero-header p {
+        font-size: 1.3rem;
+        opacity: 0.9;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.4;
+    }
+
+/* Card del formulario */
+.registration-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+    .registration-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, var(--pacho-accent) 0%, transparent 70%);
+        opacity: 0.05;
+        animation: rotate 30s linear infinite;
+    }
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Formulario */
+.form-section-title {
+    color: var(--pacho-dark);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--pacho-light);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+    .form-section-title i {
+        color: var(--pacho-primary);
+        font-size: 1.1rem;
+    }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    position: relative;
+}
+
+    .form-group.full-width {
+        grid-column: span 2;
+    }
+
+.form-label {
+    display: block;
+    color: var(--pacho-dark);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-control, .form-select {
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+    font-family: inherit;
+}
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--pacho-primary);
+        box-shadow: 0 0 0 4px rgba(74, 124, 89, 0.15);
+        background-color: white;
+        outline: none;
+    }
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--pacho-secondary);
+    font-size: 1.1rem;
+}
+
+.form-control.with-icon {
+    padding-left: 45px;
+}
+
+.password-strength {
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 3px;
+    margin-top: 0.75rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.password-strength-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--gradient-primary);
+    transition: width 0.3s ease;
+    border-radius: 3px;
+}
+
+.password-requirements {
+    margin-top: 0.75rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.5rem;
+}
+
+.requirement {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+    .requirement i {
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+    }
+
+    .requirement.valid {
+        color: var(--pacho-primary);
+        font-weight: 500;
+    }
+
+        .requirement.valid i {
+            color: var(--pacho-primary);
+        }
+
+.btn-submit {
+    width: 100%;
+    padding: 1.25rem 2rem;
+    background:var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 30px rgba(74, 124, 89, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+}
+
+    .btn-submit::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        transition: left 0.5s ease;
+    }
+
+    .btn-submit:hover::before {
+        left: 100%;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 40px rgba(74, 124, 89, 0.4);
+    }
+
+    .btn-submit:active {
+        transform: translateY(-1px);
+    }
+
+/* Éxito */
+.success-container {
+    background: linear-gradient(135deg, var(--pacho-dark) 0%, var(--pacho-accent) 100%);
+    border-radius: 20px;
+    padding: 4rem 3rem;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(74, 124, 89, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+    .success-container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+        animation: rotate 20s linear infinite reverse;
+    }
+
+.success-icon {
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    font-size: 3rem;
+    color: var(--pacho-primary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+    animation: bounceIn 0.6s ease;
+}
+
+.success-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.success-message {
+    font-size: 1.2rem;
+    color: white;
+    max-width: 500px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+.success-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-secondary {
+    padding: 1rem 2rem;
+    color: white;
+    background:var(--gradient-primary) !important;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        color: white;
+    }
+
+.form-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--pacho-secondary);
+}
+
+    .form-hint i {
+        font-size: 0.9rem;
+    }   
+
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@media (max-width: 768px) {
+   .hero-header h2 {
+        font-size: 2.5rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group {
+        grid-column: span 1 !important;
+    }
+
+    .password-requirements {
+        grid-template-columns: 1fr;
+    }
+
+    .registration-card {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-header h2 {
+        font-size: 2rem;
+    }
+
+    .hero-header p {
+        font-size: 1.1rem;
+    }
+
+    .registration-card {
+        padding: 1.5rem;
+    }
+}
+/* ===========================
+   🔹 Ajuste ancho total en móviles
+   =========================== */
+@media (max-width: 768px) {
+    .registration-card {
+        width: 92% !important;
+        max-width: none;
+        margin: 0 auto;
+        border-radius: 16px;
+        padding: 1.8rem 1.2rem;
+    }
+
+    .registration-content {
+        padding: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .registration-card {
+        width: 96% !important;
+        padding: 1.5rem 1rem;
+        border-radius: 14px;
+    }
+
+    .hero-header h2 {
+        font-size: 1.7rem;
+    }
+
+    .hero-header p {
+        font-size: 1rem;
+        padding: 0 0.5rem;
+    }
+}

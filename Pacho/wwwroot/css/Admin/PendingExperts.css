@@ -1,0 +1,416 @@
+﻿
+.chip-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 36px;
+    background: var(--secondary-green,#4a7c59);
+    box-shadow: 0 4px 10px rgba(0,0,0,.12)
+}
+
+    .chip-icon i {
+        color: #fff !important;
+        font-size: 16px
+    }
+
+.chip-sm {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px
+}
+
+
+.stats-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px
+}
+
+    .stats-row .stat-card {
+        min-width: 200px
+    }
+
+    .stats-row::-webkit-scrollbar {
+        height: 8px
+    }
+
+    .stats-row::-webkit-scrollbar-thumb {
+        background: #dfe8df;
+        border-radius: 999px
+    }
+
+.stat-card .stat-icon {
+    background: #4a7c59
+}
+
+    .stat-card .stat-icon i {
+        color: #fff
+    }
+
+
+.pacho-table-wrap {
+    overflow-x: auto
+}
+
+table.pacho-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0
+}
+
+.pacho-table thead th {
+    background: #2f5d46;
+    color: #fff;
+    font-weight: 800;
+    padding: .65rem .8rem;
+    border: 0
+}
+
+.pacho-table tbody tr {
+    background: #fff;
+    transition: background .12s ease
+}
+
+    .pacho-table tbody tr:hover {
+        background: #f8fbf8
+    }
+
+.pacho-table td {
+    padding: .55rem .7rem;
+    vertical-align: middle;
+    border-top: 1px solid #e7eee8;
+    font-size: .9rem
+}
+
+.marker {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #6fb346;
+    display: inline-block;
+    margin-right: .55rem;
+    box-shadow: 0 0 0 2px #e8f2ea inset
+}
+
+.pacho-name {
+    font-weight: 700;
+    color: #243a2b
+}
+
+.text-muted-slim {
+    color: #5d6a60;
+    font-size: .85rem
+}
+
+.truncate {
+    max-width: 280px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .2rem .5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: .78rem;
+    border: 1px solid #e3ebe4;
+    background: #f9fbf9;
+    color: #2f6f45
+}
+
+    .pill.aprob {
+        background: #eaf6ff;
+        color: #135f8a;
+        border-color: #d7eaf8
+    }
+
+    .pill.reprob {
+        background: #fdecec;
+        color: #a32626;
+        border-color: #f6d3d3
+    }
+
+    .pill.pend {
+        background: #fff6e5;
+        color: #8a5a00;
+        border-color: #ffe6bd
+    }
+
+
+.badge-status {
+    padding: .18rem .45rem;
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 800
+}
+
+.badge-on {
+    background: #e6f7ec;
+    color: #2e7d32
+}
+
+.badge-off {
+    background: #eef1f4;
+    color: #5e6a75
+}
+
+
+.actions-cell {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap
+}
+
+.btn-compact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+
+}
+    .btn-compact p {
+        font-size: .8rem;
+        color: #fff !important;
+    }
+
+    .btn-compact span {
+        white-space: nowrap;
+    }
+    .btn-compact i {
+        font-size: .8rem;
+        color: #fff !important;
+    }
+
+.btn-prim {
+    background: linear-gradient(135deg,#6fb346,#4a7c59)
+}
+
+.btn-dangerP {
+    background: #c03b3b
+}
+
+.btn-infoP {
+    background: #1679a6
+}
+
+.btn-accent {
+    background: #3b6b53
+}
+.btn-compact.btn-dangerP {
+    background: #c0392b;
+    color: #fff;
+}
+
+    .btn-compact.btn-dangerP:hover {
+        background: #e74c3c;
+    }
+
+@media (max-width:576px) {
+    .btn-compact span {
+        display: none
+    }
+
+    .btn-compact {
+        min-width: 32px;
+        padding: 0 .4rem
+    }
+}
+/* ====== FORZAR LAYOUT FLUIDO EN MOVIL ====== */
+@media (max-width: 992px) {
+    .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl,
+    .container-fluid {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .page-title, .section-header {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+/* ====== ESTADÍSTICAS: CARRUSEL HORIZONTAL ====== */
+.stats-row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 12px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 6px 2px 10px !important;
+    scroll-snap-type: x mandatory;
+}
+
+    .stats-row::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .stats-row::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,.15);
+        border-radius: 6px;
+    }
+
+    .stats-row .stat-card {
+        min-width: 220px !important;
+        scroll-snap-align: start;
+        border-radius: 14px !important;
+        box-shadow: 0 8px 18px rgba(0,0,0,.06);
+    }
+
+.stat-card .stat-value,
+.stat-card h3 {
+    font-size: 1.35rem !important;
+    line-height: 1.1;
+    font-weight: 800;
+}
+
+.stat-card .stat-label,
+.stat-card p {
+    font-size: .85rem !important;
+    opacity: .9;
+    margin-bottom: 0;
+}
+
+/* (Opcional) barra sticky para stats */
+.stats-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: linear-gradient(#ffffff, #ffffffd8);
+    backdrop-filter: blur(3px);
+    padding: 6px 0;
+    border-bottom: 1px solid #eef3ef;
+}
+
+/* ====== TABLA -> TARJETAS EN MOVIL ====== */
+@media (max-width: 768px) {
+    .pacho-table-wrap {
+        overflow: visible !important;
+    }
+
+    .pacho-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .pacho-table thead {
+            display: none !important;
+        }
+
+        .pacho-table, .pacho-table tbody, .pacho-table tr, .pacho-table td {
+            display: block !important;
+            width: 100% !important;
+        }
+
+            .pacho-table tbody tr {
+                background: #fff;
+                border: 1px solid #e7eee8;
+                border-radius: 14px;
+                padding: .7rem .85rem;
+                margin-bottom: 12px;
+                box-shadow: 0 6px 14px rgba(0,0,0,.05);
+            }
+
+            .pacho-table td {
+                border: 0 !important;
+                padding: .38rem 0 !important;
+                font-size: .95rem;
+            }
+
+                /* Etiqueta de cada campo sacada de data-label */
+                .pacho-table td::before {
+                    content: attr(data-label);
+                    display: block;
+                    font-weight: 700;
+                    color: #243a2b;
+                    margin-bottom: 2px;
+                    font-size: .8rem;
+                    opacity: .85;
+                }
+
+    /* Nombre más notorio */
+    .pacho-name {
+        font-size: 1.02rem !important;
+        font-weight: 700;
+    }
+
+    /* Truncados más cortos en XS */
+    .truncate {
+        max-width: 200px;
+    }
+
+    /* Acciones en bloque al final */
+    .actions-cell {
+        display: flex;
+        gap: 8px;
+        margin-top: 6px;
+        justify-content: flex-start;
+    }
+}
+
+/* ====== BOTONES COMPACTOS EN TELÉFONO ====== */
+@media (max-width: 576px) {
+    .btn-compact {
+        min-width: 36px;
+        height: 34px;
+        border-radius: 10px;
+        padding: 0 .5rem;
+    }
+
+        .btn-compact i {
+            font-size: .95rem;
+        }
+
+        .btn-compact span {
+            display: none;
+        }
+    /* solo ícono en XS */
+}
+
+/* ====== PASTILLAS Y MARCADORES EN MOVIL ====== */
+@media (max-width: 576px) {
+    .pill {
+        padding: .18rem .45rem;
+        font-size: .75rem;
+    }
+
+    .marker {
+        width: 8px;
+        height: 8px;
+        margin-right: .45rem;
+    }
+}
+
+.actions-cell {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem; /* espacio entre botones */
+    flex-wrap: wrap; /* se ajusta bien en pantallas pequeñas */
+}
+
+    .actions-cell form.inline-form {
+        display: inline-flex;
+        margin: 0;
+    }
+

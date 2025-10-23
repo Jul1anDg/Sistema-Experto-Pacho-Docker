@@ -1,0 +1,221 @@
+﻿@model IEnumerable<Pacho.Models.Question>
+@{
+    ViewData["Title"] = "Gestión de Preguntas - PACHO Asistente";
+}
+<link rel="stylesheet" href="~/css/Questions/Index.css">
+<div class="container-fluid py-4">
+    <!-- Header con branding PACHO -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="pacho-header">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="pacho-logo me-3">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div>
+                        <h2 class="pacho-title mb-0">PACHO-Asistente</h2>
+                        <p class="pacho-subtitle mb-0">Gestión de Preguntas del Sistema</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estadísticas generales -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>@Model.Count()</h3>
+                    <p>Total Preguntas</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-list"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>@Model.Sum(q => q.Answers.Count)</h3>
+                    <p>Total Respuestas</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>@Model.Sum(q => q.Answers.Count(a => a.IsCorrect))</h3>
+                    <p>Respuestas Correctas</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>@(Model.Any() ? Model.Max(q => q.Order) : 0)</h3>
+                    <p>Último Orden</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjeta principal -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card pacho-card shadow-lg">
+                <div class="card-header pacho-card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <h4 class="mb-0 text-white">Preguntas del Sistema</h4>
+                                <small class="text-white-50">Agricultura Inteligente</small>
+                            </div>
+                        </div>
+                        <a asp-action="Create" class="btn btn-pacho-light btn-lg">
+                            <i class="fas fa-plus me-2"></i>
+                            Nueva Pregunta
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success border-0 m-3" role="alert">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle me-2 fs-5"></i>
+                                <div>
+                                    <strong>¡Éxito!</strong> @TempData["SuccessMessage"]
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger border-0 m-3" role="alert">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-exclamation-circle me-2 fs-5"></i>
+                                <div>
+                                    <strong>Error:</strong> @TempData["ErrorMessage"]
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.Any())
+                    {
+                        <div class="questions-list">
+                            @foreach (var question in Model)
+                            {
+                                <div class="question-item">
+                                    <div class="question-order">
+                                        <span class="order-badge">@question.Order</span>
+                                    </div>
+                                    
+                                    <div class="question-content flex-grow-1">
+                                        <div class="question-text">
+                                            <h6 class="mb-2">
+                                                @if (question.QuestionText.Length > 120)
+                                                {
+                                                    @(question.QuestionText.Substring(0, 120) + "...")
+                                                }
+                                                else
+                                                {
+                                                    @question.QuestionText
+                                                }
+                                            </h6>
+                                        </div>
+                                        
+                                        <div class="question-meta">
+                                            <span class="meta-item">
+                                                <i class="fas fa-calendar text-muted me-1"></i>
+                                                @question.CreatedAt.ToString("dd/MM/yyyy")
+                                            </span>
+                                            <span class="meta-item">
+                                                <i class="fas fa-list text-info me-1"></i>
+                                                @question.Answers.Count respuestas
+                                            </span>
+                                            <span class="meta-item">
+                                                <i class="fas fa-check text-success me-1"></i>
+                                                @question.Answers.Count(a => a.IsCorrect) correctas
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question-actions">
+                                        <div class="btn-group-vertical" role="group">
+                                            <a asp-action="Details" asp-route-id="@question.Id" 
+                                               class="btn btn-outline-pacho btn-sm" 
+                                               title="Ver detalles">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a asp-action="Edit" asp-route-id="@question.Id" 
+                                               class="btn btn-outline-warning btn-sm" 
+                                               title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@question.Id" 
+                                               class="btn btn-outline-danger btn-sm" 
+                                               title="Eliminar">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <h4>¡Comienza tu huerto de conocimiento!</h4>
+                            <p class="text-muted mb-4">
+                                No hay preguntas registradas aún. Crea la primera pregunta para comenzar 
+                                a construir la base de conocimiento de PACHO-Asistente.
+                            </p>
+                            <a asp-action="Create" class="btn btn-pacho btn-lg">
+                                <i class="fas fa-plus me-2"></i>
+                                Crear Primera Pregunta
+                            </a>
+                        </div>
+                    }
+                </div>
+
+                @if (Model.Any())
+                {
+                    <div class="card-footer pacho-card-footer">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <small class="text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Gestiona el conocimiento de tu asistente agrícola
+                                </small>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <small class="text-muted">
+                                    <i class="fas fa-seedling me-1"></i>
+                                    PACHO-Asistente • Agricultura Inteligente
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,204 @@
+﻿
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.professional-header {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+header, .header-container {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+    /* Evita que Bootstrap meta espacio con .container o .row */
+    header .container,
+    header .row {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+main {
+    margin-top: 0;
+    padding-top: 0;
+}
+/* Logo: grupo (icono + textos) */
+.logo-section {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    gap: 10px;
+}
+
+.logo-text {
+    display: block;
+}
+
+.brand-name {
+    font-weight: 800;
+}
+
+/* Menú principal (desktop): fila */
+.nav-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 10px;
+}
+
+/* Botón hamburguesa: oculto en desktop */
+.mobile-menu-toggle {
+    display: none;
+    background: transparent;
+    border: 0;
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+/* ====== BREAKPOINTS ====== */
+
+/* Tablets y abajo */
+@media (max-width: 991.98px) {
+    /* Mostrar botón hamburguesa */
+    .mobile-menu-toggle {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* El menú por defecto se oculta en móvil, 
+     y se vuelve "panel" debajo del header */
+    .nav-menu {
+        /* vencer a .d-flex de Bootstrap */
+        display: none !important;
+        position: absolute;
+        top: 100%; /* justo debajo del header */
+        left: 0;
+        right: 0;
+        z-index: 999;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0 !important;
+        background: #fff;
+        padding: 10px 0;
+        margin: 0;
+        box-shadow: 0 8px 24px rgba(0,0,0,.12);
+        border-top: 1px solid rgba(0,0,0,.06);
+    }
+
+        /* Cuando el JS agrega .active, se muestra */
+        .nav-menu.active {
+            display: flex !important;
+        }
+
+        /* Ítems a ancho completo, clicables fácilmente */
+        .nav-menu .nav-item {
+            width: 100%;
+        }
+
+        .nav-menu .nav-link,
+        .nav-menu .dropdown-toggle {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            font-weight: 500;
+        }
+
+        /* Dropdowns: en móvil se muestran en flujo (columna) */
+        .nav-menu .dropdown-menu {
+            position: static !important; /* quita posicionamiento absoluto */
+            float: none !important;
+            transform: none !important;
+            display: none;
+            border: 0;
+            border-top: 1px solid rgba(0,0,0,.06);
+            border-radius: 0;
+            padding: 8px 0;
+            margin: 0;
+            box-shadow: none;
+        }
+            /* Cuando Bootstrap marca .show en el <li> o en el menú, lo mostramos */
+            .nav-menu .dropdown.show .dropdown-menu,
+            .nav-menu .dropdown-menu.show {
+                display: block;
+            }
+
+        .nav-menu .dropdown-item {
+            padding: 10px 20px;
+        }
+
+    /* Compactar logo y ocultar tagline en móvil para ganar espacio */
+    .logo-text .brand-tagline {
+        display: none;
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 575.98px) {
+    .header-container {
+        padding: 8px 12px;
+        gap: 10px;
+    }
+
+    /* Ajustes de tipografía */
+    .brand-name {
+        font-size: 1rem;
+    }
+
+    /* Footer en columnas apiladas */
+    .custom-footer .row > [class*="col-"] {
+        margin-bottom: 1rem;
+    }
+
+    .custom-footer .row,
+    .custom-footer .footer-bottom {
+        text-align: center;
+    }
+
+    .custom-footer .footer-bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+/* Opcional: que el <main> no quede tapado por el header sticky */
+@media (max-width: 991.98px) {
+    main[role="main"] {
+        padding-top: 6px;
+    }
+}
+/* =========================================
+   🔧 FIX ESPACIO BAJO EL NAVBAR (HEADER)
+   ========================================= */
+
+/* Altura base del header */
+:root {
+    --navbar-height-desktop: 80px;
+    --navbar-height-mobile: 65px;
+}
+
+/* Añadir espacio bajo el header para que no tape el contenido */
+main[role="main"],
+main,
+section.page-content,
+.container-body {
+    margin-top: var(--navbar-height-desktop) !important;
+    padding-top: 10px !important;
+    transition: margin-top 0.3s ease;
+}
+
+/* En móviles el header es más pequeño */
+@media (max-width: 991.98px) {
+    main[role="main"],
+    main,
+    section.page-content,
+    .container-body {
+        margin-top: var(--navbar-height-mobile) !important;
+    }
+}
+

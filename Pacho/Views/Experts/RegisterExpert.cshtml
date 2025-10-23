@@ -1,0 +1,286 @@
+﻿@model Pacho.Models.ExpertRegistrationViewModel
+@{
+    ViewData["Title"] = "Registro como Experto";
+    
+}
+<link rel="stylesheet" href="~/css/Admin/Register.css">
+<body class="no-footer">
+<div class="expert-registration-page">
+    <div class="grid-background"></div>
+    <div class="particles-container">
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    </div>
+
+    <style>
+        
+        .input-with-icon { position: relative; }
+        .with-icon { padding-left: 42px; }
+        .input-icon {
+            position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+            opacity: .75;
+        }
+        .form-hint { display:flex; align-items:center; gap:6px; color:#6c7a71; font-size:.9rem; margin-top:.25rem }
+        .password-strength{ height:8px; background:#eef4ef; border-radius:999px; overflow:hidden; margin-top:.5rem }
+        .password-strength-bar{ height:100%; width:0%; transition:width .25s ease }
+        .password-requirements{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.5rem .75rem; margin-top:.5rem }
+        .password-requirements .requirement{ display:flex; align-items:center; gap:.45rem; color:#6c7a71; font-size:.9rem }
+        .password-requirements .requirement.valid{ color:#2e7d32; font-weight:600 }
+        .password-toggle{ background:none; border:none; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--pacho-secondary); cursor:pointer }
+        .capslock-hint{ display:none; margin-top:.25rem; color:#a15b00; font-size:.85rem }
+        .capslock-hint.on{ display:flex; align-items:center; gap:6px }
+        .validation-summary{ margin-bottom:1rem }
+        .btn-submit{ display:inline-flex; align-items:center; gap:.5rem }
+         @@media (max-width: 768px){
+            .password-requirements{ grid-template-columns:1fr; }
+        }
+    </style>
+
+    <div class="registration-content">
+        @if (ViewBag.SolicitudEnviada != null && (bool)ViewBag.SolicitudEnviada)
+        {
+            <div class="success-container fade-in-up">
+                <div class="success-icon"><i class="fas fa-check"></i></div>
+                <h2 class="success-title">¡Solicitud Enviada!</h2>
+                <p class="success-message">
+                    Tu registro como experto agrícola ha sido recibido exitosamente.
+                    Nuestro equipo habilitará tu prueba de aptitud para ser evaluado.
+                </p>
+                <div class="success-actions">
+                    <a href="/" class="btn-secondary"><i class="fas fa-home"></i> Volver al inicio</a>
+                    <a href="/Home/BotPresentation" class="btn-secondary"><i class="fas fa-robot"></i> Conocer a Pacho</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="hero-header fade-in-up">
+                <h2>¡Transforma la agricultura con <span>PACHO-Asistente</span>!</h2>
+                <p>Únete a nuestra red de expertos y ayuda a revolucionar el campo colombiano con tecnología de punta</p>
+            </div>
+
+            <div class="registration-card fade-in-up">
+                <form asp-action="RegisterExpert" method="post" id="registrationForm" novalidate>
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger validation-summary"></div>
+
+                    <!-- Información Personal -->
+                    <h3 class="form-section-title">
+                        <i class="fas fa-user-circle"></i> Información Personal
+                    </h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label asp-for="Name" class="form-label">Nombre</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user input-icon"></i>
+                                <input asp-for="Name" class="form-control with-icon"
+                                       placeholder="Tu nombre"
+                                       autocomplete="given-name" />
+                            </div>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="LastName" class="form-label">Apellido</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user-tag input-icon"></i>
+                                <input asp-for="LastName" class="form-control with-icon"
+                                       placeholder="Tu apellido"
+                                       autocomplete="family-name" />
+                            </div>
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Información de Cuenta -->
+                    <h3 class="form-section-title">
+                        <i class="fas fa-shield-alt"></i> Información de Cuenta
+                    </h3>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label asp-for="Email" class="form-label">Correo electrónico</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input asp-for="Email" type="email" class="form-control with-icon"
+                                       placeholder="correo@ejemplo.com"
+                                       autocomplete="email" />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label asp-for="Phone" class="form-label">Teléfono móvil</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-phone input-icon"></i>
+                                <input asp-for="Phone" class="form-control with-icon"
+                                       placeholder="+57 300 1234567"
+                                       inputmode="tel" autocomplete="tel" />
+                            </div>
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label asp-for="Password" class="form-label">Contraseña</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input asp-for="Password" type="password" class="form-control with-icon"
+                                       id="passwordInput" placeholder="Crea una contraseña segura"
+                                       autocomplete="new-password" />
+                                <button type="button" class="password-toggle" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+
+                            <div class="password-strength">
+                                <div class="password-strength-bar" id="passwordStrength"></div>
+                            </div>
+
+                            <div class="password-requirements" aria-live="polite">
+                                <div class="requirement" id="lengthReq">
+                                    <i class="fas fa-circle"></i><span>Mínimo 8 caracteres</span>
+                                </div>
+                                <div class="requirement" id="numberReq">
+                                    <i class="fas fa-circle"></i><span>Al menos 1 número</span>
+                                </div>
+                                <div class="requirement" id="specialReq">
+                                    <i class="fas fa-circle"></i><span>1 carácter especial</span>
+                                </div>
+                            </div>
+
+                            <div id="capslockHint" class="capslock-hint">
+                                <i class="fas fa-lock"></i> Tienes Bloq Mayús activado.
+                            </div>
+
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Experiencia Profesional -->
+                    <h3 class="form-section-title">
+                        <i class="fas fa-briefcase"></i> Experiencia Profesional
+                    </h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label asp-for="ExperienceType" class="form-label">Área de especialización</label>
+                            <select asp-for="ExperienceType"
+                                    class="form-select"
+                                    asp-items="ViewBag.ExperienceTypes">
+                                <option value="">Selecciona tu especialidad</option>
+                            </select>
+                            <span asp-validation-for="ExperienceType" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label asp-for="ExperienceYears" class="form-label">Años de experiencia</label>
+                            <input asp-for="ExperienceYears" type="number" class="form-control"
+                                   placeholder="Ej: 5" min="0" max="50" inputmode="numeric" />
+                            <div class="form-hint"><i class="fas fa-info-circle"></i><span>Experiencia profesional en el área</span></div>
+                            <span asp-validation-for="ExperienceYears" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-seedling"></i> REGISTRARME COMO EXPERTO
+                    </button>
+                </form>
+            </div>
+        }
+    </div>
+</div>
+</body>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function checkSpecialChars(password) {
+            const specialCharacters = '!@@#$%^&*()_+-=[]{};\':"|,.<>/?';
+            for (let i = 0; i < password.length; i++) {
+                if (specialCharacters.indexOf(password[i]) !== -1) return true;
+            }
+            return false;
+        }
+
+        // Visibilidad de contraseña
+        const toggleBtn = document.getElementById('togglePassword');
+        const pwdInput = document.getElementById('passwordInput');
+        const strengthBar = document.getElementById('passwordStrength');
+        const lengthReq = document.getElementById('lengthReq');
+        const numberReq = document.getElementById('numberReq');
+        const specialReq = document.getElementById('specialReq');
+        const capslockHint = document.getElementById('capslockHint');
+
+        toggleBtn.addEventListener('click', function () {
+            const type = pwdInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            pwdInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+
+        
+        ['keydown', 'keyup'].forEach(evt => {
+            pwdInput.addEventListener(evt, (e) => {
+                const on = e.getModifierState && e.getModifierState('CapsLock');
+                capslockHint.classList.toggle('on', !!on);
+            });
+        });
+
+        // Contraseña minima
+        pwdInput.addEventListener('input', function () {
+            const password = this.value;
+            let strength = 0;
+
+            lengthReq.classList.remove('valid');
+            numberReq.classList.remove('valid');
+            specialReq.classList.remove('valid');
+
+            if (password.length >= 8) {
+                strength += 33;
+                lengthReq.classList.add('valid');
+                lengthReq.innerHTML = '<i class="fas fa-check-circle"></i> <span>Mínimo 8 caracteres</span>';
+            } else {
+                lengthReq.innerHTML = '<i class="fas fa-circle"></i> <span>Mínimo 8 caracteres</span>';
+            }
+
+            if (/\d/.test(password)) {
+                strength += 33;
+                numberReq.classList.add('valid');
+                numberReq.innerHTML = '<i class="fas fa-check-circle"></i> <span>Al menos 1 número</span>';
+            } else {
+                numberReq.innerHTML = '<i class="fas fa-circle"></i> <span>Al menos 1 número</span>';
+            }
+
+            if (checkSpecialChars(password)) {
+                strength += 34;
+                specialReq.classList.add('valid');
+                specialReq.innerHTML = '<i class="fas fa-check-circle"></i> <span>1 carácter especial</span>';
+            } else {
+                specialReq.innerHTML = '<i class="fas fa-circle"></i> <span>1 carácter especial</span>';
+            }
+
+            strengthBar.style.width = strength + '%';
+            if (strength < 40) {
+                strengthBar.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+            } else if (strength < 70) {
+                strengthBar.style.background = 'linear-gradient(135deg, #f39c12, #e67e22)';
+            } else {
+                strengthBar.style.background = 'var(--gradient-primary)';
+            }
+        });
+
+        // Envío 
+        document.getElementById('registrationForm').addEventListener('submit', function () {
+            const submitBtn = this.querySelector('.btn-submit');
+            submitBtn.dataset.original = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESANDO...';
+            submitBtn.disabled = true;
+            // El backend/validación client restablecerá si hay errores
+            setTimeout(() => { submitBtn.disabled = false; submitBtn.innerHTML = submitBtn.dataset.original; }, 8000);
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('fade-in-up'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.form-section-title').forEach(el => observer.observe(el));
+    </script>
+}

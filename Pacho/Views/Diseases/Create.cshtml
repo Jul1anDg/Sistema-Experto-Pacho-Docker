@@ -1,0 +1,221 @@
+@model Pacho.Models.Disease
+
+@{
+    ViewData["Title"] = "Registrar Nueva Enfermedad";
+}
+<link rel="stylesheet" href="~/css/Diseases/Create.css">
+<div class="form-container" data-aos="fade-up">
+    <div class="form-header">
+        <i class="fas fa-seedling"></i>
+        <div class="form-header-content">
+            <h2>@ViewData["Title"]</h2>
+            <p>Complete todos los campos para registrar una nueva enfermedad agrícola</p>
+        </div>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="validation-summary">
+            <h5 class="mb-3"><i class="fas fa-exclamation-triangle me-2"></i>Corrija los siguientes errores:</h5>
+            <div asp-validation-summary="All" class="mb-0 text-danger"></div>
+        </div>
+    }
+
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="form-sections-container">
+            <!-- Información Básica -->
+            <div class="form-section section-basic">
+                <div class="form-section-title">
+                    <i class="fas fa-microscope"></i>
+                    <span>Información Básica</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" asp-for="ScientificName">
+                        <i class="fas fa-dna"></i>
+                        <span>Nombre Científico</span>
+                    </label>
+                    <input asp-for="ScientificName" class="form-control" placeholder="Ej: Phytophthora infestans" />
+                    <span asp-validation-for="ScientificName" class="text-danger field-validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" asp-for="CommonName">
+                        <i class="fas fa-tag"></i>
+                        <span>Nombre Común</span>
+                    </label>
+                    <input asp-for="CommonName" class="form-control" placeholder="Ej: Tizón tardío de la papa" />
+                    <span asp-validation-for="CommonName" class="text-danger field-validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" asp-for="Description">
+                        <i class="fas fa-align-left"></i>
+                        <span>Descripción</span>
+                    </label>
+                    <textarea asp-for="Description" class="form-control" placeholder="Describa las características principales de la enfermedad"></textarea>
+                    <span asp-validation-for="Description" class="text-danger field-validation-error"></span>
+                </div>
+            </div>
+
+            <!-- Detalles Clínicos -->
+            <div class="form-section section-details">
+                <div class="form-section-title">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Detalles Clínicos</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" asp-for="Symptoms">
+                        <i class="fas fa-diagnoses"></i>
+                        <span>Síntomas</span>
+                    </label>
+                    <textarea asp-for="Symptoms" class="form-control" placeholder="Describa los síntomas visibles en las plantas"></textarea>
+                    <span asp-validation-for="Symptoms" class="text-danger field-validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" asp-for="Conditions">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span>Condiciones</span>
+                    </label>
+                    <textarea asp-for="Conditions" class="form-control" placeholder="Describa las condiciones que favorecen su desarrollo"></textarea>
+                    <span asp-validation-for="Conditions" class="text-danger field-validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-image"></i>
+                        <span>Imagen de Referencia</span>
+                    </label>
+                    <div class="file-upload-container" id="uploadZone">
+                        <div class="file-upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h5>Arrastre o haga clic para seleccionar una imagen</h5>
+                        <p class="text-muted small">Formatos aceptados: JPG, PNG (Máx. 5MB)</p>
+
+                        <input type="file" name="imageFile" id="imageFile" class="file-upload-input"
+                               accept=".jpg,.jpeg,.png" required style="display:none;" />
+
+                        <div id="fileName" class="file-name"></div>
+                        <span class="text-danger field-validation-error" id="fileError"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-toggle-on"></i>
+                        <span>Estado</span>
+                    </label>
+                    <div class="select-status">
+                        <label class="status-option @(Model.Asset ? "active" : "")">
+                            <input type="radio" asp-for="Asset" value="true" />
+                            <i class="fas fa-check-circle"></i> Activo
+                        </label>
+                        <label class="status-option @(!Model.Asset ? "active" : "")">
+                            <input type="radio" asp-for="Asset" value="false" />
+                            <i class="fas fa-times-circle"></i> Inactivo
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a asp-action="Index" class="btn-cancel">
+                <i class="fas fa-arrow-left"></i> Cancelar
+            </a>
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-save"></i> Guardar Enfermedad
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+ 
+        AOS.init({
+            duration: 600,
+            easing: 'ease-out-quad',
+            once: true
+        });
+
+        // CLICK en contenedor -> activa input file oculto
+        document.getElementById("uploadZone").addEventListener("click", function () {
+            document.getElementById("imageFile").click();
+        });
+
+        // Mostrar nombre del archivo seleccionado
+        document.getElementById('imageFile').addEventListener('change', function () {
+            const fileName = this.files[0]?.name || 'Ningún archivo seleccionado';
+            document.getElementById('fileName').textContent = fileName;
+            document.getElementById('fileError').textContent = '';
+        });
+
+        // Validación del archivo antes de enviar el formulario
+        document.querySelector("form").addEventListener("submit", function (e) {
+            const fileInput = document.getElementById("imageFile");
+            const allowedExtensions = [".jpg", ".jpeg", ".png"];
+            const fileName = fileInput.value.toLowerCase();
+            const isValid = allowedExtensions.some(ext => fileName.endsWith(ext));
+
+            if (!isValid && fileInput.files.length > 0) {
+                e.preventDefault();
+                document.getElementById("fileError").textContent = "Solo se permiten archivos JPG, JPEG o PNG";
+            } else if (fileInput.files.length === 0) {
+                e.preventDefault();
+                document.getElementById("fileError").textContent = "Debe seleccionar una imagen";
+            }
+        });
+
+     
+        document.querySelectorAll('.status-option').forEach(option => {
+            option.addEventListener('click', function () {
+                document.querySelectorAll('.status-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                this.classList.add('active');
+                const radio = this.querySelector('input[type="radio"]');
+                if (radio) {
+                    radio.checked = true;
+                }
+            });
+        });
+
+        // Drag & Drop funcionalidad
+        const fileUploadContainer = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('imageFile');
+
+        fileUploadContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadContainer.style.backgroundColor = 'var(--very-light-green)';
+            fileUploadContainer.style.borderColor = 'var(--secondary-green)';
+        });
+
+        fileUploadContainer.addEventListener('dragleave', () => {
+            fileUploadContainer.style.backgroundColor = 'white';
+            fileUploadContainer.style.borderColor = 'var(--accent-green)';
+        });
+
+        fileUploadContainer.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadContainer.style.backgroundColor = 'white';
+            fileUploadContainer.style.borderColor = 'var(--accent-green)';
+
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                const fileName = fileInput.files[0]?.name || 'Ningún archivo seleccionado';
+                document.getElementById('fileName').textContent = fileName;
+                document.getElementById('fileError').textContent = '';
+            }
+        });
+    </script>
+}

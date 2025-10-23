@@ -1,0 +1,167 @@
+﻿@model Pacho.Models.Expert
+@{
+    ViewData["Title"] = "Detalle del Experto - PACHO Asistente";
+    var activo = (Model.User.Status ?? 0) == 1;
+    var test = (Model.TestState ?? "").Trim().ToLower();
+}
+<link rel="stylesheet" href="~/css/Questions/Index.css">
+<link rel="stylesheet" href="~/css/Admin/DetailsExpert.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="container-fluid py-4">
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="pacho-header">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="pacho-logo me-3"><i class="fas fa-user-tie"></i></div>
+                    <div>
+                        <h2 class="pacho-title mb-0">PACHO-Asistente</h2>
+                        <p class="pacho-subtitle mb-0">Detalle del Experto</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjeta principal -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card pacho-card shadow-lg">
+                <!-- Header de la tarjeta con acciones -->
+                <div class="card-header pacho-card-header">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex flex-column">
+                                <h4 class="mb-0 text-white">@Model.User.Name @Model.User.LastName</h4>
+                                <small class="text-white-50">@Model.User.Email</small>
+                            </div>
+                            <span class="badge-status @(activo ? "badge-on" : "badge-off")">
+                                @(activo ? "Activo" : "Inactivo")
+                            </span>
+                            @{
+                                var pillClass = test.Contains("aprob") ? "aprob"
+                                             : test.Contains("reprob") ? "reprob"
+                                             : test.Contains("pend") ? "pend" : "";
+                            }
+                            <span class="pill @pillClass">
+                                <i class="fas fa-tag"></i> @Model.TestState
+                            </span>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2">
+                            <a asp-action="ViewAnswers" asp-controller="Admin" asp-route-id="@Model.IdExpert"
+                               class="btn-compact btn-infoP" title="Ver respuestas del test">
+                                <i class="fas fa-list-check"></i> Respuestas
+                            </a>
+
+                            <a asp-controller="Admin" asp-action="PendingExperts" class="btn-compact btn-lightP" title="Volver">
+                                <i class="fas fa-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cuerpo -->
+                <div class="card-body">
+                    <div class="kv">
+                        <div class="item" style="grid-column: span 6;">
+                            <p class="label">Nombre completo</p>
+                            <p class="value">@Model.User.Name @Model.User.LastName</p>
+                        </div>
+
+                        <div class="item" style="grid-column: span 6;">
+                            <p class="label">Email</p>
+                            <p class="value">@Model.User.Email</p>
+                        </div>
+
+                        <div class="item" style="grid-column: span 3;">
+                            <p class="label">Estado de Acceso (raw)</p>
+                            <p class="value">@Model.User.Status</p>
+                        </div>
+
+                        <div class="item" style="grid-column: span 3;">
+                            <p class="label">Estado de Acceso</p>
+                            <p class="value">@(activo ? "Activo" : "Inactivo")</p>var
+                        </div>
+
+                        <div class="item" style="grid-column: span 3;">
+                            <p class="label">Estado de prueba</p>
+                            <p class="value">@Model.TestState</p>
+                        </div>
+
+                        <div class="item" style="grid-column: span 3;">
+                            <p class="label">Fecha de aprobación</p>
+                            <p class="value">@Model.ApprovalDate?.ToString("dd/MM/yyyy")</p>
+                        </div>
+
+                        <div class="item" style="grid-column: span 6;">
+                            <p class="label">Tipo de experiencia</p>
+                            <p class="value">@Model.ExperienceType</p>
+                        </div>
+
+                        <div class="item" style="grid-column: span 3;">
+                            <p class="label">Años de experiencia</p>
+                            <p class="value">@Model.ExperienceYears</p>
+                        </div>
+
+                        <div class="item" style="grid-column: span 3;">
+                            <p class="label">Tratamientos registrados</p>
+                            <p class="value">@Model.TreatmentsTotal</p>
+                        </div>
+
+                        <div class="item" style="grid-column: span 6;">
+                            <p class="label">Nota de prueba</p>
+                            <div class="score">
+                                @{
+                                    var grade = Model.TestGrade ?? 0;
+                                    var pct = Math.Clamp(grade, 0, 100);
+                                }
+                                <div class="score-bar">
+                                    <div class="score-fill" style="width:@pct%"></div>
+                                </div>
+                                <span class="score-badge">@grade</span>
+                            </div>
+                        </div>
+
+                        <div class="item" style="grid-column: span 6;">
+                            <p class="label">Confianza/Plataforma</p>
+                            <p class="value">
+                                @if (Model.PlatformGrade.HasValue)
+                                {
+                                    @($"{Model.PlatformGrade:F2}")
+                                }
+                                else
+                                {
+                                    @:—
+                                }
+                                @if (!string.IsNullOrWhiteSpace(Model.ConfidenceLevel))
+                                {
+                                    @($" • {Model.ConfidenceLevel}")
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer pacho-card-footer">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Revisa el estado y la información clave del experto
+                            </small>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <small class="text-muted">
+                                <i class="fas fa-seedling me-1"></i>
+                                PACHO-Asistente • Agricultura Inteligente
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+            </div> 
+        </div>
+    </div>
+</div>

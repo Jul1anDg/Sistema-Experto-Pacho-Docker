@@ -1,0 +1,196 @@
+﻿:root {
+    --primary-green: #2d5a27;
+    --secondary-green: #4a7c59;
+    --accent-green: #6fb346;
+    --light-green: #a8d8a8;
+    --very-light-green: #f0f8f0;
+    --dark-green: #1a3a1a;
+    --emerald: #50c878;
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow-primary: rgba(45, 90, 39, 0.15);
+    --gradient-primary: linear-gradient(135deg, var(--accent-green) 0%, var(--secondary-green) 100%);
+    --gradient-hero: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+    --error-red: #e74c3c;
+    --error-light: #fadbd8;
+}
+
+.delete-treatment-container {
+    background: var(--white);
+    width: 100% !important;
+    min-height: calc(100vh - 150px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.treatment-card {
+    background: var(--gradient-primary);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 1400px;
+    color: var(--white);
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+    .card-header h2 {
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+        color: var(--white);
+    }
+
+    .card-header p {
+        color: var(--light-green);
+        font-size: 1.1rem;
+    }
+
+.alert.alert-warning {
+    background: rgba(255, 255, 255, 0.15);
+    border-left: 4px solid var(--error-red);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+    .alert.alert-warning::before {
+        content: '\f071';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        font-size: 2rem;
+        color: var(--error-red);
+        margin-right: 1rem;
+    }
+
+    .alert.alert-warning p {
+        color: var(--white);
+        font-size: 1.1rem;
+        margin: 0;
+    }
+
+.card.mb-4 {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(5px);
+}
+
+.card-body {
+    padding: 0;
+}
+
+.card-title {
+    font-size: 1.4rem;
+    color: var(--light-green);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.card-text {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+    .card-text strong {
+        min-width: 120px;
+        color: var(--white);
+        font-weight: 500;
+    }
+
+.treatment-form {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-danger {
+    background: var(--error-red);
+    color: var(--white);
+}
+
+    .btn-danger:hover {
+        background: #c0392b;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+    }
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    }
+
+.ms-2 {
+    margin-left: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .delete-treatment-container {
+        padding: 1.5rem;
+    }
+
+    .treatment-card {
+        padding: 1.5rem;
+    }
+
+    .card-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .treatment-form {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .ms-2 {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    .card-text {
+        flex-direction: column;
+    }
+
+        .card-text strong {
+            margin-bottom: 0.3rem;
+        }
+}

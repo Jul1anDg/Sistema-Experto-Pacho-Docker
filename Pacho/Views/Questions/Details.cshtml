@@ -1,0 +1,379 @@
+﻿@model Pacho.Models.Question
+@{
+    ViewData["Title"] = "Detalles de la Pregunta #" + Model.Order + " - PACHO Asistente";
+}
+<link rel="stylesheet" href="~/css/Questions/Details.css">
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card pacho-card shadow-lg">
+                <div class="card-header pacho-card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-eye me-3 fs-4" style="color: white;"></i>
+                            <div>
+                                <h4 class="mb-0 text-white">Detalles de la Pregunta #@Model.Order</h4>
+                                <small class="text-white-50">PACHO-Asistente • Agricultura Inteligente</small>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-pacho-light me-2">
+                                <i class="fas fa-edit me-2"></i>
+                                Editar
+                            </a>
+                            <a asp-action="Index" class="btn btn-pacho-light">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Volver
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <!-- Información principal de la pregunta -->
+                    <div class="question-header p-4 border-bottom">
+                        <div class="row align-items-center">
+                            <div class="col-md-1">
+                                <div class="order-badge-large">
+                                    @Model.Order
+                                </div>
+                            </div>
+                            <div class="col-md-11">
+                                <div class="question-content">
+                                    <h5 class="question-text mb-3">@Model.QuestionText</h5>
+                                    <div class="question-meta">
+                                        <span class="meta-badge">
+                                            <i class="fas fa-calendar text-info me-1"></i>
+                                            Creada: @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                                        </span>
+                                        <span class="meta-badge">
+                                            <i class="fas fa-list text-primary me-1"></i>
+                                            @Model.Answers.Count respuestas
+                                        </span>
+                                        <span class="meta-badge">
+                                            <i class="fas fa-check text-success me-1"></i>
+                                            @Model.Answers.Count(a => a.IsCorrect) correctas
+                                        </span>
+                                        <span class="meta-badge">
+                                            <i class="fas fa-times text-danger me-1"></i>
+                                            @Model.Answers.Count(a => !a.IsCorrect) incorrectas
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estadísticas de la pregunta -->
+                    <div class="stats-section p-4 bg-light border-bottom">
+                        <h6 class="mb-3">
+                            <i class="fas fa-chart-bar me-2"></i>
+                            Estadísticas de la Pregunta
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="stat-box">
+                                    <div class="stat-icon bg-primary">
+                                        <i class="fas fa-list"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <h4>@Model.Answers.Count</h4>
+                                        <p>Total Respuestas</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-box">
+                                    <div class="stat-icon bg-success">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <h4>@Model.Answers.Count(a => a.IsCorrect)</h4>
+                                        <p>Correctas</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-box">
+                                    <div class="stat-icon bg-danger">
+                                        <i class="fas fa-times"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <h4>@Model.Answers.Count(a => !a.IsCorrect)</h4>
+                                        <p>Incorrectas</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-box">
+                                    <div class="stat-icon bg-warning">
+                                        <i class="fas fa-percentage"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <h4>@(Model.Answers.Count > 0 ? Math.Round((double)Model.Answers.Count(a => a.IsCorrect) / Model.Answers.Count * 100, 1) : 0)%</h4>
+                                        <p>Precisión</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lista de respuestas -->
+                    <div class="answers-section p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h6 class="mb-0">
+                                <i class="fas fa-list-ul me-2"></i>
+                                Respuestas de la Pregunta (@Model.Answers.Count)
+                            </h6>
+                            <div class="view-toggles">
+                                <button type="button" class="btn btn-sm btn-outline-secondary active" id="listViewBtn">
+                                    <i class="fas fa-list"></i> Lista
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" id="cardViewBtn">
+                                    <i class="fas fa-th-large"></i> Cards
+                                </button>
+                            </div>
+                        </div>
+
+                        @if (Model.Answers.Any())
+                        {
+                            <!-- Vista de lista -->
+                            <div id="listView" class="answers-list">
+                                @{int answerIndex = 1;}
+                                @foreach (var answer in Model.Answers.OrderBy(a => a.IsCorrect ? 0 : 1))
+                                {
+                                    <div class="answer-item @(answer.IsCorrect ? "answer-correct" : "answer-incorrect")">
+                                        <div class="answer-marker">
+                                            <span class="answer-number">@answerIndex</span>
+                                            <div class="answer-status">
+                                                @if (answer.IsCorrect)
+                                                {
+                                                    <i class="fas fa-check-circle text-success"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="fas fa-times-circle text-danger"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="answer-content">
+                                            <div class="answer-text">
+                                                @answer.AnswerText
+                                            </div>
+                                            <div class="answer-label">
+                                                @if (answer.IsCorrect)
+                                                {
+                                                    <span class="badge bg-success">Respuesta Correcta</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger">Respuesta Incorrecta</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    answerIndex++;
+                                }
+                            </div>
+
+                            <!-- Vista de cards -->
+                            <div id="cardView" class="answers-cards d-none">
+                                <div class="row">
+                                    @{answerIndex = 1;}
+                                    @foreach (var answer in Model.Answers.OrderBy(a => a.IsCorrect ? 0 : 1))
+                                    {
+                                        <div class="col-md-6 mb-3">
+                                            <div class="card answer-card @(answer.IsCorrect ? "border-success" : "border-danger")">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                                        <span class="badge @(answer.IsCorrect ? "bg-success" : "bg-danger")">
+                                                            Respuesta @answerIndex
+                                                        </span>
+                                                        @if (answer.IsCorrect)
+                                                        {
+                                                            <i class="fas fa-check-circle text-success fs-5"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fas fa-times-circle text-danger fs-5"></i>
+                                                        }
+                                                    </div>
+                                                    <p class="card-text">@answer.AnswerText</p>
+                                                    <div class="mt-2">
+                                                        @if (answer.IsCorrect)
+                                                        {
+                                                            <small class="text-success fw-bold">
+                                                                <i class="fas fa-star me-1"></i>
+                                                                Esta es la respuesta correcta
+                                                            </small>
+                                                        }
+                                                        else
+                                                        {
+                                                            <small class="text-danger">
+                                                                <i class="fas fa-info-circle me-1"></i>
+                                                                Respuesta incorrecta
+                                                            </small>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        answerIndex++;
+                                    }
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="empty-answers">
+                                <div class="text-center py-5">
+                                    <i class="fas fa-exclamation-triangle text-warning fa-3x mb-3"></i>
+                                    <h5 class="text-muted">Sin respuestas registradas</h5>
+                                    <p class="text-muted">Esta pregunta no tiene respuestas asociadas.</p>
+                                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-pacho">
+                                        <i class="fas fa-plus me-2"></i>
+                                        Agregar Respuestas
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Footer con acciones -->
+                <div class="card-footer pacho-card-footer">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Pregunta creada el @Model.CreatedAt.ToString("dd/MM/yyyy") a las @Model.CreatedAt.ToString("HH:mm")
+                            </small>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <div class="btn-group" role="group">
+                                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-pacho-light">
+                                    <i class="fas fa-edit me-2"></i>
+                                    Editar Pregunta
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">
+                                    <i class="fas fa-trash me-2"></i>
+                                    Eliminar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle entre vista de lista y cards
+    const listViewBtn = document.getElementById('listViewBtn');
+    const cardViewBtn = document.getElementById('cardViewBtn');
+    const listView = document.getElementById('listView');
+    const cardView = document.getElementById('cardView');
+
+    listViewBtn.addEventListener('click', function() {
+        this.classList.add('active');
+        cardViewBtn.classList.remove('active');
+        listView.classList.remove('d-none');
+        cardView.classList.add('d-none');
+    });
+
+    cardViewBtn.addEventListener('click', function() {
+        this.classList.add('active');
+        listViewBtn.classList.remove('active');
+        listView.classList.add('d-none');
+        cardView.classList.remove('d-none');
+    });
+
+    // Animaciones de entrada
+    const answerItems = document.querySelectorAll('.answer-item, .answer-card');
+    answerItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            item.style.transition = 'all 0.5s ease';
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+
+    // Copiar texto de respuesta al hacer clic
+    document.querySelectorAll('.answer-text').forEach(element => {
+        element.addEventListener('click', function() {
+            navigator.clipboard.writeText(this.textContent).then(() => {
+                // Feedback visual
+                const originalBg = this.style.backgroundColor;
+                this.style.backgroundColor = '#d4edda';
+                this.style.transition = 'background-color 0.3s';
+                
+                setTimeout(() => {
+                    this.style.backgroundColor = originalBg;
+                }, 1000);
+
+                // Tooltip temporal
+                const tooltip = document.createElement('div');
+                tooltip.textContent = 'Texto copiado';
+                tooltip.style.cssText = `
+                    position: absolute;
+                    background: #28a745;
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    font-size: 12px;
+                    z-index: 1000;
+                    pointer-events: none;
+                `;
+                
+                document.body.appendChild(tooltip);
+                
+                const rect = this.getBoundingClientRect();
+                tooltip.style.left = rect.left + 'px';
+                tooltip.style.top = (rect.top - 30) + 'px';
+                
+                setTimeout(() => {
+                    document.body.removeChild(tooltip);
+                }, 2000);
+            });
+        });
+    });
+
+    // Atajos de teclado
+    document.addEventListener('keydown', function(e) {
+        // E para editar
+        if (e.key === 'e' && !e.ctrlKey && !e.altKey) {
+            if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                window.location.href = '@Url.Action("Edit", new { id = Model.Id })';
+            }
+        }
+        
+        // Escape para volver
+        if (e.key === 'Escape') {
+            window.location.href = '@Url.Action("Index")';
+        }
+
+        // V para cambiar vista
+        if (e.key === 'v' && !e.ctrlKey && !e.altKey) {
+            if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                if (listView.classList.contains('d-none')) {
+                    listViewBtn.click();
+                } else {
+                    cardViewBtn.click();
+                }
+            }
+        }
+    });
+
+    // Tips en consola
+    console.log('💡 Tips para la vista de detalles:');
+    console.log('• Presiona "E" para editar');
+    console.log('• Presiona "Escape" para volver');
+    console.log('• Presiona "V" para cambiar vista');
+    console.log('• Haz clic en el texto de las respuestas para copiar');
+});
+</script>

@@ -1,0 +1,369 @@
+﻿@{
+    ViewData["Title"] = "Nuestro Equipo – Proceso Investigativo";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="~/css/Home/OurTeams.css">
+<div class="ourteam-page">
+    <!-- Fondo con partículas mejorado -->
+    <div class="grid-background"></div>
+    <div class="particles-container">
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    </div>
+
+    <!-- Hero mejorado -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title reveal">¿Como inicio este Proyecto?</h1>
+            <h3 class="hero-titlesub">Conoce un poco quienes somos</h3>
+            <p class="hero-subtitle reveal delay-1">Así construimos <span class="highlight">PACHO‑Asistente</span>: Ciencia aplicada, IA y agricultura sustentable.</p>
+            <div class="scroll-indicator reveal delay-2">
+                <span>Desplázate para explorar</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="timeline-section">
+        <div class="section-header reveal">
+            <h2><i class="fas fa-road"></i> Nuestro Proceso de Desarrollo</h2>
+            <p>El camino que seguimos para crear una herramienta precisa y confiable para la detección de enfermedades en lechuga</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-line">
+                <div class="timeline-progress"></div>
+            </div>
+
+            <!-- ITEM 1 -->
+            <article class="tl-item reveal">
+                <div class="tl-badge">
+                    <i class="fas fa-seedling"></i>
+                    <div class="pulse-ring"></div>
+                </div>
+                <div class="tl-content glass">
+                    <div class="phase-indicator">Fase 1</div>
+                    <div class="tl-media">
+                        <img src="https://res.cloudinary.com/dhe88z7gf/image/upload/v1757220808/1_oyfb8c.png" alt="Levantamiento de datos en campo">
+                        <div class="media-overlay"></div>
+                    </div>
+                    <div class="tl-text">
+                        <h3>Levantamiento de datos en campo</h3>
+                        <p>Se realizó una captura fotográfica sistemática de lechugas sanas y con patologías, tanto en sistemas de hidroponía como en sustrato, tomando como referencia la finca productora San Jorge en Mosquera, Cundinamarca.</p>
+                        <p> Para garantizar la calidad de la información, se definieron protocolos de iluminación, ángulo y orientación de las imágenes, los cuales se aplicaron en 4 visitas de campo, cubriendo distintas temporadas de producción y condiciones ambientales.</p>
+                        <p> El proceso contó con la asesoría de la Ing. Agrónoma Martha Vargas, extensionista rural, quien apoyó la definición de estándares para mejorar la consistencia de los datos recopilados.</p>
+                        <div class="tl-meta">
+                            <span><i class="far fa-calendar"></i> Septiembre 2024 - Mayo 2025</span>
+                            <span><i class="fas fa-image"></i> 1,500+ imágenes capturadas</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ITEM 2 -->
+            <article class="tl-item reveal">
+                <div class="tl-badge">
+                    <i class="fas fa-microscope"></i>
+                    <div class="pulse-ring"></div>
+                </div>
+                <div class="tl-content glass">
+                    <div class="phase-indicator">Fase 2</div>
+                    <div class="tl-media">
+                        <img src="https://res.cloudinary.com/dhe88z7gf/image/upload/v1757220926/2_dhvdc2.png" alt="Clasificacion y etiquetado">
+                        <div class="media-overlay"></div>
+                    </div>
+                    <div class="tl-text">
+                        <h3>Clasificacion y Etiquetado</h3>
+                        <p>El dataset recolectado fue sometido a un proceso de limpieza, balanceo y clasificación. Además de las imágenes propias, se incorporaron ejemplos de internet para enriquecer la base de datos.</p>
+                        <p>Durante esta fase se definieron criterios de rotulación y se identificaron tres categorías principales:
+                        <p> - Lechugas sanas</p>
+                        <p> - Botrytis</p>
+                        <p>-  Pseudomonas</p>
+                        <p>Este trabajo permitió obtener un conjunto de datos robusto y confiable para el entrenamiento del modelo de inteligencia artificial.</p>
+                        <div class="tl-meta">
+                            <span><i class="far fa-calendar"></i> Marzo 2025 - Mayo 2025</span>
+                            <span><i class="fas fa-tags"></i> 3 categorías principales</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ITEM 3 -->
+            <article class="tl-item reveal">
+                <div class="tl-badge">
+                    <i class="fas fa-brain"></i>
+                    <div class="pulse-ring"></div>
+                </div>
+                <div class="tl-content glass">
+                    <div class="phase-indicator">Fase 3</div>
+                    <div class="tl-media">
+                        <img src="https://res.cloudinary.com/dhe88z7gf/image/upload/v1757220928/3_psnluc.png" alt="Modelado IA">
+                        <div class="media-overlay"></div>
+                    </div>
+                    <div class="tl-text">
+                        <h3>Modelado con IA</h3>
+                        <p>Con el dataset ya clasificado, se entrenó un modelo de inteligencia artificial basado en redes neuronales convolucionales (CNN), utilizando la arquitectura MobileNetV2, reconocida por su eficiencia en el análisis de imágenes.El proceso de entrenamiento se realizó en dos etapas:</p>
+                        <p> 1. Ajuste inicial: se entrenó la parte final del modelo para que aprendiera a diferenciar las categorías de lechuga.</p>
+                        <p> 2. Ajuste fino: se refinaron capas internas del modelo para mejorar la precisión y la capacidad de generalización.</p>
+                        <p>Se aplicaron técnicas como la aumentación de datos (rotación, contraste y zoom), el balanceo de clases y controles automáticos que detuvieron el entrenamiento en caso de estancamiento, garantizando siempre la mejor versión del modelo.</p>
+                        <p>Al finalizar, se obtuvieron métricas sólidas de exactitud, precisión y F1-score, además de reportes visuales (curvas de aprendizaje y matrices de confusión) que demostraron la capacidad del sistema para reconocer correctamente las enfermedades.</p>
+                        <div class="tl-meta">
+                            <span><i class="far fa-calendar"></i> Junio - Agosto 2025</span>
+                            <span><i class="fas fa-chart-line"></i>Modelo entrenado y validado </span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ITEM 4 -->
+            <article class="tl-item reveal">
+                <div class="tl-badge">
+                    <i class="fas fa-code"></i>
+                    <div class="pulse-ring"></div>
+                </div>
+                <div class="tl-content glass">
+                    <div class="phase-indicator">Fase 4</div>
+                    <div class="tl-media">
+                        <img src="https://res.cloudinary.com/dhe88z7gf/image/upload/v1757220928/4_bp0asv.png" alt="Integración plataforma">
+                        <div class="media-overlay"></div>
+                    </div>
+                    <div class="tl-text">
+                        <h3>Integración en la plataforma</h3>
+                        <p>El modelo entrenado fue integrado en una plataforma tecnológica híbrida, conformada por:</p>
+                        <p>1. Bot de Telegram: permite a los agricultores tomar una foto de su cultivo y recibir un diagnóstico automático con base en el modelo de IA. El bot devuelve la posible enfermedad junto con recomendaciones básicas inmediatas.</p>
+                        <p>2. Plataforma web en .NET: diseñada para la gestión de expertos agrónomos, quienes validan los diagnósticos, registran tratamientos personalizados y administran la base de conocimiento.</p>
+                        <p>Esta fase garantizó la conexión entre la detección automática en campo y el acompañamiento profesional en línea, cerrando el ciclo de diagnóstico y recomendación.</p>
+                        <div class="tl-meta">
+                            <span><i class="far fa-calendar"></i>Junio 2025</span>
+                            <span><i class="fas fa-server"></i> IA integrada en bot y plataforma web</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ITEM 5 -->
+            <article class="tl-item reveal">
+                <div class="tl-badge">
+                    <i class="fas fa-leaf"></i>
+                    <div class="pulse-ring"></div>
+                </div>
+                <div class="tl-content glass">
+                    <div class="phase-indicator">Fase 5</div>
+                    <div class="tl-media">
+                        <img src="https://res.cloudinary.com/dhe88z7gf/image/upload/v1757220930/5_oz3gvq.png" alt="Aplicación en campo">
+                        <div class="media-overlay"></div>
+                    </div>
+                    <div class="tl-text">
+                        <h3>Aplicación y transferencia</h3>
+                        <p>Finalmente, se realizó la fase de aplicación y transferencia de la tecnología, en la cual se probó el sistema directamente con productores de lechuga en diferentes contextos rurales. Se desarrollaron actividades de:</p>
+                        <p>1. Pruebas piloto en campo, validando diagnósticos en tiempo real.</p>
+                        <p>2. Documentación y protocolos de uso para garantizar la adopción sostenible de la herramienta.</p>
+                        <p>El resultado fue un sistema listo para ser utilizado por la comunidad agrícola, promoviendo la transferencia de conocimiento y tecnología hacia los productores, con el objetivo de mejorar la productividad y reducir pérdidas por enfermedades..</p>
+        
+                        <div class="tl-meta">
+                            <span><i class="far fa-calendar"></i> Julio 2025 - Actualidad</span>
+                            <span><i class="fas fa-users"></i> Sistema en uso por agricultores y red de expertos</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Nuestro Equipo -->
+    <section class="team-section">
+        <div class="section-header reveal">
+            <h2><i class="fas fa-users"></i> Nuestro Equipo</h2>
+            <p>Personas detrás de PACHO‑Asistente</p>
+        </div>
+
+        <div class="team-grid">
+            <!-- Card 1 -->
+            <div class="team-card reveal">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="profile-img-container">
+                            <img src="https://res.cloudinary.com/dhe88z7gf/image/upload/v1756787916/Dise%C3%B1o_sin_t%C3%ADtulo_14_b1xidd.png" class="profile-img" alt="Julian Gonzalez">
+                            <div class="profile-overlay">
+                                <div class="social-links">
+                                    <a href=""><i class="fab fa-linkedin"></i></a>  
+                                    <a href="#"><i class="fas fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <h3>Julian Gonzalez</h3>
+                        <p class="role">Co- Investigador - Desarrollador</p>
+                        <p>Ingeniero en Sistemas y Computación de la Universidad de Cundinamarca</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Julian Gonzalez</h3>
+                        <p class="role">Co- Investigador</p>
+                        <p class="desc">Diseño, planteamiento y desarrollo del proyecto . Implementación de la red neuronal CNN para la detección por imagen. Arquitectura MVC, seguridad y orquestación con base de datos BrainPacho</p>
+                        <div class="expertise">
+                            <span>Visión por Computadora</span>
+                            <span>Machine Learning</span>
+                            <span>ASP.NET MVC</span>
+                            <span>CNN</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="team-card reveal delay-1">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="profile-img-container">
+                            <img src="https://res.cloudinary.com/dhe88z7gf/image/upload/v1756788095/Dise%C3%B1o_sin_t%C3%ADtulo_15_m2oogh.png" class="profile-img" alt="Julian Gonzalez">
+                            <div class="profile-overlay">
+                                <div class="social-links">
+                                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#"><i class="fas fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <h3>Karen Plazas </h3>
+                        <p class="role">Desarrolladora .NET- Co Investigadora </p>
+                        <p>Ingeniera en Sistemas y Computación de la Universidad de Cundinamarca</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Karen Plazas </h3>
+                        <p class="role">Desarrolladora .NET</p>
+                        <p class="desc">Diseño, planteamiento y desarrollo del proyecto . Implementación de algoritmo de Random Forest para el diagnostico sin imagen. Creación del bot e integración de LLM formateador de las conversaciones  </p>
+                        <div class="expertise">
+                           
+                            <span>Machine Learning</span>
+                            <span>Arquitectura de Software</span>
+                            <span>Random Forest</span>
+                            <span>LLM- Bot conversacional</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="team-card reveal delay-2">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="profile-img-container">
+                            <img src="https://res.cloudinary.com/dhe88z7gf/image/upload/v1756787464/Dise%C3%B1o_sin_t%C3%ADtulo_12_aurkma.png" class="profile-img" alt="Karen Plazas">
+                            <div class="profile-overlay">
+                                <div class="social-links">
+                                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#"><i class="fas fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <h3>Martha Isabel Vargas</h3>
+                        <p class="role">Ingeniera agrónoma- Fitopatólogo</p>
+                        <p>MSc en Gestión y Auditorías Ambientales - Docente universitaria - Extensionista rural</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Martha Isabel Vargas</h3>
+                        <p class="role">Fitopatólogo</p>
+                        <p class="desc">
+                            Fuente de datos expertos y validación de la precisión del modelo Random Forest.
+                            Estructuración de la base de conocimiento para la IA y garantía de la aplicabilidad de las recomendaciones.
+                        </p>
+                        <div class="expertise">
+                            <span>Fitopatología</span>
+                            <span>Diagnóstico Vegetal</span>
+                            <span>Manejo Integrado</span>
+                            <span>Validación de Datos</span>
+                            <span>Extensión Rural</span>
+                            <span>Agricultura Sostenible</span>
+                            <span>Análisis Ambiental</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Estadisitcas -->
+    <section class="stats-section">
+        <div class="section-header reveal">
+            <h2><i class="fas fa-chart-line"></i> Impacto y Logros</h2>
+            <p>Los números que respaldan nuestro trabajo</p>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-item reveal">
+                <div class="stat-icon">
+                    <i class="fas fa-images"></i>
+                </div>
+                <h3>1.500+</h3>
+                <p>Imágenes procesadas</p>
+            </div>
+            <div class="stat-item reveal delay-1">
+                <div class="stat-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>94.6%</h3>
+                <p>Precisión en diagnóstico hibrido</p>
+            </div>
+            <div class="stat-item reveal delay-2">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>15+</h3>
+                <p>Productores beneficiados</p>
+            </div>
+            <div class="stat-item reveal delay-3">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>18</h3>
+                <p>Meses de desarrollo</p>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+// IntersectionObserver para revelar elementos al hacer scroll
+document.addEventListener('DOMContentLoaded', function() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Animación de progreso de la línea de tiempo
+    const timelineLine = document.querySelector('.timeline-progress');
+    const timelineSection = document.querySelector('.timeline-section');
+    
+    function updateTimelineProgress() {
+        if (!timelineLine || !timelineSection) return;
+        
+        const sectionTop = timelineSection.offsetTop;
+        const sectionHeight = timelineSection.offsetHeight;
+        const scrollPosition = window.scrollY;
+        const windowHeight = window.innerHeight;
+        
+        if (scrollPosition > sectionTop - windowHeight / 2) {
+            const progress = Math.min(100, ((scrollPosition - sectionTop + windowHeight / 2) / sectionHeight) * 100);
+            timelineLine.style.height = `${progress}%`;
+        } else {
+            timelineLine.style.height = '0%';
+        }
+    }
+
+    window.addEventListener('scroll', updateTimelineProgress);
+    window.addEventListener('resize', updateTimelineProgress);
+    updateTimelineProgress();
+});
+</script>

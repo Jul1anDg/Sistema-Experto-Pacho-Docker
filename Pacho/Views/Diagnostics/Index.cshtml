@@ -1,0 +1,143 @@
+﻿@model IEnumerable<Pacho.Models.DiagnosticQuestion>
+@{
+    ViewData["Title"] = "Preguntas de Diagnóstico";
+    var total = Model?.Count() ?? 0;
+}
+
+<link rel="stylesheet" href="~/css/Diseases/Index.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<div class="main-container" data-aos="fade-up">
+    <div class="dashboard-header">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <h2 class="mb-1"><i class="fa-solid fa-clipboard-list me-2"></i>@ViewData["Title"]</h2>
+                <p class="mb-0">Administra las 10 preguntas del diagnóstico (las respuestas están fijas: Sí/No).</p>
+            </div>
+            <a asp-action="Index" class="btn btn-success">
+                <i class="fa-solid fa-rotate me-1"></i> Actualizar
+            </a>
+        </div>
+    </div>
+
+    <!-- Tarjetas de estado -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="stat-card" data-aos="fade-up">
+                <div class="stat-content">
+                    <i class="fa-solid fa-list-ol stat-icon"></i>
+                    <div>
+                        <div class="stat-value">@total</div>
+                        <div class="stat-label">Total de preguntas</div>
+                    </div>
+                </div>
+                <small class="text-muted">El esperado es 10.</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="80">
+                <div class="stat-content">
+                    <i class="fa-solid fa-check-double stat-icon"></i>
+                    <div>
+                        <div class="stat-value">Sí / No</div>
+                        <div class="stat-label">Respuestas forzadas</div>
+                    </div>
+                </div>
+                <small class="text-muted">La BD garantiza exactamente dos respuestas.</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="160">
+                <div class="stat-content">
+                    <i class="fa-solid fa-shield-halved stat-icon"></i>
+                    <div>
+                        <div class="stat-value">Protegido</div>
+                        <div class="stat-label">Alta coherencia de datos</div>
+                    </div>
+                </div>
+                <small class="text-muted">Desde la UI solo se edita texto y orden.</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje de éxito -->
+    @if (TempData["Msg"] != null)
+    {
+        <div class="alert alert-success mt-2" role="alert" data-aos="fade-up">
+            <i class="fa-solid fa-circle-check me-1"></i> @TempData["Msg"]
+        </div>
+    }
+
+    <!-- Buscador -->
+    <div class="search-container position-relative" data-aos="fade-up">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input id="buscadorPreguntas" type="text" class="form-control search-input" placeholder="Buscar por texto u orden (ej.: '3')">
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-container" data-aos="fade-up">
+        @if (Model == null || !Model.Any())
+        {
+            <div class="empty-state">
+                <div class="empty-icon"><i class="fa-regular fa-face-smile-wink"></i></div>
+                <div class="empty-text">No hay preguntas registradas.</div>
+                <a asp-action="Index" class="btn btn-success"><i class="fa-solid fa-rotate me-1"></i> Recargar</a>
+            </div>
+        }
+        else
+        {
+            <table class="table table-hover align-middle mb-0" id="tablaPreguntas">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">Orden</th>
+                        <th>Pregunta</th>
+                        <th style="width: 220px;">Respuestas</th>
+                        <th style="width: 120px;" class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var q in Model.OrderBy(x => x.QuestionOrder))
+                    {
+                        <tr>
+                            <td data-label="Orden">
+                                <span class="badge badge-status badge-active">@($"P{q.QuestionOrder:00}")</span>
+                            </td>
+                            <td data-label="Pregunta">@q.QuestionText</td>
+                            <td data-label="Respuestas">
+                                @foreach (var a in q.Answers.OrderBy(a => a.AnswerOrder))
+                                {
+                                    <span class="badge bg-secondary me-1">@((a.AnswerText == "Si") ? "Sí" : "No")</span>
+                                }
+                            </td>
+                            <td class="text-end" data-label="Acciones">
+                                <a asp-action="Edit" asp-route-id="@q.Id" class="action-btn btn-edit" title="Editar">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 600, easing: 'ease-out-quad', once: true });
+
+    // Filtro de búsqueda (cliente)
+    const input = document.getElementById('buscadorPreguntas');
+    const table = document.getElementById('tablaPreguntas');
+    input?.addEventListener('input', function () {
+        const term = this.value.toLowerCase().trim();
+        if (!table) return;
+        [...table.tBodies[0].rows].forEach(row => {
+            const orden = row.cells[0]?.innerText.toLowerCase() ?? '';
+            const pregunta = row.cells[1]?.innerText.toLowerCase() ?? '';
+            const match = orden.includes(term) || pregunta.includes(term);
+            row.style.display = match ? '' : 'none';
+        });
+    });
+</script>

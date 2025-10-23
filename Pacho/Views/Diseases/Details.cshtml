@@ -1,0 +1,107 @@
+@model Pacho.Models.Disease
+
+@{
+    ViewData["Title"] = "Detalles de la Enfermedad";
+}
+<link rel="stylesheet" href="~/css/Diseases/Details.css">
+<div class="detail-container">
+    <div class="detail-header">
+        <h2><i class="fas fa-info-circle me-2"></i>@ViewData["Title"]</h2>
+        <p class="mb-0">Información detallada sobre la enfermedad</p>
+    </div>
+
+    <div class="detail-content">
+        <!-- Sección de información -->
+        <div class="detail-info">
+            <div class="detail-list">
+                <div class="detail-label">
+                    <i class="fas fa-dna"></i>
+                    <span>Nombre científico</span>
+                </div>
+                <div class="detail-value">@Model.ScientificName</div>
+
+                <div class="detail-label">
+                    <i class="fas fa-tag"></i>
+                    <span>Nombre común</span>
+                </div>
+                <div class="detail-value">@Model.CommonName</div>
+
+                <div class="detail-label">
+                    <i class="fas fa-align-left"></i>
+                    <span>Descripción</span>
+                </div>
+                <div class="detail-value">@Model.Description</div>
+
+                <div class="detail-label">
+                    <i class="fas fa-diagnoses"></i>
+                    <span>Síntomas</span>
+                </div>
+                <div class="detail-value">@Model.Symptoms</div>
+
+                <div class="detail-label">
+                    <i class="fas fa-cloud-sun"></i>
+                    <span>Condiciones</span>
+                </div>
+                <div class="detail-value">@Model.Conditions</div>
+
+                <div class="detail-label">
+                    <i class="fas fa-toggle-on"></i>
+                    <span>Estado</span>
+                </div>
+                <div class="detail-value">
+                    @if (Model.Asset)
+                    {
+                        <span class="badge-status badge-active">
+                            <i class="fas fa-circle me-1" style="font-size: 0.5rem;"></i> Activo
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge-status badge-inactive">
+                            <i class="fas fa-circle me-1" style="font-size: 0.5rem;"></i> Inactivo
+                        </span>
+                    }
+                </div>
+
+                <div class="detail-label">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Fecha de creación</span>
+                </div>
+                <div class="detail-value">@Model.CreationDate.ToString("dd/MM/yyyy")</div>
+
+                <div class="detail-label">
+                    <i class="fas fa-prescription-bottle-alt"></i>
+                    <span>Tratamientos registrados</span>
+                </div>
+                <div class="detail-value">@Model.TreatmentsTotal</div>
+            </div>
+        </div>
+
+        <!-- Sección de imagen -->
+        <div class="detail-image">
+            @if (Model.ReferenceImageEncrypted != null)
+            {
+                <img src="@Url.Action("Image", "Diseases", new { id = Model.IdDisease })"
+                     alt="Imagen de referencia"
+                     style="max-width:480px;height:auto;border-radius:12px;" />
+            }
+            else
+            {
+                <div class="no-image">No hay imagen disponible</div>
+            }
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a asp-action="Index" class="btn-back">
+            <i class="fas fa-arrow-left me-2"></i>Volver al listado
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model.IdDisease" class="btn-edit">
+            <i class="fas fa-edit me-2"></i>Editar
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+}

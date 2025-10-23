@@ -1,0 +1,145 @@
+﻿.badge-status {
+    padding: .22rem .55rem;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 800
+}
+
+.badge-on {
+    background: #e6f7ec;
+    color: #2e7d32
+}
+
+.badge-off {
+    background: #eef1f4;
+    color: #5e6a75
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .22rem .55rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: .82rem;
+    border: 1px solid #e3ebe4;
+    background: #f9fbf9;
+    color: #2f6f45
+}
+
+    .pill.aprob {
+        background: #eaf6ff;
+        color: #135f8a;
+        border-color: #d7eaf8
+    }
+
+    .pill.reprob {
+        background: #fdecec;
+        color: #a32626;
+        border-color: #f6d3d3
+    }
+
+    .pill.pend {
+        background: #fff6e5;
+        color: #8a5a00;
+        border-color: #ffe6bd
+    }
+
+.btn-compact {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .45rem .65rem;
+    font-size: .85rem;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.06);
+    color: #fff
+}
+
+.btn-prim {
+    background: linear-gradient(135deg,#6fb346,#4a7c59)
+}
+
+.btn-dangerP {
+    background: #c03b3b
+}
+
+.btn-infoP {
+    background: #1679a6
+}
+
+.btn-accent {
+    background: #3b6b53
+}
+
+.btn-lightP {
+    background: #ffffff;
+    color: #2a2f2a;
+    border: 1px solid #e5ece6
+}
+
+
+.kv {
+    display: grid;
+    grid-template-columns: repeat(12,1fr);
+    gap: 14px
+}
+
+    .kv .item {
+        background: #fff;
+        border: 1px solid #e9f1ea;
+        border-radius: 10px;
+        padding: 12px
+    }
+
+    .kv .label {
+        color: #596a5d;
+        font-size: .84rem;
+        margin: 0 0 4px 0
+    }
+
+    .kv .value {
+        margin: 0;
+        font-weight: 700;
+        color: #1f3a2e
+    }
+
+@media (max-width: 992px) {
+    .kv {
+        grid-template-columns: repeat(6,1fr)
+    }
+}
+
+@media (max-width: 576px) {
+    .kv {
+        grid-template-columns: repeat(2,1fr)
+    }
+}
+
+
+.score {
+    display: flex;
+    align-items: center;
+    gap: 8px
+}
+
+.score-bar {
+    flex: 1;
+    height: 8px;
+    background: #eef4ef;
+    border-radius: 999px;
+    overflow: hidden
+}
+
+.score-fill {
+    height: 100%;
+    background: #6fb346;
+    width: 0%
+}
+
+.score-badge {
+    font-weight: 800;
+    color: #2f6f45
+}

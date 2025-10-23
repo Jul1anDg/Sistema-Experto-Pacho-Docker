@@ -1,0 +1,520 @@
+﻿@model Pacho.Models.QuestionFormViewModel
+@{
+    ViewData["Title"] = "Editar Pregunta - PACHO Asistente";
+}
+<link rel="stylesheet" href="~/css/Questions/Edit.css">
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card pacho-card shadow-lg">
+                <div class="card-header pacho-card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-edit me-3 fs-4"></i>
+                            <div>
+                                <h4 class="mb-0 text-white">Editar Pregunta #@Model.Order</h4>
+                                <small class="text-white-50">PACHO-Asistente • Agricultura Inteligente</small>
+                            </div>
+                        </div>
+                        <div>
+                            <a asp-action="Details" asp-route-id="@ViewBag.QuestionId" class="btn btn-pacho-light me-2">
+                                <i class="fas fa-eye me-2"></i>
+                                Ver Detalles
+                            </a>
+                            <a asp-action="Index" class="btn btn-pacho-light">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Volver
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="Edit" method="post" id="questionForm">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@ViewBag.QuestionId" />
+
+                        @if (ViewData.ModelState.Values.Any(v => v.Errors.Count > 0))
+                        {
+                            <div class="alert alert-danger border-0 shadow-sm" role="alert">
+                                <div class="d-flex align-items-start">
+                                    <i class="fas fa-exclamation-triangle me-2 fs-5 mt-1"></i>
+                                    <div>
+                                        <h6 class="alert-heading">Por favor corrige los siguientes errores:</h6>
+                                        <ul class="mb-0">
+                                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                            {
+                                                <li>@error.ErrorMessage</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Panel de validación en tiempo real -->
+                        <div class="validation-panel mb-4" id="validationPanel" style="display: none;">
+                            <div class="alert alert-warning border-0">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <div id="validationMessage"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Columna de la pregunta -->
+                            <div class="col-lg-6">
+                                <div class="card border-pacho mb-4">
+                                    <div class="card-header bg-pacho text-white">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-question me-2"></i>
+                                            Información de la Pregunta
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label asp-for="QuestionText" class="form-label fw-bold">
+                                                <i class="fas fa-edit me-1"></i>
+                                                Texto de la Pregunta
+                                            </label>
+                                            <textarea asp-for="QuestionText"
+                                                      class="form-control form-control-lg"
+                                                      rows="4"
+                                                      placeholder="Escribe aquí el texto de tu pregunta..."
+                                                      maxlength="1000"></textarea>
+                                            <span asp-validation-for="QuestionText" class="text-danger"></span>
+                                            <small class="form-text text-muted">
+                                                Máximo 1000 caracteres. <span id="charCount">0</span>/1000
+                                            </small>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label asp-for="Order" class="form-label fw-bold">
+                                                <i class="fas fa-sort-numeric-up me-1"></i>
+                                                Orden de la Pregunta
+                                            </label>
+                                            <input asp-for="Order"
+                                                   type="number"
+                                                   class="form-control form-control-lg"
+                                                   min="1"
+                                                   max="999"
+                                                   placeholder="Ej: 1, 2, 3..."
+                                                   id="orderInput">
+                                            <span asp-validation-for="Order" class="text-danger"></span>
+                                            <small class="form-text text-muted">
+                                                Define el orden en que aparecerá esta pregunta
+                                            </small>
+                                        </div>
+
+                                        <div class="alert alert-info border-0">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <strong>Reglas de edición:</strong>
+                                            <ul class="mb-0 mt-2">
+                                                <li>Mínimo 2 respuestas requeridas</li>
+                                                <li>Al menos 1 respuesta debe ser correcta</li>
+                                                <li>Puedes agregar o eliminar respuestas</li>
+                                                <li>Los cambios se guardan al actualizar</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Columna de las respuestas -->
+                            <div class="col-lg-6">
+                                <div class="card border-info">
+                                    <div class="card-header bg-info text-white">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h5 class="mb-0">
+                                                    <i class="fas fa-list me-2"></i>
+                                                    Respuestas
+                                                </h5>
+                                                <small class="text-white-50">
+                                                    <span id="answersCount">@ViewBag.CurrentAnswersCount</span> respuestas completadas
+                                                </small>
+                                            </div>
+                                            <button type="button" class="btn btn-light btn-sm" id="addAnswerBtn">
+                                                <i class="fas fa-plus me-1"></i>
+                                                Agregar
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="answersContainer">
+                                            @for (int i = 0; i < Model.Answers.Count; i++)
+                                            {
+                                                <div class="answer-row mb-3" data-index="@i">
+                                                    <div class="card border-secondary @(string.IsNullOrEmpty(Model.Answers[i].AnswerText) ? "answer-empty" : "answer-filled")">
+                                                        <div class="card-body p-3">
+                                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                                <label class="fw-bold text-secondary">
+                                                                    Respuesta @(i + 1)
+                                                                </label>
+                                                                <button type="button" class="btn btn-outline-danger btn-sm remove-answer" data-min-required="2">
+                                                                    <i class="fas fa-times"></i>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="mb-2">
+                                                                <input asp-for="Answers[i].AnswerText"
+                                                                       class="form-control answer-text-input"
+                                                                       placeholder="Escribe la respuesta aquí..."
+                                                                       maxlength="500">
+                                                                <span asp-validation-for="Answers[i].AnswerText" class="text-danger"></span>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input asp-for="Answers[i].IsCorrect"
+                                                                       class="form-check-input correct-checkbox"
+                                                                       type="checkbox">
+                                                                <label asp-for="Answers[i].IsCorrect" class="form-check-label fw-bold text-success">
+                                                                    <i class="fas fa-check me-1"></i>
+                                                                    ¿Es respuesta correcta?
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                        <div class="alert alert-success border-0">
+                                            <i class="fas fa-lightbulb me-2"></i>
+                                            <strong>Tip:</strong> El sistema te avisará si intentas eliminar demasiadas respuestas o la única correcta.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones de acción -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between">
+                                    <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                        <i class="fas fa-times me-2"></i>
+                                        Cancelar Cambios
+                                    </a>
+                                    <button type="submit" class="btn btn-pacho btn-lg" id="submitBtn">
+                                        <i class="fas fa-save me-2"></i>
+                                        Actualizar Pregunta
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let answerIndex = @Model.Answers.Count;
+        const minAnswers = 2;
+        const minCorrect = 1;
+
+        // Contador de caracteres
+        const questionText = document.getElementById('QuestionText');
+        const charCount = document.getElementById('charCount');
+
+        function updateCharCount() {
+            if (questionText) {
+                const count = questionText.value.length;
+                charCount.textContent = count;
+                charCount.className = count > 900 ? 'text-danger' : count > 700 ? 'text-warning' : 'text-muted';
+            }
+        }
+
+        if (questionText) {
+            questionText.addEventListener('input', updateCharCount);
+            updateCharCount();
+        }
+
+        // Validación de respuestas en tiempo real
+        function validateAnswers() {
+            const answersWithText = getAnswersWithText();
+            const correctAnswers = getCorrectAnswers();
+            const totalAnswers = answersWithText.length;
+            const totalCorrect = correctAnswers.length;
+
+            const validationPanel = document.getElementById('validationPanel');
+            const validationMessage = document.getElementById('validationMessage');
+            const submitBtn = document.getElementById('submitBtn');
+            const answersCount = document.getElementById('answersCount');
+
+            // Actualizar contador
+            answersCount.textContent = totalAnswers;
+
+            // Validar mínimos
+            const hasMinAnswers = totalAnswers >= minAnswers;
+            const hasMinCorrect = totalCorrect >= minCorrect;
+            const isValid = hasMinAnswers && hasMinCorrect;
+
+            // Actualizar botones de eliminar
+            updateRemoveButtons(totalAnswers, totalCorrect);
+
+            // Mostrar/ocultar panel de validación
+            if (!isValid) {
+                const messages = [];
+                if (!hasMinAnswers) {
+                    messages.push(`<strong>⚠️ Mínimo de respuestas:</strong> Necesitas al menos ${minAnswers} respuestas (tienes ${totalAnswers})`);
+                }
+                if (!hasMinCorrect) {
+                    messages.push(`<strong>⚠️ Respuesta correcta:</strong> Necesitas al menos ${minCorrect} respuesta correcta (tienes ${totalCorrect})`);
+                }
+
+                validationMessage.innerHTML = messages.join('<br>');
+                validationPanel.style.display = 'block';
+                validationPanel.querySelector('.alert').className = 'alert alert-danger border-0';
+            } else {
+                validationPanel.style.display = 'none';
+            }
+
+            // Habilitar/deshabilitar botón de envío
+            submitBtn.disabled = !isValid;
+
+            // Actualizar clases visuales de las tarjetas
+            updateAnswerCards();
+        }
+
+        function getAnswersWithText() {
+            const inputs = document.querySelectorAll('.answer-text-input');
+            return Array.from(inputs).filter(input => input.value.trim() !== '');
+        }
+
+        function getCorrectAnswers() {
+            const checkboxes = document.querySelectorAll('.correct-checkbox:checked');
+            return Array.from(checkboxes).filter(checkbox => {
+                const row = checkbox.closest('.answer-row');
+                const textInput = row.querySelector('.answer-text-input');
+                return textInput.value.trim() !== '';
+            });
+        }
+
+        function updateRemoveButtons(totalAnswers, totalCorrect) {
+            const removeButtons = document.querySelectorAll('.remove-answer');
+
+            removeButtons.forEach(button => {
+                const row = button.closest('.answer-row');
+                const textInput = row.querySelector('.answer-text-input');
+                const checkbox = row.querySelector('.correct-checkbox');
+                const hasText = textInput.value.trim() !== '';
+                const isCorrect = checkbox.checked;
+
+                // Deshabilitar si:
+                // 1. Solo quedan 2 respuestas con texto y esta tiene texto
+                // 2. Es la única respuesta correcta
+                const wouldBreakMinAnswers = hasText && totalAnswers <= minAnswers;
+                const wouldBreakMinCorrect = isCorrect && totalCorrect <= minCorrect;
+
+                button.disabled = wouldBreakMinAnswers || wouldBreakMinCorrect;
+
+                if (button.disabled) {
+                    button.title = wouldBreakMinAnswers ?
+                        'No puedes eliminar: mínimo 2 respuestas requeridas' :
+                        'No puedes eliminar: es la única respuesta correcta';
+                    button.classList.add('disabled');
+                } else {
+                    button.title = 'Eliminar respuesta';
+                    button.classList.remove('disabled');
+                }
+            });
+        }
+
+        function updateAnswerCards() {
+            document.querySelectorAll('.answer-row').forEach(row => {
+                const textInput = row.querySelector('.answer-text-input');
+                const card = row.querySelector('.card');
+
+                if (textInput.value.trim() !== '') {
+                    card.classList.remove('answer-empty');
+                    card.classList.add('answer-filled');
+                } else {
+                    card.classList.remove('answer-filled');
+                    card.classList.add('answer-empty');
+                }
+            });
+        }
+
+        // Event listeners
+        document.addEventListener('input', function (e) {
+            if (e.target.classList.contains('answer-text-input')) {
+                validateAnswers();
+            }
+        });
+
+        document.addEventListener('change', function (e) {
+            if (e.target.classList.contains('correct-checkbox')) {
+                validateAnswers();
+            }
+        });
+
+        // Agregar nueva respuesta
+        document.getElementById('addAnswerBtn').addEventListener('click', function () {
+            if (answerIndex >= 8) {
+                alert('Máximo 8 respuestas permitidas por pregunta.');
+                return;
+            }
+
+            const container = document.getElementById('answersContainer');
+            const newAnswerHtml = `
+                <div class="answer-row mb-3" data-index="${answerIndex}">
+                    <div class="card border-secondary answer-empty">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <label class="fw-bold text-secondary">
+                                    Respuesta ${answerIndex + 1}
+                                </label>
+                                <button type="button" class="btn btn-outline-danger btn-sm remove-answer">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+
+                            <div class="mb-2">
+                                <input name="Answers[${answerIndex}].AnswerText"
+                                       class="form-control answer-text-input"
+                                       placeholder="Escribe la respuesta aquí..."
+                                       maxlength="500">
+                            </div>
+
+                            <div class="form-check">
+                                <input name="Answers[${answerIndex}].IsCorrect"
+                                       class="form-check-input correct-checkbox"
+                                       type="checkbox"
+                                       value="true">
+                                <input name="Answers[${answerIndex}].IsCorrect" type="hidden" value="false">
+                                <label class="form-check-label fw-bold text-success">
+                                    <i class="fas fa-check me-1"></i>
+                                    ¿Es respuesta correcta?
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', newAnswerHtml);
+            answerIndex++;
+            updateAnswerLabels();
+            validateAnswers();
+
+            // Scroll suave hacia la nueva respuesta
+            const newRow = container.lastElementChild;
+            newRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        // Eliminar respuesta
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('.remove-answer') && !e.target.closest('.remove-answer').disabled) {
+                const answerRow = e.target.closest('.answer-row');
+                const textInput = answerRow.querySelector('.answer-text-input');
+                const checkbox = answerRow.querySelector('.correct-checkbox');
+
+                // Confirmar eliminación si tiene contenido
+                if (textInput.value.trim() !== '') {
+                    const isCorrect = checkbox.checked ? ' (CORRECTA)' : '';
+                    const confirmDelete = confirm(`¿Estás seguro de eliminar esta respuesta${isCorrect}?\n\n"${textInput.value.substring(0, 80)}${textInput.value.length > 80 ? '...' : '"}"`);
+
+                    if (!confirmDelete) {
+                        return;
+                    }
+                }
+
+                answerRow.remove();
+                updateAnswerLabels();
+                validateAnswers();
+            }
+        });
+
+        // Actualizar etiquetas de respuestas
+        function updateAnswerLabels() {
+            const answers = document.querySelectorAll('.answer-row');
+            answers.forEach((answer, index) => {
+                const label = answer.querySelector('label');
+                if (label) {
+                    label.textContent = `Respuesta ${index + 1}`;
+                }
+            });
+        }
+
+        // Validación de orden único
+        const orderInput = document.getElementById('orderInput');
+        if (orderInput) {
+            orderInput.addEventListener('blur', async function () {
+                const order = parseInt(this.value);
+                const questionId = @ViewBag.QuestionId;
+
+                if (order && order > 0) {
+                    try {
+                        const response = await fetch(`/Questions/ValidateOrder?order=${order}&questionId=${questionId}`);
+                        const isValid = await response.json();
+
+                        let feedback = document.getElementById('orderFeedback');
+                        if (!feedback) {
+                            feedback = document.createElement('div');
+                            feedback.id = 'orderFeedback';
+                            feedback.className = 'text-danger small mt-1';
+                            this.parentNode.appendChild(feedback);
+                        }
+
+                        if (!isValid) {
+                            feedback.textContent = 'Este orden ya está en uso por otra pregunta.';
+                            this.classList.add('is-invalid');
+                        } else {
+                            feedback.textContent = '';
+                            this.classList.remove('is-invalid');
+                            this.classList.add('is-valid');
+                        }
+                    } catch (error) {
+                        console.error('Error validating order:', error);
+                    }
+                }
+            });
+        }
+
+        // Validación antes de enviar
+        document.getElementById('questionForm').addEventListener('submit', function (e) {
+            const answersWithText = getAnswersWithText();
+            const correctAnswers = getCorrectAnswers();
+
+            let hasError = false;
+            let errorMessages = [];
+
+            if (answersWithText.length < minAnswers) {
+                errorMessages.push(`Debe proporcionar al menos ${minAnswers} respuestas con texto. Actualmente tienes ${answersWithText.length}.`);
+                hasError = true;
+            }
+
+            if (correctAnswers.length < minCorrect) {
+                errorMessages.push(`Debe marcar al menos ${minCorrect} respuesta como correcta. Actualmente tienes ${correctAnswers.length}.`);
+                hasError = true;
+            }
+
+            if (hasError) {
+                alert('❌ No se puede guardar la pregunta:\n\n' + errorMessages.join('\n'));
+                e.preventDefault();
+            }
+        });
+
+        // Inicializar validación al cargar
+        validateAnswers();
+
+        // Auto-save draft (opcional - comentado)
+        /*
+        let autoSaveTimeout;
+        function autoSave() {
+            clearTimeout(autoSaveTimeout);
+            autoSaveTimeout = setTimeout(() => {
+                console.log('Auto-guardando borrador...');
+                // Implementar auto-save aquí si se desea
+            }, 30000); // 30 segundos
+        }
+
+        document.addEventListener('input', autoSave);
+        document.addEventListener('change', autoSave);
+        */
+    });
+</script>

@@ -1,0 +1,18 @@
+﻿@model Pacho.Models.ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="text-center mt-5">
+    <h1 class="display-4 text-danger">¡Ups! Ocurrió un error inesperado.</h1>
+    <p class="lead">Por favor, intenta nuevamente o contacta al soporte si el problema persiste.</p>
+
+    @if (!string.IsNullOrEmpty(Model?.RequestId))
+    {
+        <p><strong>Id de solicitud:</strong> <code>@Model.RequestId</code></p>
+    }
+
+    <a href="/" class="btn btn-primary mt-3">
+        <i class="fas fa-home"></i> Volver al inicio
+    </a>
+</div>

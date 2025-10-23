@@ -1,0 +1,202 @@
+﻿@model IEnumerable<Pacho.Models.ExpertAnswer>
+@{
+    var experto = (Pacho.Models.Expert)ViewBag.Expert;
+    ViewData["Title"] = "Respuestas de " + experto.User.Name;
+
+    var activo = (experto.User.Status ?? 0) == 1;
+    var test = (experto.TestState ?? "").Trim().ToLower();
+    var grade = experto.TestGrade ?? 0;
+    var pct = Math.Clamp(grade, 0, 100);
+
+    var totalResp = Model?.Count() ?? 0;
+    var correctas = Model?.Count(r => r.Answer != null && r.Answer.IsCorrect) ?? 0;
+    var incorrectas = totalResp - correctas;
+}
+<link rel="stylesheet" href="~/css/Questions/Index.css">
+<link rel="stylesheet" href="~/css/Admin/Answers.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="pacho-header">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="pacho-logo me-3"><i class="fas fa-list-check"></i></div>
+                    <div>
+                        <h2 class="pacho-title mb-0">PACHO-Asistente</h2>
+                        <p class="pacho-subtitle mb-0">Respuestas del Test</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card principal -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card pacho-card shadow-lg">
+                <!-- Header de la tarjeta con resumen del experto y buscador -->
+                <div class="card-header pacho-card-header">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex flex-column">
+                                <h4 class="mb-0 text-white">@experto.User.Name @experto.User.LastName</h4>
+                                <small class="text-white-50">@experto.User.Email</small>
+                            </div>
+                            <span class="badge-status @(activo ? "badge-on" : "badge-off")">
+                                @(activo ? "Activo" : "Inactivo")
+                            </span>
+                            @{
+                                var pillClass = test.Contains("aprob") ? "aprob"
+                                : test.Contains("reprob") ? "reprob"
+                                : test.Contains("pend") ? "pend" : "";
+                            }
+                            <span class="pill @pillClass">
+                                <i class="fas fa-tag"></i> @experto.TestState
+                            </span>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-3">
+                            <!-- Nota del test -->
+                            <div class="nota d-none d-md-flex align-items-center gap-2">
+                                <div class="score-bar">
+                                    <div class="score-fill" style="width:@pct%"></div>
+                                </div>
+                                <span class="score-badge">@grade</span>
+                            </div>
+                            <!-- Buscador -->
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent text-white border-0"><i class="fas fa-search"></i></span>
+                                <input id="buscar-resp" type="search" class="form-control" placeholder="Buscar en preguntas/respuestas…">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cuerpo -->
+                <div class="card-body">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <div class="mini-stats">
+                                <span class="stat"><i class="fas fa-hashtag"></i> Total: @totalResp</span>
+                                <span class="stat"><i class="fas fa-check"></i> Correctas: @correctas</span>
+                                <span class="stat"><i class="fas fa-xmark"></i> Incorrectas: @incorrectas</span>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row gx-3 gy-2">
+                                <div class="col-sm-4">
+                                    <small class="text-muted d-block">Fecha de aprobación</small>
+                                    <strong>@experto.ApprovalDate?.ToString("dd/MM/yyyy")</strong>
+                                </div>
+                                <div class="col-sm-4">
+                                    <small class="text-muted d-block">Tipo de experiencia</small>
+                                    <strong>@experto.ExperienceType</strong>
+                                </div>
+                                <div class="col-sm-4">
+                                    <small class="text-muted d-block">Años de experiencia</small>
+                                    <strong>@experto.ExperienceYears</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla -->
+                    @if (Model.Any())
+                    {
+                        <div class="pacho-table-wrap">
+                            <table class="pacho-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:40px;"></th>
+                                        <th class="col-pregunta">Pregunta</th>
+                                        <th class="col-respuesta">Respuesta seleccionada</th>
+                                        <th>Corrección</th>
+                                        <th class="col-fecha">Fecha de respuesta</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="answers-body">
+                                    @{
+                                        var idx = 0;
+                                        foreach (var r in Model)
+                                        {
+                                            var isCorrect = r.Answer != null && r.Answer.IsCorrect;
+                                            var pregunta = r.Question?.QuestionText ?? "";
+                                            var respuesta = r.Answer?.AnswerText ?? "";
+                                            var rowClass = (idx++ % 2 == 0) ? "" : "row-odd";
+                                            <tr class="@rowClass" data-search="@($"{pregunta} {respuesta}")">
+                                                <td><span class="marker" aria-hidden="true"></span></td>
+                                                <td title="@pregunta"><span class="truncate">@pregunta</span></td>
+                                                <td title="@respuesta"><span class="truncate">@respuesta</span></td>
+                                                <td>
+                                                    @if (isCorrect)
+                                                    {
+                                                        <span class="badge-correct"><i class="fas fa-check"></i> Correcta</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge-wrong"><i class="fas fa-xmark"></i> Incorrecta</span>
+                                                    }
+                                                </td>
+                                                <td>@r.AnsweredAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state my-4">
+                            <div class="empty-icon"><i class="fas fa-list-check"></i></div>
+                            <h4>Sin respuestas registradas</h4>
+                            <p class="text-muted mb-0">Este experto aún no ha enviado respuestas.</p>
+                        </div>
+                    }
+
+                    <!-- Acciones -->
+                    <div class="d-flex justify-content-end mt-4">
+                        <a asp-action="Experts" asp-controller="Admin" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-1"></i> Volver al listado de Expertos
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer pacho-card-footer">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Revisión de respuestas y resultado de evaluación
+                            </small>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <small class="text-muted">
+                                <i class="fas fa-seedling me-1"></i>
+                                PACHO-Asistente • Agricultura Inteligente
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+            </div> 
+        </div>
+    </div>
+</div>
+
+<script>
+    // Búsqueda rápida por texto en pregunta/respuesta
+    const $buscar = document.getElementById('buscar-resp');
+    function filtraRespuestas() {
+        const q = ($buscar?.value || '').toLowerCase().trim();
+        document.querySelectorAll('#answers-body tr').forEach(tr => {
+            const txt = (tr.dataset.search || '').toLowerCase();
+            tr.style.display = (q === '' || txt.includes(q)) ? '' : 'none';
+        });
+    }
+    if ($buscar) {
+        $buscar.addEventListener('input', filtraRespuestas);
+    }
+</script>

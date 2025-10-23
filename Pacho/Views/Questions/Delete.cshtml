@@ -1,0 +1,196 @@
+﻿@model Pacho.Models.Question
+@{
+    ViewData["Title"] = "Eliminar Pregunta";
+}
+<link rel="stylesheet" href="~/css/Questions/Delete.css">
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            Confirmar Eliminación
+                        </h3>
+                        <a asp-action="Index" class="btn btn-light">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Cancelar
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    @if (ViewBag.HasExpertAnswers == true)
+                    {
+                        <div class="alert alert-info border-0 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-shield-alt fa-2x text-primary me-3"></i>
+                                <div>
+                                    <h5 class="alert-heading mb-2">
+                                        <i class="fas fa-lock me-2"></i>
+                                        Pregunta Protegida
+                                    </h5>
+                                    <p class="mb-0">
+                                        Esta pregunta no puede ser eliminada porque tiene respuestas de expertos asociadas.
+                                        Para mantener la integridad de los datos del sistema, solo puedes editarla.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-lg me-3">
+                                <i class="fas fa-edit me-2"></i>
+                                Editar en su lugar
+                            </a>
+                            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Volver al Listado
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning border-0 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-exclamation-triangle fa-2x text-warning me-3"></i>
+                                <div>
+                                    <h5 class="alert-heading mb-2">¿Estás seguro?</h5>
+                                    <p class="mb-0">
+                                        Esta acción eliminará permanentemente la pregunta y todas sus respuestas asociadas.
+                                        <strong>Esta acción no se puede deshacer.</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vista previa de la pregunta a eliminar -->
+                        <div class="card border-primary mb-4">
+                            <div class="card-header bg-light border-primary">
+                                <h5 class="mb-0 text-primary">
+                                    <i class="fas fa-eye me-2"></i>
+                                    Pregunta a Eliminar
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-2">
+                                        <strong>Orden:</strong>
+                                        <span class="badge bg-primary fs-6">@Model.Order</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Creada:</strong> @Model.CreatedAt.ToString("dd/MM/yyyy")
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong>Total respuestas:</strong>
+                                        <span class="badge bg-info fs-6">@Model.Answers.Count</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong>Correctas:</strong>
+                                        <span class="badge bg-success fs-6">@Model.Answers.Count(a => a.IsCorrect)</span>
+                                    </div>
+                                </div>
+
+                                <div class="question-preview">
+                                    <h6 class="text-muted mb-2">Texto de la pregunta:</h6>
+                                    <div class="p-3 bg-light border-start border-5 border-primary">
+                                        <p class="h6 mb-0">@Model.QuestionText</p>
+                                    </div>
+                                </div>
+
+                                @if (Model.Answers.Any())
+                                {
+                                    <div class="mt-3">
+                                        <h6 class="text-muted mb-2">Respuestas que se eliminarán:</h6>
+                                        <div class="row">
+                                            @foreach (var answer in Model.Answers.Take(4))
+                                            {
+                                                <div class="col-md-6 mb-2">
+                                                    <div class="d-flex align-items-center">
+                                                        @if (answer.IsCorrect)
+                                                        {
+                                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fas fa-times-circle text-danger me-2"></i>
+                                                        }
+                                                        <small class="text-muted">
+                                                            @(answer.AnswerText.Length > 50 ? answer.AnswerText.Substring(0, 50) + "..." : answer.AnswerText)
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            }
+                                            @if (Model.Answers.Count > 4)
+                                            {
+                                                <div class="col-12">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-ellipsis-h me-1"></i>
+                                                        Y @(Model.Answers.Count - 4) respuestas más...
+                                                    </small>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Confirmación final -->
+                        <div class="row">
+                            <div class="col-12">
+                                <form asp-action="Delete" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" asp-for="Id" />
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-info btn-lg me-2">
+                                                <i class="fas fa-eye me-2"></i>
+                                                Ver Detalles
+                                            </a>
+                                            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                                <i class="fas fa-times me-2"></i>
+                                                Cancelar
+                                            </a>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-danger btn-lg" id="confirmDeleteBtn">
+                                            <i class="fas fa-trash me-2"></i>
+                                            Sí, Eliminar Pregunta
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const result = confirm(
+                    '⚠️ CONFIRMACIÓN FINAL\n\n' +
+                    'Esta acción eliminará permanentemente:\n' +
+                    '• La pregunta #@Model.Order\n' +
+                    '• Todas sus @Model.Answers.Count respuestas\n' +
+                    '• Esta acción NO se puede deshacer\n\n' +
+                    '¿Estás completamente seguro de continuar?'
+                );
+
+                if (result) {
+                    this.closest('form').submit();
+                }
+            });
+        }
+    });
+</script>

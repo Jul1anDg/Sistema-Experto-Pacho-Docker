@@ -1,0 +1,473 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --primary-green: #2d5a27;
+    --secondary-green: #4a7c59;
+    --accent-green: #6fb346;
+    --light-green: #a8d8a8;
+    --very-light-green: #f0f8f0;
+    --dark-green: #1a3a1a;
+    --emerald: #50c878;
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow-primary: rgba(45, 90, 39, 0.15);
+    --gradient-primary: linear-gradient(135deg, var(--accent-green) 0%, var(--secondary-green) 100%);
+    --gradient-hero: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+}
+
+/* === Base Body === */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: var(--gradient-hero);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 20px;
+}
+
+    /* Grid decorativo */
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(0deg, transparent 95%, rgba(255,255,255,0.1) 95%), linear-gradient(90deg, transparent 95%, rgba(255,255,255,0.1) 95%);
+        background-size: 40px 40px;
+        opacity: 0.3;
+        z-index: 1;
+    }
+
+/* === Contenedor principal === */
+.login-wrapper {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    height: 90vh;
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    position: relative;
+    z-index: 2;
+}
+
+/* === Panel de marca === */
+.brand-panel {
+    flex: 1;
+    background: var(--gradient-hero);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    color: white;
+}
+
+    .brand-panel::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="dots" width="80" height="80" patternUnits="userSpaceOnUse"><circle cx="40" cy="40" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="1000" height="1000" fill="url(%23dots)"/></svg>');
+        opacity: 0.4;
+    }
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+    .brand-logo h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+    }
+
+.login-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.login-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+    font-weight: 300;
+    max-width: 500px;
+}
+
+.features-list {
+    list-style: none;
+    margin-top: 40px;
+}
+
+    .features-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .features-list i {
+        background: rgba(255, 255, 255, 0.15);
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+        margin-top: 5px;
+    }
+
+.feature-text h4 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+
+.feature-text p {
+    opacity: 0.85;
+    font-size: 1rem;
+}
+
+/* === Panel de login === */
+.login-panel {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: white;
+}
+
+.login-form-container {
+    max-width: 450px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.form-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-top: 20px;
+}
+
+.form-subtitle {
+    color: var(--secondary-green);
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: var(--dark-green);
+    font-size: 1.1rem;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-green);
+    font-size: 1.3rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 15px 15px 15px 55px;
+    border: 2px solid #e2e8e0;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    background: #f9fbf8;
+    color: var(--dark-green);
+}
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--accent-green);
+        box-shadow: 0 0 0 3px rgba(111, 179, 70, 0.2);
+        background: white;
+    }
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--secondary-green);
+    cursor: pointer;
+    font-size: 1.3rem;
+}
+
+.forgot-password {
+    display: block;
+    text-align: right;
+    margin-top: 10px;
+    color: var(--accent-green);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+    .forgot-password:hover {
+        color: var(--primary-green);
+        text-decoration: underline;
+    }
+
+/* === Botón === */
+.login-button {
+    width: 100%;
+    padding: 16px;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    letter-spacing: 0.5px;
+}
+
+    .login-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(111, 179, 70, 0.35);
+    }
+
+    .login-button:active {
+        transform: translateY(-1px);
+    }
+
+    .login-button i {
+        margin-right: 12px;
+    }
+
+/* === Elementos extra === */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 30px 0;
+    color: #a0aec0;
+}
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: #e2e8e0;
+    }
+
+.divider-text {
+    padding: 0 15px;
+    font-size: 1rem;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 25px;
+    color: var(--secondary-green);
+    font-size: 1.1rem;
+}
+
+    .register-link a {
+        color: var(--accent-green);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .register-link a:hover {
+            color: var(--primary-green);
+            text-decoration: underline;
+        }
+
+.validation-summary {
+    background-color: var(--accent-green) !important;
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    border-left: 5px solid #2d5a27;
+}
+
+/* === Partículas decorativas === */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--accent-green);
+    box-shadow: 0 0 10px var(--accent-green);
+    opacity: 0.7;
+    z-index: 0;
+}
+
+    .particle:nth-child(1) {
+        width: 10px;
+        height: 10px;
+        top: 15%;
+        left: 10%;
+        animation: float 15s infinite linear;
+    }
+
+    .particle:nth-child(2) {
+        width: 8px;
+        height: 8px;
+        background: var(--light-green);
+        top: 80%;
+        left: 85%;
+        animation: float 20s infinite linear reverse;
+        animation-delay: 3s;
+    }
+
+    .particle:nth-child(3) {
+        width: 6px;
+        height: 6px;
+        background: var(--emerald);
+        top: 40%;
+        left: 20%;
+        animation: float 18s infinite linear;
+        animation-delay: 5s;
+    }
+
+@keyframes float {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-40px) translateX(30px) rotate(90deg);
+    }
+
+    50% {
+        transform: translateY(0) translateX(60px) rotate(180deg);
+    }
+
+    75% {
+        transform: translateY(40px) translateX(30px) rotate(270deg);
+    }
+
+    100% {
+        transform: translateY(0) translateX(0) rotate(360deg);
+    }
+}
+/* ========================================
+   🔥 CORRECCIÓN CRÍTICA DE MOVILES
+   ======================================== */
+/* ========================================
+   🔥 CORRECCIÓN CRÍTICA DE MOVILES
+   ======================================== */
+@media only screen and (max-width: 768px) {
+
+    /* Eliminar estructura de dos columnas */
+    .login-wrapper {
+        width: 92% !important;
+        max-width: none;
+        margin: 0 auto;
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        background: #ffffff !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        position: relative !important;
+    }
+
+    /* 💣 Eliminar panel verde completamente */
+    .brand-panel,
+    .brand-content,
+    .brand-logo,
+    .features-list {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: absolute !important;
+        left: -9999px !important;
+    }
+
+    /* Solo mostrar el formulario */
+    .login-panel {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+        min-height: 100vh !important;
+        background: #ffffff !important;
+        padding: 60px 25px 40px 25px !important;
+        margin: 0 !important;
+        position: relative !important;
+        z-index: 10 !important;
+    }
+
+    /* Formulario centrado */
+    .login-form-container {
+        width: 100% !important;
+        max-width: 420px !important;
+        margin: 0 auto !important;
+    }
+
+    /* Ocultar partículas */
+    .particle {
+        display: none !important;
+    }
+
+    /* Fondo completo blanco */
+    html, body {
+        background: #ffffff !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        height: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+        body::before {
+            display: none !important;
+        }
+}
+
+
+

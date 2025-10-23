@@ -1,0 +1,177 @@
+﻿@model Pacho.Models.Treatment
+@{
+    ViewData["Title"] = "Nuevo Tratamiento Agrícola";
+    var diseases = ViewBag.Diseases as List<Pacho.Models.Disease>;
+}
+<link rel="stylesheet" href="~/css/Treatment/Create.css">
+<div class="create-treatment-container">
+    <div class="create-header">
+        <h2><i class="fas fa-seedling"></i> @ViewData["Title"]</h2>
+    </div>
+
+    <div class="form-body">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label class="form-label" asp-for="DiseaseId">
+                    <i class="fas fa-bug"></i> Enfermedad/Plaga
+                </label>
+                <div class="input-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <select asp-for="DiseaseId" class="form-control" asp-items="@(new SelectList(diseases, "IdDisease", "CommonName"))">
+                    <option value="">Seleccione una opción</option>
+                </select>
+                <span asp-validation-for="DiseaseId" class="text-danger"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" asp-for="TreatmentType">
+                        <i class="fas fa-flask"></i> Tipo de Tratamiento
+                    </label>
+                    <div class="input-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <input asp-for="TreatmentType" class="form-control" placeholder="Ej: Fungicida sistémico" />
+                    <span asp-validation-for="TreatmentType" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" asp-for="DiasMejoriaVisual">
+                        <i class="fas fa-calendar-check"></i> Días para mejora
+                    </label>
+                    <div class="input-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <input asp-for="DiasMejoriaVisual" class="form-control" type="number" placeholder="Días esperados" />
+                    <span asp-validation-for="DiasMejoriaVisual" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" asp-for="Description">
+                    <i class="fas fa-file-alt"></i> Descripción
+                </label>
+                <textarea asp-for="Description" class="form-control" placeholder="Detalles del tratamiento, modo de acción, etc."></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" asp-for="RecommendedProducts">
+                        <i class="fas fa-prescription-bottle-alt"></i> Productos Recomendados
+                    </label>
+                    <div class="input-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <input asp-for="RecommendedProducts" class="form-control" placeholder="Marcas, nombres comerciales" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" asp-for="Frequency">
+                        <i class="fas fa-redo"></i> Frecuencia
+                    </label>
+                    <div class="input-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <input asp-for="Frequency" class="form-control" placeholder="Ej: Cada 7-10 días" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" asp-for="Precautions">
+                        <i class="fas fa-exclamation-triangle"></i> Precauciones
+                    </label>
+                    <div class="input-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <input asp-for="Precautions" class="form-control" placeholder="Equipo de protección, etc." />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" asp-for="WeatherConditions">
+                        <i class="fas fa-cloud-sun"></i> Condiciones Climáticas
+                    </label>
+                    <div class="input-icon">
+                        <i class="fas fa-temperature-low"></i>
+                    </div>
+                    <input asp-for="WeatherConditions" class="form-control" placeholder="Temperatura, humedad ideal" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Environment" class="form-label d-flex align-items-center gap-2">
+                        <i id="envIcon" class="fas fa-cloud-sun"></i>
+                        <span>Entorno</span>
+                    </label>
+
+                    <select asp-for="Environment" class="form-select" id="Environment">
+                        <option value="">-- Seleccione --</option>
+                        <option value="1">Hidroponía</option>
+                        <option value="2">Sustrato</option>
+                    </select>
+
+                    <span asp-validation-for="Environment" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-save"></i> Registrar Tratamiento
+            </button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mejorar interacción con los campos
+            const formControls = document.querySelectorAll('.form-control');
+            formControls.forEach(control => {
+                control.addEventListener('focus', function () {
+                    this.style.backgroundColor = 'white';
+                    this.style.boxShadow = '0 0 0 3px rgba(74, 124, 89, 0.2)';
+                    const icon = this.previousElementSibling;
+                    if (icon && icon.classList.contains('input-icon')) {
+                        icon.style.color = 'var(--pacho-dark)';
+                    }
+                });
+
+                control.addEventListener('blur', function () {
+                    this.style.backgroundColor = 'var(--pacho-bg)';
+                    this.style.boxShadow = 'none';
+                    const icon = this.previousElementSibling;
+                    if (icon && icon.classList.contains('input-icon')) {
+                        icon.style.color = 'var(--pacho-primary)';
+                    }
+                });
+            });
+        });
+        (function () {
+            const select = document.getElementById('Environment');
+            const icon = document.getElementById('envIcon');
+
+            function updateIcon() {
+                icon.className = 'fas'; // reset
+                if (select.value === '1') {
+                    icon.classList.add('fa-water');
+                    icon.title = 'Hidroponía';
+                } else if (select.value === '2') {
+                    icon.classList.add('fa-seedling');
+                    icon.title = 'Sustrato';
+                } else {
+                    icon.classList.add('fa-cloud-sun');
+                    icon.title = 'Entorno';
+                }
+            }
+
+            updateIcon();                 
+            select.addEventListener('change', updateIcon);
+        })();
+    </script>
+}

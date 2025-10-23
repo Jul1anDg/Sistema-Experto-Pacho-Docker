@@ -1,0 +1,50 @@
+﻿
+@model Pacho.Models.Treatment
+
+@{
+    ViewData["Title"] = "Eliminar Tratamiento";
+    ViewBag.HideFooter = false;
+}
+<link rel="stylesheet" href="~/css/Treatment/Delete.css">
+<div class="delete-treatment-container">
+    <div class="treatment-card">
+        <div class="card-header">
+            <h2>Eliminar Tratamiento</h2>
+            <p>Confirmación de eliminación - PACHO Asistente</p>
+        </div>
+
+        <div class="alert alert-warning">
+            <p>¿Estás seguro que deseas eliminar este tratamiento?</p>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">@Model.TreatmentType</h5>
+                <p class="card-text"><strong>Enfermedad:</strong> @Model.Disease?.CommonName</p>
+                <p class="card-text"><strong>Descripción:</strong> @Model.Description</p>
+            </div>
+        </div>
+
+        <form asp-action="Delete" method="post" class="treatment-form">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="IdTreatment" />
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i> Confirmar Eliminación
+            </button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">
+                <i class="fas fa-arrow-left"></i> Cancelar
+            </a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Efecto de confirmación antes de eliminar
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (!confirm('¿Estás completamente seguro de que deseas eliminar este tratamiento? Esta acción es irreversible.')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+}

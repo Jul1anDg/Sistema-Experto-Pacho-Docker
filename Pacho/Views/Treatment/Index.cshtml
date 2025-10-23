@@ -1,0 +1,194 @@
+﻿@model IEnumerable<Pacho.Models.Treatment>
+@{
+    ViewData["Title"] = "Gestión de Tratamientos Agrícolas";
+    Layout = "_Layout";
+    var totalTreatments = ViewBag.TotalTreatments as int? ?? 0;
+    var thisMonthTreatments = ViewBag.ThisMonthTreatments as int? ?? 0;
+    var treatmentTypes = ViewBag.TreatmentTypes as int? ?? 0;
+    var lastTreatment = Model?.OrderByDescending(t => t.CreationDate).FirstOrDefault();
+}
+<link rel="stylesheet" href="~/css/Treatment/Index.css">
+<div class="treatments-container">
+    <!-- Header interno dentro del contenedor -->
+    <div class="internal-header">
+        <div class="header-icon">
+            <i class="fas fa-seedling"></i>
+        </div>
+        <div class="header-titles">
+            <h1>@ViewData["Title"]</h1>
+            <p>Monitoreo y control de aplicaciones en cultivos</p>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-spray-can"></i>
+            </div>
+            <div class="stat-number">@totalTreatments</div>
+            <div class="stat-label">Total Tratamientos</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="stat-number">@thisMonthTreatments</div>
+            <div class="stat-label">Tratamientos este Mes</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-vial"></i>
+            </div>
+            <div class="stat-number">@treatmentTypes</div>
+            <div class="stat-label">Enfermedades Diferentes</div>
+        </div>
+    </div>
+
+    <div class="search-section">
+        <div class="search-label">
+            <i class="fas fa-search"></i>
+            <span>Buscar por síntoma o producto...</span>
+        </div>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Escriba para buscar..." id="treatmentSearch">
+        </div>
+    </div>
+
+    <div class="table-container">
+        <div class="table-header">
+            <i class="fas fa-list"></i>
+            <h3>Registro de Tratamientos</h3>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="treatment-table">
+                <thead>
+                    <tr>
+                        <th>Enfermedad</th>
+                        <th>Producto</th>
+                        <th>Estado</th>
+                        <th>Tratamientos</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var t in Model)
+                        {
+                            <tr>
+                                <td class="disease-name">
+                                    <div>@(t.Disease?.CommonName ?? "Sin especificar")</div>
+                                    @if (!string.IsNullOrWhiteSpace(t.Disease?.ScientificName))
+                                    {
+                                        <div class="scientific-name">@t.Disease.ScientificName</div>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="treatment-type">@t.TreatmentType</div>
+                                </td>
+                                <td>
+                                    <span class="status-badge active">
+                                        <i class="fas fa-check-circle"></i>
+                                        Activo
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="treatment-count">
+                                        <i class="fas fa-check"></i>
+                                        1
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <a asp-action="Edit" asp-route-id="@t.IdTreatment" class="btn-action btn-edit" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@t.IdTreatment" class="btn-action btn-view" title="Detalles">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@t.IdTreatment" class="btn-action btn-delete" title="Eliminar" onclick="return confirm('¿Eliminar este tratamiento?');">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="empty-state">
+                                <i class="fas fa-clipboard-list"></i>
+                                <h4>No hay tratamientos registrados</h4>
+                                <p>Comienza a registrar tus aplicaciones agrícolas para llevar un control preciso de tus cultivos.</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+            <a asp-action="Create" class="btn-create">
+                <i class="fas fa-plus"></i> Registrar Tratamiento
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Animación para las tarjetas de estadísticas
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+
+            // Búsqueda en tiempo real
+            const searchInput = document.getElementById('treatmentSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', function () {
+                    const searchTerm = this.value.toLowerCase();
+                    const rows = document.querySelectorAll('.treatment-table tbody tr');
+                    
+                    // Omitir la fila de estado vacío
+                    if (rows.length === 1 && rows[0].classList.contains('empty-state')) {
+                        return;
+                    }
+
+                    rows.forEach(row => {
+                        const diseaseName = row.querySelector('.disease-name').textContent.toLowerCase();
+                        const treatmentType = row.querySelector('.treatment-type').textContent.toLowerCase();
+                        
+                        if (diseaseName.includes(searchTerm) || treatmentType.includes(searchTerm)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Efecto hover para filas de tabla
+            const tableRows = document.querySelectorAll('.treatment-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function () {
+                    this.style.transform = 'scale(1.01)';
+                    this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)';
+                });
+                
+                row.addEventListener('mouseleave', function () {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+        });
+    </script>
+}
